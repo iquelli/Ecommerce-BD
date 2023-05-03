@@ -1,0 +1,77 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[legalpaper, portrait, margin=3cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{blindtext}
+\usepackage{hyperref}
+\usepackage{pdflscape}
+\usepackage{svg}
+
+\graphicspath{ {./} }
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=magenta,
+  urlcolor=blue,
+  citecolor=blue,
+  pdftitle={Entrega 1 - Relatório BD 2022/2023 LEIC-A},
+  pdfpagemode=FullScreen,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Grupo \textbf{2}}
+\lhead{Entrega 1 Relatório BD 2022/2023 LEIC-A}
+\cfoot{Gonçalo Bárias (103124), Raquel Braunschweig (102624) e Vasco Paisana (102533)}
+
+\renewcommand{\footrulewidth}{0.2pt}
+
+\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemiii}{$\diamond$}
+
+
+\begin{document}
+  \begin{titlepage}
+    \begin{center}
+      \vspace*{5cm}
+
+      \Huge
+      \textbf{Projeto BD - Parte 1}
+
+      \vspace{0.5cm}
+      \LARGE
+      Grupo 002 | Turno L13 | LEIC-A
+
+      \vspace{0.5cm}
+      \large
+      Prof. Flávio Martins
+
+      \vfill
+    \end{center}
+    \large
+    \begin{itemize}
+      \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - XXh
+      \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - XXh
+      \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - XXh
+    \end{itemize}
+  \end{titlepage}
+
+  \begin{landscape}
+    \includesvg[width=1.6\textwidth]{domain_model}
+  \end{landscape}
+
+  \section*{Restrições de Integridade}
+  \footnotesize
+  \begin{itemize}
+    \item[\textbf{(temp)}] etc
+  \end{itemize}
+
+  \section*{Justificações de Desenho}
+  \normalsize
+  \begin{itemize}
+    \item etc
+  \end{itemize}
+\end{document}
