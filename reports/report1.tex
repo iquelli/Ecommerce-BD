@@ -8,6 +8,7 @@
 \usepackage{blindtext}
 \usepackage{hyperref}
 \usepackage{pdflscape}
+\usepackage{afterpage}
 \usepackage{svg}
 
 \graphicspath{ {./} }
@@ -49,18 +50,28 @@
       \large
       Prof. Flávio Martins
 
+      \vspace{0.5cm}
+      \begin{figure}[h]
+          \centering
+          \includegraphics[scale=0.5]{report_logo.png}
+      \end{figure}
+
       \vfill
+
+      \large
+      \begin{minipage}{0.8\textwidth}
+        \begin{itemize}
+          \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - 10h
+          \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - 10h
+          \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - 10h
+        \end{itemize}
+      \end{minipage}
     \end{center}
-    \large
-    \begin{itemize}
-      \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - XXh
-      \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - XXh
-      \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - XXh
-    \end{itemize}
   \end{titlepage}
 
   \begin{landscape}
-    \includesvg[width=1.6\textwidth]{domain_model}
+    \centering
+    \includesvg[width=1.9\textwidth]{domain_model}
   \end{landscape}
 
   \section*{Restrições de Integridade}
