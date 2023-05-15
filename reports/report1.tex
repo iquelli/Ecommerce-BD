@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt, a4paper]{article}
 \usepackage[legalpaper, portrait, margin=3cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{amsmath}
@@ -8,7 +8,6 @@
 \usepackage{blindtext}
 \usepackage{hyperref}
 \usepackage{pdflscape}
-\usepackage{afterpage}
 \usepackage{svg}
 
 \graphicspath{ {./} }
@@ -33,12 +32,10 @@
 \renewcommand{\labelitemii}{$\circ$}
 \renewcommand{\labelitemiii}{$\diamond$}
 
-
 \begin{document}
   \begin{titlepage}
     \begin{center}
       \vspace*{5cm}
-
       \Huge
       \textbf{Projeto BD - Parte 1}
 
@@ -57,7 +54,6 @@
       \end{figure}
 
       \vfill
-
       \large
       \begin{minipage}{0.8\textwidth}
         \begin{itemize}
@@ -71,7 +67,7 @@
 
   \begin{landscape}
     \centering
-    \includesvg[width=1.7\textwidth]{domain_model}
+    \includesvg[width=1.79\textwidth]{domain_model}
   \end{landscape}
 
   \section*{Restrições de Integridade}
@@ -79,14 +75,26 @@
   \begin{itemize}
     \item[\textbf{(RI-1)}] O email do cliente é \textbf{único}.
     \item[\textbf{(RI-2)}] Cada método de pagamento \textbf{tem de ter um método diferente} como substituto em caso de falha.
-    \item[\textbf{(RI-3)}] Cada venda é \textbf{sempre} registada com o método de pagamento \textbf{bem sucedido} do cliente que efetuou a encomenda
-    \item[\textbf{(RI-4)}] Um empregado \textbf{só pode} processar produtos do armazém onde ele trabalha.
-
+    \item[\textbf{(RI-3)}] Cada venda é \textbf{sempre} registada com o método de pagamento \textbf{bem sucedido} do cliente que efetuou a encomenda.
+    \item[\textbf{(RI-4)}] Um empregado \textbf{só pode} processar encomendas que contenham produtos do mesmo armazém onde ele trabalha.
   \end{itemize}
 
   \section*{Justificações de Desenho}
   \normalsize
   \begin{itemize}
-    \item etc
+    \item Modelámos o departamento como uma entidade. Como nada no enunciado proíbe o empregado de pertencer a mais do que um departamento não o podemos
+    representar como um atributo. Assim, criámos uma chave primária (\textbf{dep\_id}), tornando-o uma entidade forte.
+    \item Achámos redundante associar diretamente o cliente a uma encomenda para o evento de ele a pagar, pois já existe uma associação entre
+    venda e método de pagamento, sendo este último uma entidade fraca do cliente. Isto, com a restrição de integridade número 3 (\textbf{RI-3}),
+    já relaciona o cliente com a venda através do seu método de pagamento com que efetuou corretamente o pagamento.
+    \item Interpretámos \textit{"Neste sistema os clientes têm de introduzir mais do que um método de pagamento e cada método de pagamento
+    tem de ter outro método como substituto em caso de falha."} como sendo apenas necessário que cada cliente tenha um método de pagamento principal.
+    Como o método principal tem outro método como substituto, o requisito de cada cliente introduzir mais do que um método fica assim satisfeito.
+    \item Decidimos criar uma entidade para a morada (\textbf{Address}) para poder discriminar entre os seus campos e para garantir
+    que cada local de trabalho (\textbf{Workplace}) tem uma morada única sem ser necessário utilizar uma restrição de integridade.
+    \item Considerámos que a frase \textit{"Devido a restrições de privacidade, os operadores do sistema não podem ver os nomes dos clientes."}
+    não constitui um requisito de desenho, pois é uma funcionalidade que não tem manifestação ao nível dos dados, pelo que não foi incorporada no diagrama.
+    \item Pela mesma razão, decidimos não incluir nada sobre a imutabilidade do número de cliente e do número da encomenda no diagrama, nem nada
+    sobre a frase \textit{"Os métodos de pagamento são escolhidos de uma lista conhecida à priori."}
   \end{itemize}
 \end{document}
