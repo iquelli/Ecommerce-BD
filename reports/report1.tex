@@ -71,15 +71,17 @@
 
   \begin{landscape}
     \centering
-    \includesvg[width=1.8\textwidth]{domain_model}
+    \includesvg[width=1.7\textwidth]{domain_model}
   \end{landscape}
 
   \section*{Restrições de Integridade}
   \footnotesize
   \begin{itemize}
-    \item[\textbf{(RI-1)}] Um cliente tem de ter \textbf{mais do que um} método de pagamento.
+    \item[\textbf{(RI-1)}] O email do cliente é \textbf{único}.
     \item[\textbf{(RI-2)}] Cada método de pagamento \textbf{tem de ter um método diferente} como substituto em caso de falha.
-    \item[\textbf{(RI-3)}] Cada venda é \textbf{sempre} registada com o método de pagamento do cliente que efetuou a encomenda. \textbf{Apenas} o cliente que fez a encomenda a pode pagar.
+    \item[\textbf{(RI-3)}] Cada venda é \textbf{sempre} registada com o método de pagamento \textbf{bem sucedido} do cliente que efetuou a encomenda
+    \item[\textbf{(RI-4)}] Um empregado \textbf{só pode} processar produtos do armazém onde ele trabalha.
+
   \end{itemize}
 
   \section*{Justificações de Desenho}
