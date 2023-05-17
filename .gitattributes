@@ -1,0 +1,5 @@
+# Ignore wrong detected perl file
+reports/*
+
+# All sql files in this project are in postgresql
+*.sql linguist-language=PLpgSQL
