@@ -1,58 +1,65 @@
+# Relational Model
+
 - Customer(<ins>cust_no</ins>, name, email, phone, address)
     - UNIQUE(email)
 
 - Order(<ins>order_no</ins>, date, cust_no)
     - cust_no: FK(Customer) NOT NULL
-    - **IC-2**: any order_no in Order must exist in contains
+    - **(IC-2)**: Any order_no in Order must exist in contains
 
-- Sale(<ins>order_no</ins>)
+- Sale(<ins>order_no</ins>, cust_no)
     - order_no: FK(Order)
-
-- pay(<ins>order_no</ins>, cust_no)
-    - order_no: FK(Sale)
     - cust_no: FK(Customer)
-    - **IC-1**: Customers can only pay for the Sale of an Order they have placed themselves
+    - **(IC-1)**: Customers can only pay for the Sale of an Order they have placed themselves
 
-- Employee(<ins>ssn</ins>, TIN, bdate, name, dpt, wp)
-    - UNIQUE(TIN)
-    - dpt: FK(Department)
-    - wp: FK(Workplace)
-    - **IC-3**: any ssn in employee must exist in works
+- Product(<ins>sku</ins>, name, description, price)
+    - **(IC-3)**: Any sku in Product must exist in Supplier
 
-- process(<ins>ssn</ins>, <ins>order_no</ins>)
-    - ssn: FK(Employee)
+- EAN_Product(<ins>sku</ins>, ean)
+    - sku: FK(Product)
+
+- contains(<ins>order_no</ins>, <ins>sku</ins>, qty)
     - order_no: FK(Order)
+    - sku: FK(Product)
+
+- Supplier(<ins>TIN</ins>, sku, address, name, supply_contract_date)
+    - sku: FK(Product) NOT NULL
 
 - Department(<ins>name</ins>)
 
 - Workplace(<ins>address</ins>, lat, long)
     - UNIQUE(lat, long)
 
-- works(<ins>name</ins>, <ins>ssn</ins>, <ins>address</ins>)
-    - name: FK(Department)
-    - ssn: FK(Employee)
-    - address: FK(Workplace)
-
 - Warehouse(<ins>address</ins>)
     - address: FK(Workplace)
+
+- delivery(<ins>sku</ins>, <ins>TIN</ins>, <ins>address</ins>)
+    - sku: FK(Product)
+    - TIN: FK(Suplier)
+    - address: FK(Warehouse)
 
 - Office(<ins>address</ins>)
     - address: FK(Workplace)
 
-- Product(<ins>sku</ins>, name, description, price)
-    - **IC-4**: any sku in Product must exist in supply-contract
+- Employee(<ins>ssn</ins>, TIN, bdate, name)
+    - UNIQUE(TIN)
+    - **(IC-4)**: Any ssn in employee must exist in works
 
-- contains(<ins>order_no</ins>, <ins>sku</ins>, qty)
+- works(<ins>ssn</ins>, <ins>address</ins>, name)
+    - ssn: FK(Employee)
+    - address: FK(Workplace)
+    - name: FK(Department) NOT NULL
+
+- process(<ins>ssn</ins>, <ins>order_no</ins>)
+    - ssn: FK(Employee)
     - order_no: FK(Order)
-    - sku: FK(Product)
 
-- Ean_product(<ins>sku</ins>, ean)
-    - sku: FK(Product)
+# Doubts
 
-- Supplier(<ins>TIN</ins>, <ins>sku</ins>, address, name)
-    - sku: FK(Product) NOT NULL
+> Grandes dúvidas relativamente à delivery, pois o sku provavelmente não está ligado ao tin do supplier.
+Como o supplier tem cardinalidade de 1 e participação obrigatória com produto, isto complica a associação
+entre Warehouse e a agregação.
 
-- delivery(<ins>address</ins>, <ins>TIN</ins>, <ins>sku</ins>)
-    - address: FK(Warehouse)
-    - TIN: FK(Suplier)
-    - sku: FK(Product)
+> Ainda não percebi bem como é que ternárias são representadas, tipo o "works". Supostamente uma ternária
+é equivalente a uma agregação (T07 - Modelação E-A - Parte IV no slide 10), mas depois a representação no
+modelo relacional da ternária parece não ser equivalente à da dessa agregação.
