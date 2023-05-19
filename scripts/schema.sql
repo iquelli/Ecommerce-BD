@@ -29,24 +29,24 @@ DROP TABLE IF EXISTS process CASCADE;
 ----------------------------------------
 
 CREATE TABLE customer (
-    cust_no,
-    name,
-    email UNIQUE,
-    phone,
-    address,
+    cust_no INTEGER, 
+    name VARCHAR(255),
+    email varchar(255) UNIQUE,
+    phone varchar(50),
+    address VARCHAR(255),
     CONSTRAINT pk_customer PRIMARY KEY(cust_no)
 );
 CREATE TABLE order (
-    order_no,
-    date,
-    cust_no NOT NULL,
+    order_no INTEGER,
+    date DATE,
+    cust_no INTEGER NOT NULL,
     CONSTRAINT pk_order PRIMARY KEY(order_no),
     CONSTRAINT fk_order_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
 );
 CREATE TABLE sale (
-    order_no,
-    cust_no,
+    order_no INTEGER,
+    cust_no INTEGER,
     CONSTRAINT pk_sale PRIMARY KEY(order_no),
     CONSTRAINT fk_sale_order FOREIGN KEY(order_no)
         REFERENCES order(order_no),
@@ -54,23 +54,23 @@ CREATE TABLE sale (
         REFERENCES customer(cust_no)
 );
 CREATE TABLE product (
-    sku,
-    name,
-    description,
-    price,
+    sku VARCHAR(12),
+    name VARCHAR(255),
+    description TEXT,
+    price MONEY,
     CONSTRAINT pk_product PRIMARY KEY(sku)
 );
 CREATE TABLE ean_product (
-    sku,
-    ean,
+    sku VARCHAR(12),
+    ean CHAR(13),,
     CONSTRAINT pk_ean_product PRIMARY KEY(sku),
     CONSTRAINT fk_ean_product_product FOREIGN KEY(sku)
         REFERENCES product(sku)
 );
 CREATE TABLE contains (
-    order_no,
-    sku,
-    qty,
+    order_no INTEGER,
+    sku VARCHAR(12),
+    qty INTEGER,
     CONSTRAINT pk_contains PRIMARY KEY(order_no, sku),
     CONSTRAINT fk_contains_order FOREIGN KEY(order_no)
         REFERENCES order(order_no),
@@ -78,36 +78,36 @@ CREATE TABLE contains (
         REFERENCES product(sku)
 );
 CREATE TABLE supplier (
-    tin,
-    sku NOT NULL,
-    address,
-    name,
-    supply_contract_date,
+    tin CHAR(9),
+    sku VARCHAR(12) NOT NULL,
+    address VARCHAR(255),
+    name VARCHAR(255),
+    supply_contract_date DATE,
     CONSTRAINT pk_supplier PRIMARY KEY(tin),
     CONSTRAINT fk_supplier_product FOREIGN KEY(sku)
         REFERENCES product(sku)
 );
 CREATE TABLE department (
-    name,
+    name VARCHAR(255),
     CONSTRAINT pk_department PRIMARY KEY(name),
 );
 CREATE TABLE workplace (
-    address,
-    lat,
-    long,
+    address VARCHAR(255),
+    lat DECIMAL(9,6),
+    long DECIMAL(9,6),
     UNIQUE(lat, long)
     CONSTRAINT pk_workplace PRIMARY KEY(address),
 );
 CREATE TABLE warehouse (
-    address,
+    address VARCHAR(255),
     CONSTRAINT pk_warehouse PRIMARY KEY(address),
     CONSTRAINT fk_warehouse_workplace FOREIGN KEY(address)
         REFERENCES workplace(address)
 );
 CREATE TABLE delivery (
-    sku,
-    tin,
-    address,
+    sku VARCHAR(12),
+    tin CHAR(9),
+    address VARCHAR(255),
     CONSTRAINT pk_delivery PRIMARY KEY(sku, tin),
     CONSTRAINT fk_delivery_product FOREIGN KEY(sku)
         REFERENCES product(sku),
@@ -115,22 +115,22 @@ CREATE TABLE delivery (
         REFERENCES supplier(tin)
 );
 CREATE TABLE office (
-    address,
+    address VARCHAR(255),
     CONSTRAINT pk_office PRIMARY KEY(address),
     CONSTRAINT fk_office_workplace FOREIGN KEY(address)
         REFERENCES workplace(address)
 );
 CREATE TABLE employee (
-    ssn,
-    tin UNIQUE,
-    bdate,
-    name,
+    ssn CHAR(9),
+    tin CHAR(9) UNIQUE,
+    bdate DATE,
+    name VARCHAR(255),
     CONSTRAINT pk_employee PRIMARY KEY(ssn)
 );
 CREATE TABLE works (
-    ssn,
-    address,
-    name NOT NULL,
+    ssn CHAR(9),
+    address VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
     CONSTRAINT pk_works PRIMARY KEY(ssn, address),
     CONSTRAINT fk_works_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
@@ -140,8 +140,8 @@ CREATE TABLE works (
         REFERENCES department(name)
 );
 CREATE TABLE process (
-    ssn,
-    order_no,
+    ssn CHAR(9),
+    order_no INTEGER, 
     CONSTRAINT pk_process PRIMARY KEY(ssn, order_no),
     CONSTRAINT fk_process_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
