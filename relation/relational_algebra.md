@@ -32,3 +32,7 @@ $\Pi_{\\; name \\;}(G_{\\; max(p \textunderscore qty) \\; \mapsto \\; p \textund
 __4. Indique o valor total de cada venda realizada.__
 
 ${}\_{order \textunderscore no \\; } G_{\\; sum(price) \\; \mapsto \\; total \textunderscore val \\;}(Sale \bowtie contains \bowtie Product)$
+
+# Doubts
+
+> Por exemplo no 2. temos employee_processing.ssn, mas uma vez que o ssn é do employee a maneira correta pode ter de ser employee.ssn.
