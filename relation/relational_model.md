@@ -1,58 +1,58 @@
 # Relational Model
 
-- Customer(<ins>cust_no</ins>, name, email, phone, address)
+- customer(<ins>cust_no</ins>, name, email, phone, address)
     - UNIQUE(email)
 
-- Order(<ins>order_no</ins>, date, cust_no)
-    - cust_no: FK(Customer) NOT NULL
-    - **(IC-2)**: Any order_no in Order must exist in contains
+- order(<ins>order_no</ins>, date, cust_no)
+    - cust_no: FK(customer) NOT NULL
+    - **(IC-2)**: Any order_no in order must exist in contains.
 
-- Sale(<ins>order_no</ins>, cust_no)
-    - order_no: FK(Order)
-    - cust_no: FK(Customer)
-    - **(IC-1)**: Customers can only pay for the Sale of an Order they have placed themselves
+- sale(<ins>order_no</ins>, cust_no)
+    - order_no: FK(order)
+    - cust_no: FK(customer)
+    - **(IC-1)**: Customers can only pay for the sale of an order they have placed themselves.
 
-- Product(<ins>sku</ins>, name, description, price)
-    - **(IC-3)**: Any sku in Product must exist in Supplier
+- product(<ins>sku</ins>, name, description, price)
+    - **(IC-3)**: Any sku in product must exist in supplier.
 
-- EAN_Product(<ins>sku</ins>, ean)
-    - sku: FK(Product)
+- ean_product(<ins>sku</ins>, ean)
+    - sku: FK(product)
 
 - contains(<ins>order_no</ins>, <ins>sku</ins>, qty)
-    - order_no: FK(Order)
-    - sku: FK(Product)
+    - order_no: FK(order)
+    - sku: FK(product)
 
-- Supplier(<ins>TIN</ins>, sku, address, name, supply_contract_date)
-    - sku: FK(Product) NOT NULL
+- supplier(<ins>tin</ins>, sku, address, name, supply_contract_date)
+    - sku: FK(product) NOT NULL
 
-- Department(<ins>name</ins>)
+- department(<ins>name</ins>)
 
-- Workplace(<ins>address</ins>, lat, long)
+- workplace(<ins>address</ins>, lat, long)
     - UNIQUE(lat, long)
 
-- Warehouse(<ins>address</ins>)
-    - address: FK(Workplace)
+- warehouse(<ins>address</ins>)
+    - address: FK(workplace)
 
-- delivery(<ins>sku</ins>, <ins>TIN</ins>, <ins>address</ins>)
-    - sku: FK(Product)
-    - TIN: FK(Suplier)
-    - address: FK(Warehouse)
+- delivery(<ins>sku</ins>, <ins>tin</ins>, <ins>address</ins>)
+    - sku: FK(product)
+    - tin: FK(suplier)
+    - address: FK(warehouse)
 
-- Office(<ins>address</ins>)
-    - address: FK(Workplace)
+- office(<ins>address</ins>)
+    - address: FK(workplace)
 
-- Employee(<ins>ssn</ins>, TIN, bdate, name)
-    - UNIQUE(TIN)
-    - **(IC-4)**: Any ssn in employee must exist in works
+- employee(<ins>ssn</ins>, tin, b_date, name)
+    - UNIQUE(tin)
+    - **(IC-4)**: Any ssn in employee must exist in works.
 
 - works(<ins>ssn</ins>, <ins>address</ins>, name)
-    - ssn: FK(Employee)
-    - address: FK(Workplace)
-    - name: FK(Department) NOT NULL
+    - ssn: FK(employee)
+    - address: FK(workplace)
+    - name: FK(department) NOT NULL
 
 - process(<ins>ssn</ins>, <ins>order_no</ins>)
-    - ssn: FK(Employee)
-    - order_no: FK(Order)
+    - ssn: FK(employee)
+    - order_no: FK(order)
 
 # Doubts
 
