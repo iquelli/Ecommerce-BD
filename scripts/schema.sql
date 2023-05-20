@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS order CASCADE;
 DROP TABLE IF EXISTS sale CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
-DROP TABLE IF EXISTS ean_product CASCADE;
 DROP TABLE IF EXISTS contains CASCADE;
 DROP TABLE IF EXISTS supplier CASCADE;
 DROP TABLE IF EXISTS department CASCADE;
@@ -27,24 +26,28 @@ DROP TABLE IF EXISTS process CASCADE;
 ----------------------------------------
 -- Table Creation
 ----------------------------------------
+-- NOTE: The integrity constraints not captured by SQL
+-- are presented as comments in the corresponding tables.
 
 CREATE TABLE customer (
     cust_no INT,
-    name VARCHAR(255),
-    email VARCHAR(255) UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255),
+    name VARCHAR(255),
     address VARCHAR(255),
     CONSTRAINT pk_customer PRIMARY KEY(cust_no)
 );
 CREATE TABLE order (
+    -- (IC-2): Any order_no in order must exist in contains.
     order_no INT,
-    date DATE,
+    date DATE NOT NULL,
     cust_no INT NOT NULL,
     CONSTRAINT pk_order PRIMARY KEY(order_no),
     CONSTRAINT fk_order_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
 );
 CREATE TABLE sale (
+    -- (IC-1): Customers can only pay for the sale of an order they have placed themselves.
     order_no INT,
     cust_no INT,
     CONSTRAINT pk_sale PRIMARY KEY(order_no),
@@ -54,23 +57,18 @@ CREATE TABLE sale (
         REFERENCES customer(cust_no)
 );
 CREATE TABLE product (
+    -- (IC-3): Any sku in product must exist in supplier.
     sku VARCHAR(255),
-    name VARCHAR(255),
-    description TEXT,
-    price MONEY,
-    CONSTRAINT pk_product PRIMARY KEY(sku)
-);
-CREATE TABLE ean_product (
-    sku VARCHAR(255),
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    price MONEY NOT NULL,
     ean VARCHAR(255),
-    CONSTRAINT pk_ean_product PRIMARY KEY(sku),
-    CONSTRAINT fk_ean_product_product FOREIGN KEY(sku)
-        REFERENCES product(sku)
+    CONSTRAINT pk_product PRIMARY KEY(sku)
 );
 CREATE TABLE contains (
     order_no INT,
     sku VARCHAR(255),
-    qty INT,
+    qty INT NOT NULL,
     CONSTRAINT pk_contains PRIMARY KEY(order_no, sku),
     CONSTRAINT fk_contains_order FOREIGN KEY(order_no)
         REFERENCES order(order_no),
@@ -93,10 +91,10 @@ CREATE TABLE department (
 );
 CREATE TABLE workplace (
     address VARCHAR(255),
-    lat DECIMAL(9,6),
-    long DECIMAL(9,6),
-    UNIQUE(lat, long)
-    CONSTRAINT pk_workplace PRIMARY KEY(address),
+    lat DECIMAL(9,6) NOT NULL,
+    long DECIMAL(9,6) NOT NULL,
+    UNIQUE(lat, long),
+    CONSTRAINT pk_workplace PRIMARY KEY(address)
 );
 CREATE TABLE warehouse (
     address VARCHAR(255),
@@ -107,7 +105,7 @@ CREATE TABLE warehouse (
 CREATE TABLE delivery (
     sku VARCHAR(255),
     tin VARCHAR(255),
-    address VARCHAR(255),
+    address VARCHAR(255) NOT NULL,
     CONSTRAINT pk_delivery PRIMARY KEY(sku, tin),
     CONSTRAINT fk_delivery_product FOREIGN KEY(sku)
         REFERENCES product(sku),
@@ -121,10 +119,11 @@ CREATE TABLE office (
         REFERENCES workplace(address)
 );
 CREATE TABLE employee (
+    -- (IC-4): Any ssn in employee must exist in works.
     ssn VARCHAR(255),
-    tin VARCHAR(255) UNIQUE,
-    b_date DATE,
-    name VARCHAR(255),
+    tin VARCHAR(255) NOT NULL UNIQUE,
+    b_date DATE NOT NULL,
+    name VARCHAR(255) NOT NULL,
     CONSTRAINT pk_employee PRIMARY KEY(ssn)
 );
 CREATE TABLE works (

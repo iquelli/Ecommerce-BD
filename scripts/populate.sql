@@ -32,12 +32,6 @@ INSERT INTO product
 VALUES;
 
 ---------------------
--- Ean Product
----------------------
-INSERT INTO ean_product
-VALUES;
-
----------------------
 -- Contains
 ---------------------
 INSERT INTO contains
