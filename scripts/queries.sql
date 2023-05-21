@@ -8,7 +8,7 @@
 --		Description: Presents the corresponding SQL expression for each
 --                   relational algebra query.
 
--- 1: List the names of all the customers who placed orders containing products priced over €50 in the year 2023.
+-- (1): List the names of all the customers who placed orders containing products priced over €50 in the year 2023.
 SELECT DISTINCT customer.name
 FROM customer
     NATURAL JOIN order
@@ -18,7 +18,7 @@ WHERE date >= '2023/01/01'
     AND date <= '2023/12/31'
     AND price > 50;
 
--- 2: List the names of all the employees who work in warehouses and not in offices and processed orders in January 2023.
+-- (2): List the names of all the employees who work in warehouses and not in offices and processed orders in January 2023.
 (SELECT DISTINCT employee.name
 FROM employee
     NATURAL JOIN process
@@ -35,7 +35,7 @@ FROM employee
     NATURAL JOIN office
 );
 
--- 3: Indicate the name of the best selling product.
+-- (3): Indicate the name of the best selling product.
 SELECT DISTINCT name
 FROM product
     NATURAL JOIN contains
@@ -46,8 +46,8 @@ HAVING SUM(qty) >= ALL (
     GROUP BY sku
 );
 
--- 4: Indicate the total amount each sale made.
-SELECT order_no, SUM(product.price) AS total_val
+-- (4): Indicate the total amount each sale made.
+SELECT order_no, SUM(product.price * contains.qty) AS total_val
 FROM product
     NATURAL JOIN contains
     NATURAL JOIN sale
