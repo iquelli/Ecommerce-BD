@@ -72,7 +72,7 @@ CREATE TABLE product (
     sku VARCHAR(255),
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    price MONEY NOT NULL,
+    price DECIMAL(8,2) NOT NULL,
     ean VARCHAR(255),
     CONSTRAINT pk_product PRIMARY KEY(sku)
     -- (IC-7): Any sku in product must exist in supplier.
