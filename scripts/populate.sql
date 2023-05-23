@@ -3,7 +3,7 @@
 --		Authors:
 --		        - Gonçalo Bárias (ist1103124)
 --		        - Raquel Braunschweig (ist1102624)
---              - Vasco Paisana (ist1102533)
+--             - Vasco Paisana (ist1102533)
 --		Group: 2
 --		Description: DML that populates the tables with synthetic test data.
 
@@ -90,20 +90,20 @@ VALUES
 INSERT INTO product
 VALUES
 ('A1B2C3D4', 'Smartphone', 'Powerful smartphone with advanced features', '599.99', '1234567890123'),
-('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', '999.99'),
+('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', '999.99', '2345678901234'),
 ('I9J0K1L2', 'Headphones', 'High-quality headphones for immersive audio experience', '149.99', '3456789012345'),
 ('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', '199.99', '4567890123456'),
-('Q7R8S9T0', 'Bluetooth Speaker', 'Portable speaker with wireless connectivity', '79.99'),
+('Q7R8S9T0', 'Bluetooth Speaker', 'Portable speaker with wireless connectivity', '79.99', '5678901234567'),
 ('U1V2W3X4', 'Wireless Earbuds', 'True wireless earbuds with noise cancellation', '129.99', '6789012345678'),
 ('Y5Z6A7B8', 'Tablet', 'Versatile tablet for work and entertainment', '299.99', '7890123456789'),
 ('C9D0E1F2', 'Gaming Mouse', 'Precision gaming mouse with customizable settings', '69.99', '8901234567890'),
-('G3H4I5J6', 'Smart TV', 'Ultra-HD smart TV with built-in streaming apps', '799.99'),
+('G3H4I5J6', 'Smart TV', 'Ultra-HD smart TV with built-in streaming apps', '799.99', '9012345678901'),
 ('K7L8M9N0', 'Fitness Tracker', 'Activity tracker for monitoring health and fitness', '49.99', '0123456789012'),
 ('P1Q2R3S4', 'Wireless Keyboard', 'Slim and ergonomic wireless keyboard', '89.99', '1234567890123'),
 ('T5U6V7W8', 'Camera', 'High-resolution camera for capturing memorable moments', '399.99', '2345678901234'),
-('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', '149.99'),
-('B3C4D5E6', 'Printers', 'Fast and reliable printers for home or office use', '129.99'),
-('F7G8H9I0', 'Wireless Router', 'High-speed wireless router for seamless internet connectivity', '79.99');
+('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', '149.99','3456789012345'),
+('B3C4D5E6', 'Printers', 'Fast and reliable printers for home or office use', '129.99', '4567890123456'),
+('F7G8H9I0', 'Wireless Router', 'High-speed wireless router for seamless internet connectivity', '79.99', '5678901234567');
 
 ---------------------
 -- Contains
@@ -184,7 +184,7 @@ VALUES
 INSERT INTO workplace
 VALUES
 ('Rua das Oliveiras', 123, '4700-100', 'Braga', 'Portugal', 41.554792, -8.410972),
-('Rua da Boa Sorte', 123, '4765-770', 'Guimarães', 'Portugal', 41.594792, -8.417472),
+('Rua da Boa Sorte', 123, '4765-770', 'Guimaraes', 'Portugal', 41.594792, -8.417472),
 ('Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal', 41.333242, -8.570115),
 ('Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal', 41.236560, -8.633450),
 ('Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal', 41.147832, -8.550700),
