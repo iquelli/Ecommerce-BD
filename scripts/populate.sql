@@ -12,15 +12,15 @@
 ---------------------
 INSERT INTO customer
 VALUES
-(1, 'Joaquim Souza', 'joaquim.souza@gmail.com', '+35191294337', 'Rua das Flores', 45, '6300-250', 'Guarda', 'Portugal'),
-(2, 'Jane Doe', 'jane.doe@hotmail.com', '+442012345678', 'Hensbury Street', 22, 'B74 5PQ', 'Birmingham', 'England'),
-(3, 'Hans Joanssen', 'hans_joanssen@gmail.com', '+45090695443', 'Nygade', 13, '1309', 'Copenhagen', 'Denmark'),
-(4, 'Julia Teixeira', 'julia.teixeira@gmail.com', '+351966254228', 'Rua Alves Redol', 106, '2100-203', 'Lisboa', 'Portugal'),
-(5, 'Rui Pereira', 'rui.pereira@sapo.pt', '+351988899438', 'Rua do Sol', 157, '2100-322', 'Lisboa', 'Portugal'),
-(6, 'Siobhan Santos', 'siobhan.santos@gmail.com', '+351988899438', 'Rua do Ouro', 36, '2100-245', 'Lisboa', 'Portugal'),
-(8, 'João Silva', 'joao.silva@gmail.com', '+351988899438', 'Travessa da Amizade', 21, '5005-056', 'Porto', 'Portugal'),
-(9, 'Dinis Matos', 'dinis.matos@gmail.com', '+351988899438', 'Avenida Central', 122, '4715-075', 'Braga', 'Portugal'),
-(7, 'Victor Alejandro', 'victor.alejandro@gmail.com', '+351988899438', 'Avenida del Libertador', 55, '99-209-056', 'Santiago', 'Chile');
+(1, 'Joaquim Souza', 'joaquim.souza@gmail.com', '+35191294337', 'Rua das Flores, 45, 6300-250, Guarda, Portugal'),
+(2, 'Jane Doe', 'jane.doe@hotmail.com', '+442012345678', 'Hensbury Street, 22, B74 5PQ, Birmingham, England'),
+(3, 'Hans Joanssen', 'hans_joanssen@gmail.com', '+45090695443', 'Nygade, 13, 1309, Aarhus, Denmark'),
+(4, 'Julia Teixeira', 'julia.teixeira@gmail.com', '+351966254228', 'Rua Alves Redol, 106, 2100-203, Lisboa, Portugal'),
+(5, 'Rui Pereira', 'rui.pereira@sapo.pt', '+351988899438', 'Rua do Sol, 157, 2100-322, Lisboa, Portugal'),
+(6, 'Siobhan Santos', 'siobhan.santos@gmail.com', '+351988899438', 'Rua do Ouro, 36, 2100-245, Lisboa, Portugal'),
+(8, 'João Silva', 'joao.silva@gmail.com', '+351988899438', 'Travessa da Amizade, 21, 5005-056, Porto, Portugal'),
+(9, 'Dinis Matos', 'dinis.matos@gmail.com', '+351988899438', 'Avenida Central, 122, 4715-075, Braga, Portugal'),
+(7, 'Victor Alejandro', 'victor.alejandro@gmail.com', '+351988899438', 'Avenida del Libertador, 55, 99-209-056, Santiago, Chile');
 
 ---------------------
 -- package
@@ -146,21 +146,21 @@ VALUES
 ---------------------
 INSERT INTO supplier
 VALUES
-('123456789', 'Tech Distributors', 'Rua da Liberdade', 123, '1000-001', 'Lisbon', 'Portugal', 'A1B2C3D4', '2022/01/15'),
-('987654321', 'Euro Electronics', 'Via Roma', 456, '00100', 'Rome', 'Italy', 'E5F6G7H8', '2022/02/05'),
-('246813579', 'Tech Solutions', 'Rue de la Paix', 789, '75008', 'Paris', 'France', 'I9J0K1L2', '2022/03/20'),
-('135792468', 'Global Gadgets', 'Kurfurstendamm', 101, '10709', 'Berlin', 'Germany', 'M3N4O5P6', '2022/04/10'),
-('864209753', 'Mega Tech', 'Gran Via', 987, '28013', 'Madrid', 'Spain', 'Q7R8S9T0', '2022/05/05'),
-('370592864', 'Euro Gadgets', 'Strada Mihai Eminescu', 543, '030167', 'Bucharest', 'Romania', 'U1V2W3X4', '2022/06/18'),
-('519273846', 'Nordic Electronics', 'Guldbergsgade', 246, '2200', 'Copenhagen', 'Denmark', 'Y5Z6A7B8', '2022/07/25'),
-('672849153', 'Inovar Tech', 'Avenida da Liberdade', 456, '1250-123', 'Lisbon', 'Portugal', 'C9D0E1F2', '2022/08/14'),
-('294753618', 'Smartech Solutions', 'Plaza de Catalunya', 789, '08002', 'Barcelona', 'Spain', 'G3H4I5J6', '2022/09/30'),
-('618295743', 'Italia Electronica', 'Corso Italia', 123, '00198', 'Rome', 'Italy', 'K7L8M9N0', '2022/10/22'),
-('837649521', 'Scandinavian Tech', 'Drottninggatan', 456, '11151', 'Stockholm', 'Sweden', 'P1Q2R3S4', '2022/11/08'),
-('452187396', 'Connectech', 'Gran Via de les Corts Catalanes', 789, '08015', 'Barcelona', 'Spain', 'T5U6V7W8', '2022/12/01'),
-('197864325', 'Dutch Electronics', 'Kalverstraat', 123, '1012 NX', 'Amsterdam', 'Netherlands', 'X9Y0Z1A2', '2022/12/15'),
-('526493178', 'Tech Empire', 'Karntner Strasse', 456, '1010', 'Vienna', 'Austria', 'B3C4D5E6', '2022/12/28'),
-('318274965', 'Porto Tech', 'Rua do Carmo', 789, '4050-164', 'Porto', 'Portugal', 'F7G8H9I0', '2022/12/31');
+('123456789', 'Tech Distributors', 'Rua da Liberdade, 123, 1000-001, Lisbon, Portugal', 'A1B2C3D4', '2022/01/15'),
+('987654321', 'Euro Electronics', 'Via Roma, 456, 00100, Rome, Italy', 'E5F6G7H8', '2022/02/05'),
+('246813579', 'Tech Solutions', 'Rue de la Paix, 789, 75008, Paris, France', 'I9J0K1L2', '2022/03/20'),
+('135792468', 'Global Gadgets', 'Kurfurstendamm, 101, 10709, Berlin, Germany', 'M3N4O5P6', '2022/04/10'),
+('864209753', 'Mega Tech', 'Gran Via, 987, 28013, Madrid, Spain', 'Q7R8S9T0', '2022/05/05'),
+('370592864', 'Euro Gadgets', 'Strada Mihai Eminescu, 543, 030167', Bucharest, Romania', 'U1V2W3X4', '2022/06/18'),
+('519273846', 'Nordic Electronics', 'Guldbergsgade, 246, 2200, Copenhagen, Denmark', 'Y5Z6A7B8', '2022/07/25'),
+('672849153', 'Inovar Tech', 'Avenida da Liberdade, 456, 1250-123', Lisbon, Portugal', 'C9D0E1F2', '2022/08/14'),
+('294753618', 'Smartech Solutions', 'Plaza de Catalunya, 789, 08002, Barcelona, Spain', 'G3H4I5J6', '2022/09/30'),
+('618295743', 'Italia Electronica', 'Corso Italia, 123, 00198, Rome, Italy', 'K7L8M9N0', '2022/10/22'),
+('837649521', 'Scandinavian Tech', 'Drottninggatan, 456, 11151, Stockholm, Sweden', 'P1Q2R3S4', '2022/11/08'),
+('452187396', 'Connectech', 'Gran Via de les Corts Catalanes, 789, 08015, Barcelona, Spain', 'T5U6V7W8', '2022/12/01'),
+('197864325', 'Dutch Electronics', 'Kalverstraat, 123, 1012 NX, Amsterdam, Netherlands', 'X9Y0Z1A2', '2022/12/15'),
+('526493178', 'Tech Empire', 'Karntner Strasse, 456, 1010, Vienna, Austria', 'B3C4D5E6', '2022/12/28'),
+('318274965', 'Porto Tech', 'Rua do Carmo, 789, 4050-164, Porto, Portugal', 'F7G8H9I0', '2022/12/31');
 
 ---------------------
 -- Department
@@ -183,22 +183,22 @@ VALUES
 ---------------------
 INSERT INTO workplace
 VALUES
-('Rua das Oliveiras', 123, '4700-100', 'Braga', 'Portugal', 41.554792, -8.410972),
-('Rua da Boa Sorte', 123, '4765-770', 'Guimaraes', 'Portugal', 41.594792, -8.417472),
-('Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal', 41.333242, -8.570115),
-('Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal', 41.236560, -8.633450),
-('Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal', 41.147832, -8.550700),
-('Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal', 41.420987, -8.533674);
+('Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 41.554792, -8.410972),
+('Rua da Boa Sorte, 123, 4765-770, Guimaraes, Portugal', 41.594792, -8.417472),
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 41.333242, -8.570115),
+('Estrada da Maia, 789, 4470-110, Maia, Portugal', 41.236560, -8.633450),
+('Rua das Flores, 987, 4425-010, Gondomar, Portugal', 41.147832, -8.550700),
+('Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', 41.420987, -8.533674);
 
 ---------------------
 -- Warehouse
 ---------------------
 INSERT INTO warehouse
 VALUES
-('Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal'),
-('Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal'),
-('Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal'),
-('Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal');
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal'),
+('Estrada da Maia, 789, 4470-110, Maia, Portugal'),
+('Rua das Flores, 987, 4425-010, Gondomar, Portugal'),
+('Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal');
 
 ---------------------
 -- Delivery
@@ -226,9 +226,9 @@ VALUES
 ---------------------
 INSERT INTO office
 VALUES
-('Rua das Oliveiras', 123, '4700-100', 'Braga', 'Portugal'),
-('Rua da Boa Sorte', 123, '4765-770', 'Guimaraes', 'Portugal'),
-('Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal');
+('Rua das Oliveiras, 123, 4700-100, Braga, Portugal'),
+('Rua da Boa Sorte, 123, 4765-770, Guimaraes, Portugal'),
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal');
 
 ---------------------
 -- Employee
@@ -253,18 +253,18 @@ VALUES
 ---------------------
 INSERT INTO works
 VALUES
-('123456789', 'Rua das Oliveiras', 123, '4700-100', 'Braga', 'Portugal', 'Sales'),
-('234567890', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal', 'Operations'),
-('345678901', 'Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal', 'Operations'),
-('456789012', 'Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal', 'Operations'),
-('567890123', 'Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal', 'Finance'),
-('678901234', 'Rua das Oliveiras', 123, '4700-100', 'Braga', 'Portugal', 'Customer Service'),
-('789012345', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal', 'Marketing'),
-('890123456', 'Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal', 'Operations'),
-('901234567', 'Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal', 'Operations'),
-('012345678', 'Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal', 'Sales'),
-('210987654', 'Rua das Oliveiras', 123, '4700-100', 'Braga', 'Portugal', 'Finance'),
-('109876543', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal', 'Operations');
+('123456789', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal, 'Sales'),
+('234567890', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal, 'Operations'),
+('345678901', 'Estrada da Maia, 789, 4470-110, Maia, Portugal', 'Operations'),
+('456789012', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal', 'Operations'),
+('567890123', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', 'Finance'),
+('678901234', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 'Customer Service'),
+('789012345', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 'Marketing'),
+('890123456', 'Estrada da Maia, 789, 4470-110, Maia, Portugal', 'Operations'),
+('901234567', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal', 'Operations'),
+('012345678', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', 'Sales'),
+('210987654', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 'Finance'),
+('109876543', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 'Operations');
 
 ---------------------
 -- Proccess
