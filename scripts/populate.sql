@@ -151,9 +151,9 @@ VALUES
 ('246813579', 'Tech Solutions', 'Rue de la Paix, 789, 75008, Paris, France', 'I9J0K1L2', '2022/03/20'),
 ('135792468', 'Global Gadgets', 'Kurfurstendamm, 101, 10709, Berlin, Germany', 'M3N4O5P6', '2022/04/10'),
 ('864209753', 'Mega Tech', 'Gran Via, 987, 28013, Madrid, Spain', 'Q7R8S9T0', '2022/05/05'),
-('370592864', 'Euro Gadgets', 'Strada Mihai Eminescu, 543, 030167', Bucharest, Romania', 'U1V2W3X4', '2022/06/18'),
+('370592864', 'Euro Gadgets', 'Strada Mihai Eminescu, 543, 030167, Bucharest, Romania', 'U1V2W3X4', '2022/06/18'),
 ('519273846', 'Nordic Electronics', 'Guldbergsgade, 246, 2200, Copenhagen, Denmark', 'Y5Z6A7B8', '2022/07/25'),
-('672849153', 'Inovar Tech', 'Avenida da Liberdade, 456, 1250-123', Lisbon, Portugal', 'C9D0E1F2', '2022/08/14'),
+('672849153', 'Inovar Tech', 'Avenida da Liberdade, 456, 1250-123, Lisbon, Portugal', 'C9D0E1F2', '2022/08/14'),
 ('294753618', 'Smartech Solutions', 'Plaza de Catalunya, 789, 08002, Barcelona, Spain', 'G3H4I5J6', '2022/09/30'),
 ('618295743', 'Italia Electronica', 'Corso Italia, 123, 00198, Rome, Italy', 'K7L8M9N0', '2022/10/22'),
 ('837649521', 'Scandinavian Tech', 'Drottninggatan, 456, 11151, Stockholm, Sweden', 'P1Q2R3S4', '2022/11/08'),
@@ -253,8 +253,8 @@ VALUES
 ---------------------
 INSERT INTO works
 VALUES
-('123456789', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal, 'Sales'),
-('234567890', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal, 'Operations'),
+('123456789', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 'Sales'),
+('234567890', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 'Operations'),
 ('345678901', 'Estrada da Maia, 789, 4470-110, Maia, Portugal', 'Operations'),
 ('456789012', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal', 'Operations'),
 ('567890123', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', 'Finance'),
