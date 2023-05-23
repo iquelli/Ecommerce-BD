@@ -3,26 +3,27 @@
 - customer(<ins>cust_no</ins>, name, email, phone, address)
     - UNIQUE(email)
 
-- order(<ins>order_no</ins>, date, cust_no)
+- package(<ins>package_no</ins>, date, cust_no)
     - cust_no: FK(customer) NOT NULL
-    - **(IC-6)**: Any order_no in order must exist in contains.
+    - **(IC-6)**: Any package_no in package must exist in contains.
 
-- sale(<ins>order_no</ins>)
-    - order_no: FK(order)
+- sale(<ins>package_no</ins>)
+    - package_no: FK(package)
 
-- pay(<ins>order_no</ins>, cust_no)
-    - order_no: FK(sale)
+- pay(<ins>package_no</ins>, cust_no)
+    - package_no: FK(sale)
     - cust_no: FK(customer)
-    - **(IC-1)**: Customers (cust_no) can only pay for the sale (order_no) of an order (order_no) they have placed themselves.
+    - **(IC-1)**: When cust_no exists it must be present in the package identified by package_no.
 
 - product(<ins>sku</ins>, name, description, price)
     - **(IC-7)**: Any sku in product must exist in supplier.
+    - **(IC-8)**: When a product is removed from the database it must also be removed from ean_product if present.
 
 - ean_product(<ins>sku</ins>, ean)
     - sku: FK(product)
 
-- contains(<ins>order_no</ins>, <ins>sku</ins>, qty)
-    - order_no: FK(order)
+- contains(<ins>package_no</ins>, <ins>sku</ins>, qty)
+    - package_no: FK(package)
     - sku: FK(product)
 
 - supplier(<ins>tin</ins>, name, address, sku, supply_contract_date)
@@ -32,37 +33,27 @@
 
 - workplace(<ins>address</ins>, lat, long)
     - UNIQUE(lat, long)
+    - **(IC-9)**: When a workplace is removed from the database it must also be removed from warehouse and/or office if present.
 
 - warehouse(<ins>address</ins>)
     - address: FK(workplace)
 
-- delivery(<ins>tin</ins>, <ins>address</ins>)
-    - tin: FK(suplier)
+- delivery(<ins>address</ins>, <ins>tin</ins>)
     - address: FK(warehouse)
+    - tin: FK(suplier)
 
 - office(<ins>address</ins>)
     - address: FK(workplace)
 
 - employee(<ins>ssn</ins>, tin, b_date, name)
     - UNIQUE(tin)
-    - **(IC-8)**: Any ssn in employee must exist in works.
+    - **(IC-10)**: Any ssn in employee must exist in works.
 
-- works(<ins>ssn</ins>, <ins>address</ins>, name)
+- works(<ins>ssn</ins>, <ins>name</ins>, <ins>address</ins>)
     - ssn: FK(employee)
+    - name: FK(department)
     - address: FK(workplace)
-    - name: FK(department) NOT NULL
 
-- process(<ins>ssn</ins>, <ins>order_no</ins>)
+- process(<ins>ssn</ins>, <ins>package_no</ins>)
     - ssn: FK(employee)
-    - order_no: FK(order)
-
-# Doubts
-
-> Grandes dúvidas relativamente à delivery, pois o sku provavelmente não está ligado ao tin do supplier.
-Como o supplier tem cardinalidade de 1 e participação obrigatória com produto, isto complica a associação
-entre Warehouse e a agregação. Na verdade acho que faz sentido só relacionar delivery entre warehouse e
-supplier, pois o supplier já tem de ter um produto.
-
-> Ainda não percebi bem como é que ternárias são representadas, tipo o "works". Supostamente uma ternária
-é equivalente a uma agregação (T07 - Modelação E-A - Parte IV no slide 10), mas depois a representação no
-modelo relacional da ternária parece não ser equivalente à da dessa agregação.
+    - package_no: FK(package)
