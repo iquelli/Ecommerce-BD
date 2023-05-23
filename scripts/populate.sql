@@ -89,21 +89,21 @@ VALUES
 ---------------------
 INSERT INTO product
 VALUES
-('A1B2C3D4', 'Smartphone', 'Powerful smartphone with advanced features', '599.99', '1234567890123'),
-('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', '999.99', '2345678901234'),
-('I9J0K1L2', 'Headphones', 'High-quality headphones for immersive audio experience', '149.99', '3456789012345'),
-('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', '199.99', '4567890123456'),
-('Q7R8S9T0', 'Bluetooth Speaker', 'Portable speaker with wireless connectivity', '79.99', '5678901234567'),
-('U1V2W3X4', 'Wireless Earbuds', 'True wireless earbuds with noise cancellation', '129.99', '6789012345678'),
-('Y5Z6A7B8', 'Tablet', 'Versatile tablet for work and entertainment', '299.99', '7890123456789'),
-('C9D0E1F2', 'Gaming Mouse', 'Precision gaming mouse with customizable settings', '69.99', '8901234567890'),
-('G3H4I5J6', 'Smart TV', 'Ultra-HD smart TV with built-in streaming apps', '799.99', '9012345678901'),
-('K7L8M9N0', 'Fitness Tracker', 'Activity tracker for monitoring health and fitness', '49.99', '0123456789012'),
-('P1Q2R3S4', 'Wireless Keyboard', 'Slim and ergonomic wireless keyboard', '89.99', '1234567890123'),
-('T5U6V7W8', 'Camera', 'High-resolution camera for capturing memorable moments', '399.99', '2345678901234'),
-('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', '149.99','3456789012345'),
-('B3C4D5E6', 'Printers', 'Fast and reliable printers for home or office use', '129.99', '4567890123456'),
-('F7G8H9I0', 'Wireless Router', 'High-speed wireless router for seamless internet connectivity', '79.99', '5678901234567');
+('A1B2C3D4', 'Smartphone', 'Powerful smartphone with advanced features', 599.99, '1234567890123'),
+('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', 999.99, NULL),
+('I9J0K1L2', 'Headphones', 'High-quality headphones for immersive audio experience', 149.99, '3456789012345'),
+('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', 199.99, NULL),
+('Q7R8S9T0', 'Bluetooth Speaker', 'Portable speaker with wireless connectivity', 79.99, '5678901234567'),
+('U1V2W3X4', 'Wireless Earbuds', 'True wireless earbuds with noise cancellation', 129.99, '6789012345678'),
+('Y5Z6A7B8', 'Tablet', 'Versatile tablet for work and entertainment', 299.99, '7890123456789'),
+('C9D0E1F2', 'Gaming Mouse', 'Precision gaming mouse with customizable settings', 69.99, NULL),
+('G3H4I5J6', 'Smart TV', 'Ultra-HD smart TV with built-in streaming apps', 799.99, NULL),
+('K7L8M9N0', 'Fitness Tracker', 'Activity tracker for monitoring health and fitness', 49.99, '0123456789012'),
+('P1Q2R3S4', 'Wireless Keyboard', 'Slim and ergonomic wireless keyboard', 89.99, NULL),
+('T5U6V7W8', 'Camera', 'High-resolution camera for capturing memorable moments', 399.99, '2345678901234'),
+('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', 149.99,'3456789012345'),
+('B3C4D5E6', 'Printers', 'Fast and reliable printers for home or office use', 129.99, NULL),
+('F7G8H9I0', 'Wireless Router', 'High-speed wireless router for seamless internet connectivity', 79.99, NULL);
 
 ---------------------
 -- Contains
@@ -205,21 +205,21 @@ VALUES
 ---------------------
 INSERT INTO delivery
 VALUES
-('123456789', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal'),
-('987654321', 'Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal'),
-('246813579', 'Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal'),
-('135792468', 'Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal'),
-('864209753', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal'),
-('370592864', 'Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal'),
-('519273846', 'Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal'),
-('672849153', 'Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal'),
-('294753618', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal'),
-('618295743', 'Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal'),
-('837649521', 'Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal'),
-('452187396', 'Avenida dos Carvalhos', 321, '4760-150', 'Vila Nova de Famalicão', 'Portugal'),
-('197864325', 'Avenida dos Pinheiros', 456, '4780-200', 'Trofa', 'Portugal'),
-('526493178', 'Estrada da Maia', 789, '4470-110', 'Maia', 'Portugal'),
-('318274965', 'Rua das Flores', 987, '4425-010', 'Gondomar', 'Portugal');
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', '123456789'),
+('Estrada da Maia, 789, 4470-110, Maia, Portugal', '987654321'),
+('Rua das Flores, 987, 4425-010, Gondomar, Portugal', '246813579'),
+('Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', '135792468'),
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', '864209753'),
+('Estrada da Maia, 789, 4470-110, Maia, Portugal', '370592864'),
+('Rua das Flores, 987, 4425-010, Gondomar, Portugal', '519273846'),
+('Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', '672849153'),
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', '294753618'),
+('Estrada da Maia, 789, 4470-110, Maia, Portugal', '618295743'),
+('Rua das Flores, 987, 4425-010, Gondomar, Portugal', '837649521'),
+('Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', '452187396'),
+('Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', '197864325'),
+('Estrada da Maia, 789, 4470-110, Maia, Portugal', '526493178'),
+('Rua das Flores, 987, 4425-010, Gondomar, Portugal', '318274965');
 
 ---------------------
 -- Office
@@ -235,36 +235,36 @@ VALUES
 ---------------------
 INSERT INTO employee
 VALUES
-('123456789', '987654321', '1980-05-10', 'Antonio Silva'),
-('234567890', '876543210', '1985-03-15', 'Marta Pereira'),
-('345678901', '765432109', '1992-08-22', 'Pedro Santos'),
-('456789012', '654321098', '1990-11-01', 'Sofia Costa'),
-('567890123', '543210987', '1987-09-18', 'Tiago Rodrigues'),
-('678901234', '432109876', '1989-07-06', 'Ana Oliveira'),
-('789012345', '321098765', '1983-12-03', 'Ricardo Sousa'),
-('890123456', '210987654', '1986-04-28', 'Carla Fernandes'),
-('901234567', '109876543', '1993-02-14', 'Hugo Matos'),
-('012345678', '098765432', '1984-06-07', 'Ines Ferreira'),
-('210987654', '887766554', '1981-09-30', 'Joao Santos'),
-('109876543', '998877665', '1988-11-26', 'Luis Pereira');
+('123456789', '987654321', '1980/05/10', 'Antonio Silva'),
+('234567890', '876543210', '1985/03/15', 'Marta Pereira'),
+('345678901', '765432109', '1992/08/22', 'Pedro Santos'),
+('456789012', '654321098', '1990/11/01', 'Sofia Costa'),
+('567890123', '543210987', '1987/09/18', 'Tiago Rodrigues'),
+('678901234', '432109876', '1989/07/06', 'Ana Oliveira'),
+('789012345', '321098765', '1983/12/03', 'Ricardo Sousa'),
+('890123456', '210987654', '1986/04/28', 'Carla Fernandes'),
+('901234567', '109876543', '1993/02/14', 'Hugo Matos'),
+('012345678', '098765432', '1984/06/07', 'Ines Ferreira'),
+('210987654', '887766554', '1981/09/30', 'Joao Santos'),
+('109876543', '998877665', '1988/11/26', 'Luis Pereira');
 
 ---------------------
 -- Works
 ---------------------
 INSERT INTO works
 VALUES
-('123456789', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 'Sales'),
-('234567890', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 'Operations'),
-('345678901', 'Estrada da Maia, 789, 4470-110, Maia, Portugal', 'Operations'),
-('456789012', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal', 'Operations'),
-('567890123', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', 'Finance'),
-('678901234', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 'Customer Service'),
-('789012345', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 'Marketing'),
-('890123456', 'Estrada da Maia, 789, 4470-110, Maia, Portugal', 'Operations'),
-('901234567', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal', 'Operations'),
-('012345678', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal', 'Sales'),
-('210987654', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal', 'Finance'),
-('109876543', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal', 'Operations');
+('123456789', 'Sales', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal'),
+('234567890', 'Operations', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal'),
+('345678901', 'Operations', 'Estrada da Maia, 789, 4470-110, Maia, Portugal'),
+('456789012', 'Operations', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal'),
+('567890123', 'Finance', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal'),
+('678901234', 'Customer Service', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal'),
+('789012345', 'Marketing', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal'),
+('890123456', 'Operations', 'Estrada da Maia, 789, 4470-110, Maia, Portugal'),
+('901234567', 'Operations', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal'),
+('012345678', 'Sales', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal'),
+('210987654', 'Finance', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal'),
+('109876543', 'Operations', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal');
 
 ---------------------
 -- Proccess

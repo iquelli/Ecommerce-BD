@@ -35,7 +35,7 @@ CREATE TABLE customer (
     name VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255),
-    address VARCHAR(255)
+    address VARCHAR(255),
     CONSTRAINT pk_customer PRIMARY KEY(cust_no)
 );
 CREATE TABLE package (
@@ -61,15 +61,14 @@ CREATE TABLE pay (
         REFERENCES sale(package_no),
     CONSTRAINT fk_pay_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
-    -- (IC-1): Customers (cust_no) can only pay for the sale (package_no) of a
-    --         package (package_no) they have placed themselves.
+    -- (IC-1): When cust_no exists it must be present in the package identified by package_no.
 );
 CREATE TABLE product (
     sku VARCHAR(255),
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price DECIMAL(8,2) NOT NULL,
-    ean VARCHAR(255),
+    ean VARCHAR(255), -- TODO: não tenho a certeza se devíamos criar nova tabela para ean_product
     CONSTRAINT pk_product PRIMARY KEY(sku)
     -- (IC-7): Any sku in product must exist in supplier.
 );
@@ -86,7 +85,7 @@ CREATE TABLE contains (
 CREATE TABLE supplier (
     tin VARCHAR(255),
     name VARCHAR(255),
-    address VARCHAR(255)
+    address VARCHAR(255),
     sku VARCHAR(255) NOT NULL,
     supply_contract_date DATE NOT NULL,
     CONSTRAINT pk_supplier PRIMARY KEY(tin),
@@ -98,29 +97,30 @@ CREATE TABLE department (
     CONSTRAINT pk_department PRIMARY KEY(name)
 );
 CREATE TABLE workplace (
-    address VARCHAR(255)
+    address VARCHAR(255),
     lat DECIMAL(9,6) NOT NULL,
     long DECIMAL(9,6) NOT NULL,
     UNIQUE(lat, long),
     CONSTRAINT pk_workplace PRIMARY KEY(address)
+    -- (IC-9): When a workplace is removed from the database it must also be removed from warehouse and/or office if present.
 );
 CREATE TABLE warehouse (
-    address VARCHAR(255)
+    address VARCHAR(255),
     CONSTRAINT pk_warehouse PRIMARY KEY(address),
     CONSTRAINT fk_warehouse_workplace FOREIGN KEY(address)
         REFERENCES workplace(address)
 );
 CREATE TABLE delivery (
+    address VARCHAR(255),
     tin VARCHAR(255),
-    address VARCHAR(255)
-    CONSTRAINT pk_delivery PRIMARY KEY(tin, address),
+    CONSTRAINT pk_delivery PRIMARY KEY(address, tin),
+    CONSTRAINT fk_delivery_warehouse FOREIGN KEY(address)
+        REFERENCES warehouse(address),
     CONSTRAINT fk_delivery_supplier FOREIGN KEY(tin)
         REFERENCES supplier(tin),
-    CONSTRAINT fk_delivery_warehouse FOREIGN KEY(address)
-        REFERENCES warehouse(address)
 );
 CREATE TABLE office (
-    address VARCHAR(255)
+    address VARCHAR(255),
     CONSTRAINT pk_office PRIMARY KEY(address),
     CONSTRAINT fk_office_workplace FOREIGN KEY(address)
         REFERENCES workplace(address)
@@ -131,19 +131,19 @@ CREATE TABLE employee (
     b_date DATE,
     name VARCHAR(255),
     CONSTRAINT pk_employee PRIMARY KEY(ssn)
-    -- (IC-8): Any ssn in employee must exist in works.
+    -- (IC-10): Any ssn in employee must exist in works.
 );
 CREATE TABLE works (
     ssn VARCHAR(255),
-    address VARCHAR(255)
-    name VARCHAR(255) NOT NULL,
-    CONSTRAINT pk_works PRIMARY KEY(address),
+    name VARCHAR(255),
+    address VARCHAR(255),
+    CONSTRAINT pk_works PRIMARY KEY(ssn, name, address),
     CONSTRAINT fk_works_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
-    CONSTRAINT fk_works_workplace FOREIGN KEY(street, building_no, postal_code, city, country)
-        REFERENCES workplace(street, building_no, postal_code, city, country),
     CONSTRAINT fk_works_department FOREIGN KEY(name)
         REFERENCES department(name)
+    CONSTRAINT fk_works_workplace FOREIGN KEY(address)
+        REFERENCES workplace(address),
 );
 CREATE TABLE process (
     ssn VARCHAR(255),
