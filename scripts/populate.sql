@@ -23,9 +23,9 @@ VALUES
 (7, 'Victor Alejandro', 'victor.alejandro@gmail.com', '+351988899438', 'Avenida del Libertador', 55, '99-209-056', 'Santiago', 'Chile');
 
 ---------------------
--- Order
+-- package
 ---------------------
-INSERT INTO order
+INSERT INTO package
 VALUES
 (764903, '2023/05/22', 2),
 (892541, '2023/04/18', 3),

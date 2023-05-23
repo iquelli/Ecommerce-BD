@@ -9,7 +9,7 @@
 --                   relational model developed.
 
 DROP TABLE IF EXISTS customer CASCADE;
-DROP TABLE IF EXISTS order CASCADE;
+DROP TABLE IF EXISTS package CASCADE;
 DROP TABLE IF EXISTS sale CASCADE;
 DROP TABLE IF EXISTS pay CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
@@ -38,31 +38,31 @@ CREATE TABLE customer (
     address VARCHAR(255)
     CONSTRAINT pk_customer PRIMARY KEY(cust_no)
 );
-CREATE TABLE order (
-    order_no INT,
+CREATE TABLE package (
+    package_no INT,
     date DATE NOT NULL,
     cust_no INT NOT NULL,
-    CONSTRAINT pk_order PRIMARY KEY(order_no),
-    CONSTRAINT fk_order_customer FOREIGN KEY(cust_no)
+    CONSTRAINT pk_package PRIMARY KEY(package_no),
+    CONSTRAINT fk_package_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
-    -- (IC-6): Any order_no in order must exist in contains.
+    -- (IC-6): Any package_no in package must exist in contains.
 );
 CREATE TABLE sale (
-    order_no INT,
-    CONSTRAINT pk_sale PRIMARY KEY(order_no),
-    CONSTRAINT fk_sale_order FOREIGN KEY(order_no)
-        REFERENCES order(order_no)
+    package_no INT,
+    CONSTRAINT pk_sale PRIMARY KEY(package_no),
+    CONSTRAINT fk_sale_package FOREIGN KEY(package_no)
+        REFERENCES package(package_no)
 );
 CREATE TABLE pay (
-    order_no INT,
+    package_no INT,
     cust_no INT,
-    CONSTRAINT pk_pay PRIMARY KEY(order_no),
-    CONSTRAINT fk_pay_sale FOREIGN KEY(order_no)
-        REFERENCES sale(order_no),
+    CONSTRAINT pk_pay PRIMARY KEY(package_no),
+    CONSTRAINT fk_pay_sale FOREIGN KEY(package_no)
+        REFERENCES sale(package_no),
     CONSTRAINT fk_pay_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
-    -- (IC-1): Customers (cust_no) can only pay for the sale (order_no) of an
-    --         order (order_no) they have placed themselves.
+    -- (IC-1): Customers (cust_no) can only pay for the sale (package_no) of a
+    --         package (package_no) they have placed themselves.
 );
 CREATE TABLE product (
     sku VARCHAR(255),
@@ -74,12 +74,12 @@ CREATE TABLE product (
     -- (IC-7): Any sku in product must exist in supplier.
 );
 CREATE TABLE contains (
-    order_no INT,
+    package_no INT,
     sku VARCHAR(255),
     qty INT NOT NULL,
-    CONSTRAINT pk_contains PRIMARY KEY(order_no, sku),
-    CONSTRAINT fk_contains_order FOREIGN KEY(order_no)
-        REFERENCES order(order_no),
+    CONSTRAINT pk_contains PRIMARY KEY(package_no, sku),
+    CONSTRAINT fk_contains_package FOREIGN KEY(package_no)
+        REFERENCES package(package_no),
     CONSTRAINT fk_contains_product FOREIGN KEY(sku)
         REFERENCES product(sku)
 );
@@ -147,10 +147,10 @@ CREATE TABLE works (
 );
 CREATE TABLE process (
     ssn VARCHAR(255),
-    order_no INT,
-    CONSTRAINT pk_process PRIMARY KEY(ssn, order_no),
+    package_no INT,
+    CONSTRAINT pk_process PRIMARY KEY(ssn, package_no),
     CONSTRAINT fk_process_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
-    CONSTRAINT fk_process_order FOREIGN KEY(order_no)
-        REFERENCES order(order_no)
+    CONSTRAINT fk_process_package FOREIGN KEY(package_no)
+        REFERENCES package(package_no)
 );
