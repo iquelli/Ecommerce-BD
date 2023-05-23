@@ -35,11 +35,7 @@ CREATE TABLE customer (
     name VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     phone VARCHAR(255),
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
+    address VARCHAR(255)
     CONSTRAINT pk_customer PRIMARY KEY(cust_no)
 );
 CREATE TABLE order (
@@ -90,11 +86,7 @@ CREATE TABLE contains (
 CREATE TABLE supplier (
     tin VARCHAR(255),
     name VARCHAR(255),
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
+    address VARCHAR(255)
     sku VARCHAR(255) NOT NULL,
     supply_contract_date DATE NOT NULL,
     CONSTRAINT pk_supplier PRIMARY KEY(tin),
@@ -106,48 +98,32 @@ CREATE TABLE department (
     CONSTRAINT pk_department PRIMARY KEY(name)
 );
 CREATE TABLE workplace (
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
+    address VARCHAR(255)
     lat DECIMAL(9,6) NOT NULL,
     long DECIMAL(9,6) NOT NULL,
     UNIQUE(lat, long),
-    CONSTRAINT pk_workplace PRIMARY KEY(street, building_no, postal_code, city, country)
+    CONSTRAINT pk_workplace PRIMARY KEY(address)
 );
 CREATE TABLE warehouse (
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
-    CONSTRAINT pk_warehouse PRIMARY KEY(street, building_no, postal_code, city, country),
-    CONSTRAINT fk_warehouse_workplace FOREIGN KEY(street, building_no, postal_code, city, country)
-        REFERENCES workplace(street, building_no, postal_code, city, country)
+    address VARCHAR(255)
+    CONSTRAINT pk_warehouse PRIMARY KEY(address),
+    CONSTRAINT fk_warehouse_workplace FOREIGN KEY(address)
+        REFERENCES workplace(address)
 );
 CREATE TABLE delivery (
     tin VARCHAR(255),
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
-    CONSTRAINT pk_delivery PRIMARY KEY(tin, street, building_no, postal_code, city, country),
+    address VARCHAR(255)
+    CONSTRAINT pk_delivery PRIMARY KEY(tin, address),
     CONSTRAINT fk_delivery_supplier FOREIGN KEY(tin)
         REFERENCES supplier(tin),
-    CONSTRAINT fk_delivery_warehouse FOREIGN KEY(street, building_no, postal_code, city, country)
-        REFERENCES warehouse(street, building_no, postal_code, city, country)
+    CONSTRAINT fk_delivery_warehouse FOREIGN KEY(address)
+        REFERENCES warehouse(address)
 );
 CREATE TABLE office (
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
-    CONSTRAINT pk_office PRIMARY KEY(street, building_no, postal_code, city, country),
-    CONSTRAINT fk_office_workplace FOREIGN KEY(street, building_no, postal_code, city, country)
-        REFERENCES workplace(street, building_no, postal_code, city, country)
+    address VARCHAR(255)
+    CONSTRAINT pk_office PRIMARY KEY(address),
+    CONSTRAINT fk_office_workplace FOREIGN KEY(address)
+        REFERENCES workplace(address)
 );
 CREATE TABLE employee (
     ssn VARCHAR(255),
@@ -159,13 +135,9 @@ CREATE TABLE employee (
 );
 CREATE TABLE works (
     ssn VARCHAR(255),
-    street VARCHAR(255),
-    building_no INT,
-    postal_code VARCHAR(255),
-    city VARCHAR(255),
-    country VARCHAR(255),
+    address VARCHAR(255)
     name VARCHAR(255) NOT NULL,
-    CONSTRAINT pk_works PRIMARY KEY(ssn, street, building_no, postal_code, city, country),
+    CONSTRAINT pk_works PRIMARY KEY(address),
     CONSTRAINT fk_works_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
     CONSTRAINT fk_works_workplace FOREIGN KEY(street, building_no, postal_code, city, country)
