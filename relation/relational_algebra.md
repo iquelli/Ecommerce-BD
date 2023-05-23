@@ -25,7 +25,7 @@ $\Pi_{\\; name \\;}(G_{\\; max(p \textunderscore qty) \\; \mapsto \\; p \textund
 
 __4. Indique o valor total de cada venda realizada.__
 
-${}\_{order \textunderscore no \\; } G_{\\; sum(price) \\; \mapsto \\; total \textunderscore val \\;}(sale \bowtie contains \bowtie product)$
+${}\_{order \textunderscore no \\; } G_{\\; sum(price \\; * \\; qty) \\; \mapsto \\; total \textunderscore val \\;}( \Pi_{\\; order \textunderscore no, \\; sku, \\; price \\; * \\; qty \\;}(sale \bowtie contains \bowtie product))$
 
 # Doubts
 

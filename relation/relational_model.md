@@ -5,15 +5,18 @@
 
 - order(<ins>order_no</ins>, date, cust_no)
     - cust_no: FK(customer) NOT NULL
-    - **(IC-2)**: Any order_no in order must exist in contains.
+    - **(IC-6)**: Any order_no in order must exist in contains.
 
-- sale(<ins>order_no</ins>, cust_no)
+- sale(<ins>order_no</ins>)
     - order_no: FK(order)
+
+- pay(<ins>order_no</ins>, cust_no)
+    - order_no: FK(sale)
     - cust_no: FK(customer)
-    - **(IC-1)**: Customers can only pay for the sale of an order they have placed themselves.
+    - **(IC-1)**: Customers (cust_no) can only pay for the sale (order_no) of an order (order_no) they have placed themselves.
 
 - product(<ins>sku</ins>, name, description, price)
-    - **(IC-3)**: Any sku in product must exist in supplier.
+    - **(IC-7)**: Any sku in product must exist in supplier.
 
 - ean_product(<ins>sku</ins>, ean)
     - sku: FK(product)
@@ -22,7 +25,7 @@
     - order_no: FK(order)
     - sku: FK(product)
 
-- supplier(<ins>tin</ins>, sku, address, name, supply_contract_date)
+- supplier(<ins>tin</ins>, name, address, sku, supply_contract_date)
     - sku: FK(product) NOT NULL
 
 - department(<ins>name</ins>)
@@ -33,8 +36,7 @@
 - warehouse(<ins>address</ins>)
     - address: FK(workplace)
 
-- delivery(<ins>sku</ins>, <ins>tin</ins>, <ins>address</ins>)
-    - sku: FK(product)
+- delivery(<ins>tin</ins>, <ins>address</ins>)
     - tin: FK(suplier)
     - address: FK(warehouse)
 
@@ -43,7 +45,7 @@
 
 - employee(<ins>ssn</ins>, tin, b_date, name)
     - UNIQUE(tin)
-    - **(IC-4)**: Any ssn in employee must exist in works.
+    - **(IC-8)**: Any ssn in employee must exist in works.
 
 - works(<ins>ssn</ins>, <ins>address</ins>, name)
     - ssn: FK(employee)
@@ -58,7 +60,8 @@
 
 > Grandes dúvidas relativamente à delivery, pois o sku provavelmente não está ligado ao tin do supplier.
 Como o supplier tem cardinalidade de 1 e participação obrigatória com produto, isto complica a associação
-entre Warehouse e a agregação.
+entre Warehouse e a agregação. Na verdade acho que faz sentido só relacionar delivery entre warehouse e
+supplier, pois o supplier já tem de ter um produto.
 
 > Ainda não percebi bem como é que ternárias são representadas, tipo o "works". Supostamente uma ternária
 é equivalente a uma agregação (T07 - Modelação E-A - Parte IV no slide 10), mas depois a representação no
