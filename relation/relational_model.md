@@ -12,8 +12,8 @@
 
 - pay(<ins>package_no</ins>, cust_no)
     - package_no: FK(sale)
-    - cust_no: FK(customer)
-    - **(IC-1)**: When cust_no exists it must be present in the package identified by package_no.
+    - cust_no: FK(customer) NOT NULL
+    - **(IC-1)**: cust_no must exist in the package identified by package_no.
 
 - product(<ins>sku</ins>, name, description, price)
     - **(IC-7)**: Any sku in product must exist in supplier.

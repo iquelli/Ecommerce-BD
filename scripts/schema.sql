@@ -55,13 +55,13 @@ CREATE TABLE sale (
 );
 CREATE TABLE pay (
     package_no INT,
-    cust_no INT,
+    cust_no INT NOT NULL,
     CONSTRAINT pk_pay PRIMARY KEY(package_no),
     CONSTRAINT fk_pay_sale FOREIGN KEY(package_no)
         REFERENCES sale(package_no),
     CONSTRAINT fk_pay_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
-    -- (IC-1): When cust_no exists it must be present in the package identified by package_no.
+    -- (IC-1): cust_no must exist in the package identified by package_no.
 );
 CREATE TABLE product (
     sku VARCHAR(255),
@@ -102,13 +102,13 @@ CREATE TABLE workplace (
     long DECIMAL(9,6) NOT NULL,
     UNIQUE(lat, long),
     CONSTRAINT pk_workplace PRIMARY KEY(address)
-    -- (IC-9): When a workplace is removed from the database it must also be removed from warehouse and/or office if present.
 );
 CREATE TABLE warehouse (
     address VARCHAR(255),
     CONSTRAINT pk_warehouse PRIMARY KEY(address),
     CONSTRAINT fk_warehouse_workplace FOREIGN KEY(address)
         REFERENCES workplace(address)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE delivery (
     address VARCHAR(255),
@@ -117,13 +117,14 @@ CREATE TABLE delivery (
     CONSTRAINT fk_delivery_warehouse FOREIGN KEY(address)
         REFERENCES warehouse(address),
     CONSTRAINT fk_delivery_supplier FOREIGN KEY(tin)
-        REFERENCES supplier(tin),
+        REFERENCES supplier(tin)
 );
 CREATE TABLE office (
     address VARCHAR(255),
     CONSTRAINT pk_office PRIMARY KEY(address),
     CONSTRAINT fk_office_workplace FOREIGN KEY(address)
         REFERENCES workplace(address)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE employee (
     ssn VARCHAR(255),
@@ -141,9 +142,9 @@ CREATE TABLE works (
     CONSTRAINT fk_works_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
     CONSTRAINT fk_works_department FOREIGN KEY(name)
-        REFERENCES department(name)
+        REFERENCES department(name),
     CONSTRAINT fk_works_workplace FOREIGN KEY(address)
-        REFERENCES workplace(address),
+        REFERENCES workplace(address)
 );
 CREATE TABLE process (
     ssn VARCHAR(255),

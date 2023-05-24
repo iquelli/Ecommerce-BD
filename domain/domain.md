@@ -107,10 +107,3 @@ Os empregados trabalham em departamentos e locais de trabalho, podendo estes úl
 
 Os empregados trabalham em departamentos e locais de trabalho, podendo estes últimos ser escritórios e/ou armazéns, espalhados de norte a sul do país.
 Todos os locais de trabalho têm um endereço e uma localização com coordenadas GPS conhecidas.
-
-# Doubts (probably Integrity Constraints)
-
-> "Devido a restrições de privacidade, os operadores do sistema não podem ver os nomes dos clientes."
-
-> "Cada fornecedor tem de ter um contrato para fornecer cada produto que fornce, estabelecido numa determinada data. No âmbito
-de cada contrato os produtos podem ser entregues em um ou mais armazéns espalhados pelo país."
