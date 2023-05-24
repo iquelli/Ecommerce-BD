@@ -34,7 +34,7 @@ CREATE TABLE customer (
     cust_no INT,
     name VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
-    phone VARCHAR(255),
+    phone NUMERIC(15),
     address VARCHAR(255),
     CONSTRAINT pk_customer PRIMARY KEY(cust_no)
 );
@@ -67,8 +67,8 @@ CREATE TABLE product (
     sku VARCHAR(255),
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    price DECIMAL(8,2) NOT NULL,
-    ean VARCHAR(255), -- TODO: não tenho a certeza se devíamos criar nova tabela para ean_product
+    price NUMERIC(18,2) NOT NULL,
+    ean VARCHAR(13), -- TODO: não tenho a certeza se devíamos criar nova tabela para ean_product
     CONSTRAINT pk_product PRIMARY KEY(sku)
     -- (IC-7): Any sku in product must exist in supplier.
 );
@@ -83,7 +83,7 @@ CREATE TABLE contains (
         REFERENCES product(sku)
 );
 CREATE TABLE supplier (
-    tin VARCHAR(255),
+    tin VARCHAR(20),
     name VARCHAR(255),
     address VARCHAR(255),
     sku VARCHAR(255) NOT NULL,
@@ -98,8 +98,8 @@ CREATE TABLE department (
 );
 CREATE TABLE workplace (
     address VARCHAR(255),
-    lat DECIMAL(9,6) NOT NULL,
-    long DECIMAL(9,6) NOT NULL,
+    lat NUMERIC(9,6) NOT NULL,
+    long NUMERIC(9,6) NOT NULL,
     UNIQUE(lat, long),
     CONSTRAINT pk_workplace PRIMARY KEY(address)
 );
@@ -112,7 +112,7 @@ CREATE TABLE warehouse (
 );
 CREATE TABLE delivery (
     address VARCHAR(255),
-    tin VARCHAR(255),
+    tin VARCHAR(20),
     CONSTRAINT pk_delivery PRIMARY KEY(address, tin),
     CONSTRAINT fk_delivery_warehouse FOREIGN KEY(address)
         REFERENCES warehouse(address),
@@ -127,15 +127,15 @@ CREATE TABLE office (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE employee (
-    ssn VARCHAR(255),
-    tin VARCHAR(255) NOT NULL UNIQUE,
+    ssn VARCHAR(20),
+    tin VARCHAR(20) NOT NULL UNIQUE,
     b_date DATE,
     name VARCHAR(255),
     CONSTRAINT pk_employee PRIMARY KEY(ssn)
     -- (IC-10): Any ssn in employee must exist in works.
 );
 CREATE TABLE works (
-    ssn VARCHAR(255),
+    ssn VARCHAR(20),
     name VARCHAR(255),
     address VARCHAR(255),
     CONSTRAINT pk_works PRIMARY KEY(ssn, name, address),
@@ -147,7 +147,7 @@ CREATE TABLE works (
         REFERENCES workplace(address)
 );
 CREATE TABLE process (
-    ssn VARCHAR(255),
+    ssn VARCHAR(20),
     package_no INT,
     CONSTRAINT pk_process PRIMARY KEY(ssn, package_no),
     CONSTRAINT fk_process_employee FOREIGN KEY(ssn)

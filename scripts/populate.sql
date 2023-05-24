@@ -12,15 +12,15 @@
 ---------------------
 INSERT INTO customer
 VALUES
-(1, 'Joaquim Souza', 'joaquim.souza@gmail.com', '+35191294337', 'Rua das Flores, 45, 6300-250, Guarda, Portugal'),
-(2, 'Jane Doe', 'jane.doe@hotmail.com', '+442012345678', 'Hensbury Street, 22, B74 5PQ, Birmingham, England'),
-(3, 'Hans Joanssen', 'hans_joanssen@gmail.com', '+45090695443', 'Nygade, 13, 1309, Aarhus, Denmark'),
-(4, 'Julia Teixeira', 'julia.teixeira@gmail.com', '+351966254228', 'Rua Alves Redol, 106, 2100-203, Lisboa, Portugal'),
-(5, 'Rui Pereira', 'rui.pereira@sapo.pt', '+351988899438', 'Rua do Sol, 157, 2100-322, Lisboa, Portugal'),
-(6, 'Siobhan Santos', 'siobhan.santos@gmail.com', '+351988899438', 'Rua do Ouro, 36, 2100-245, Lisboa, Portugal'),
-(8, 'João Silva', 'joao.silva@gmail.com', '+351988899438', 'Travessa da Amizade, 21, 5005-056, Porto, Portugal'),
-(9, 'Dinis Matos', 'dinis.matos@gmail.com', '+351988899438', 'Avenida Central, 122, 4715-075, Braga, Portugal'),
-(7, 'Victor Alejandro', 'victor.alejandro@gmail.com', '+351988899438', 'Avenida del Libertador, 55, 99-209-056, Santiago, Chile');
+(1, 'Joaquim Souza', 'joaquim.souza@gmail.com', 91294337, 'Rua das Flores, 45, 6300-250, Guarda, Portugal'),
+(2, 'Jane Doe', 'jane.doe@hotmail.com', 12345678, 'Hensbury Street, 22, B74 5PQ, Birmingham, England'),
+(3, 'Hans Joanssen', 'hans_joanssen@gmail.com', 90695443, 'Nygade, 13, 1309, Aarhus, Denmark'),
+(4, 'Julia Teixeira', 'julia.teixeira@gmail.com', 966254228, 'Rua Alves Redol, 106, 2100-203, Lisboa, Portugal'),
+(5, 'Rui Pereira', 'rui.pereira@sapo.pt', 988899438, 'Rua do Sol, 157, 2100-322, Lisboa, Portugal'),
+(6, 'Siobhan Santos', 'siobhan.santos@gmail.com', 988899438, 'Rua do Ouro, 36, 2100-245, Lisboa, Portugal'),
+(8, 'João Silva', 'joao.silva@gmail.com', 988899438, 'Travessa da Amizade, 21, 5005-056, Porto, Portugal'),
+(9, 'Dinis Matos', 'dinis.matos@gmail.com', 988899438, 'Avenida Central, 122, 4715-075, Braga, Portugal'),
+(7, 'Victor Alejandro', 'victor.alejandro@gmail.com', 988899438, 'Avenida del Libertador, 55, 99-209-056, Santiago, Chile');
 
 ---------------------
 -- package
