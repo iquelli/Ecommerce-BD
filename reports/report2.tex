@@ -133,7 +133,7 @@ literate=%
 
   \section*{Modelo Relacional}
 
-  Renomeámos a relação \texttt{order} para \texttt{package} na conversão para o modelo relacional, pois em \texttt{SQL} a palavra \texttt{order} é uma keyword protegida.
+  Renomeámos a relação \texttt{order} para \texttt{package} na conversão para o modelo relacional, pois em \texttt{PostgreSQL} a palavra \texttt{order} é uma keyword protegida.
   Mantivemos a numeração das \textit{Integrity Constraints} consoante as fornecidas no enunciado, iniciando a contagem a 6 para as \textit{ICs} adicionadas.
   A única \textit{IC} que não foi passível de converter para o modelo relacional foi a \textbf{(IC-1)}, sendo todas as outras convertidas através da propriedade \texttt{UNIQUE}.
 
@@ -196,7 +196,7 @@ literate=%
   \noindent
   supplier(\underline{tin}, name, address, sku, supply\_contract\_date)
   \begin{itemize}[nosep]
-      \item sku: FK(product)
+      \item sku: FK(product) NOT NULL
   \end{itemize}
 
   \vspace*{10pt}
@@ -281,7 +281,7 @@ literate=%
 
     \item \textbf{Indique o nome do produto mais vendido.}
 
-    Em caso de empate do produto mais vendido decidimos apresentar todos esses produtos.
+    Em caso de empate, apresentamos todos os produtos mais vendidos.
     \[
       \begin{aligned}
         & p \; \leftarrow \; _{\op{sku} \;} G _{\; \op{sum(qty)} \; \mapsto \; \op{p\_qty} \;}(\op{product} \bowtie \op{contains} \bowtie \op{sale}) \\
@@ -291,8 +291,8 @@ literate=%
 
     \item \textbf{Indique o valor total de cada venda realizada.}
 
-    Apresentámos com o valor total o correspondente \texttt{package\_no} da venda, pois para casos em que
-    há duas vendas com o mesmo valor total não seria possível distinguir esses valores.
+    Apresentámos junto do valor total o correspondente \texttt{package\_no} da venda, pois para casos em que
+    há duas vendas com o mesmo valor total não seria possível de as distinguir.
     \[
       \begin{aligned}
           & _{\op{package\_no} \;} G _{\; \op{sum}(\op{price} \; * \; \op{qty}) \; \mapsto \; \op{total\_val} \;}(\Pi _{ \; \op{package\_no}, \; \op{sku}, \; \op{price} \; * \; \op{qty} \;}(\op{sale} \bowtie \op{contains} \bowtie \op{product}))
