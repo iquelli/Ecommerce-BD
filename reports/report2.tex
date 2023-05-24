@@ -266,8 +266,8 @@ literate=%
     \item \textbf{Liste o nome de todos os clientes que fizeram encomendas contendo produtos de preço superior a 50\textmd{\texteuro} no ano de 2023.}
     \[
       \begin{aligned}
-        & c \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/12/31'} \;}(\op{costumer} \bowtie \op{package})\bowtie \op{contains} \\
-        & \Pi _{\; \op{costumer.name} \;}( \sigma _{\op{price} \; > \; \op{50} \;} (c \bowtie _{\; \op{contains.sku = product.sku}}\op{product}))
+        & c \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/12/31'} \;}(\op{customer} \bowtie \op{package})\bowtie \op{contains} \\
+        & \Pi _{\; \op{customer.name} \;}( \sigma _{\op{price} \; > \; \op{50} \;} (c \bowtie _{\; \op{contains.sku = product.sku}}\op{product}))
       \end{aligned}
     \]
 
@@ -284,7 +284,7 @@ literate=%
     Em caso de empate, apresentamos todos os produtos mais vendidos.
     \[
       \begin{aligned}
-        & p \; \leftarrow \; _{\op{sku} \;} G _{\; \op{sum(qty)} \; \mapsto \; \op{p\_qty} \;}(\op{product} \bowtie \op{contains} \bowtie \op{sale}) \\
+        & p \; \leftarrow \; _{\op{sku} \;} G _{\; \op{sum(qty)} \; \mapsto \; \op{p\_qty} \;}(\op{product} \bowtie \op{contains}) \\
         & \Pi _{\; \op{name} \;}(G _{\; \op{max(p\_qty)} \; \mapsto \; \op{p\_qty} \;}(p) \bowtie p \bowtie \op{product})
       \end{aligned}
     \]
