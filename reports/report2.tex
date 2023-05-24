@@ -20,14 +20,14 @@
     filecolor=magenta,
     urlcolor=blue,
     citecolor=blue,
-    pdftitle={Relatório BD - Parte 2 - 2022/2023},
+    pdftitle={Entrega 2 - Relatório BD 2022/2023 LEIC-A},
     pdfpagemode=FullScreen,
 }
 
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{Grupo \textbf{2}}
-\lhead{Relatório Parte 2 BD 2022/2023 LEIC-A}
+\lhead{Entrega 2 Relatório BD 2022/2023 LEIC-A}
 \cfoot{Gonçalo Bárias (103124), Raquel Braunschweig (102624) e Vasco Paisana (102533)}
 
 \renewcommand{\footrulewidth}{0.2pt}
@@ -99,203 +99,204 @@ literate=%
 }
 
 \begin{document}
-\begin{titlepage}
+  \begin{titlepage}
     \begin{center}
-        \vspace*{5cm}
+      \vspace*{5cm}
+      \Huge
+      \textbf{Projeto BD - Parte 2}
 
-        \Huge
-        \textbf{Projeto BD - Parte 2}
+      \vspace{0.5cm}
+      \LARGE
+      Grupo 002 | Turno L13 | LEIC-A
 
-        \vspace{0.5cm}
-        \LARGE
-        Grupo 002 | Turno L13 | LEIC-A
+      \vspace{0.5cm}
+      \large
+      Prof. Flávio Martins
 
-        \vspace{0.5cm}
-        \large
-        Prof. Flávio Martins
+      \vspace{0.5cm}
+      \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.5]{report_logo.png}
+      \end{figure}
 
-        \vspace{0.5cm}
-        \begin{figure}[h]
-            \centering
-            \includegraphics[scale=0.5]{report_logo.png}
-        \end{figure}
-
-        \vfill
-
-        \large
-        \begin{minipage}{0.8\textwidth}
-            \begin{itemize}
-                \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - ?h
-                \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - ?h
-                \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - ?h
-            \end{itemize}
-        \end{minipage}
+      \vfill
+      \large
+      \begin{minipage}{0.8\textwidth}
+        \begin{itemize}
+          \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - 12h
+          \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - 12h
+          \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - 12h
+        \end{itemize}
+      \end{minipage}
     \end{center}
-\end{titlepage}
+  \end{titlepage}
 
-\section*{Modelo Relacional}
+  \section*{Modelo Relacional}
 
-\ttfamily
+  Renomeámos a relação \texttt{order} para \texttt{package} na conversão para o modelo relacional, pois em \texttt{SQL} a palavra \texttt{order} é uma keyword protegida.
+  Mantivemos a numeração das \textit{Integrity Constraints} consoante as fornecidas no enunciado, iniciando a contagem a 6 para as \textit{ICs} adicionadas.
+  A única \textit{IC} que não foi passível de converter para o modelo relacional foi a \textbf{(IC-1)}, sendo todas as outras convertidas através da propriedade \texttt{UNIQUE}.
 
-\vspace*{10pt}
-\noindent
-customer(\underline{cust\_no}, name, email, phone, address)
-\begin{itemize}[nosep]
-    \item UNIQUE(email)
-\end{itemize}
+  \ttfamily
+  \vspace*{10pt}
+  \noindent
+  customer(\underline{cust\_no}, name, email, phone, address)
+  \begin{itemize}[nosep]
+      \item UNIQUE(email)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-package(\underline{package\_no}, date, cust\_no)
-\begin{itemize}[nosep]
-    \item cust\_no: FK(customer) NOT NULL
-    \item \textsf{\textbf{(IC-6)}} any package\_no in package \textsf{must exist} in contains
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  package(\underline{package\_no}, date, cust\_no)
+  \begin{itemize}[nosep]
+      \item cust\_no: FK(customer) NOT NULL
+      \item \textsf{\textbf{(IC-6)}}: any package\_no in package \textsf{must exist} in contains
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-sale(\underline{package\_no})
-\begin{itemize}[nosep]
-    \item package\_no: FK(package)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  sale(\underline{package\_no})
+  \begin{itemize}[nosep]
+      \item package\_no: FK(package)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-pay(\underline{package\_no}, cust\_no)
-\begin{itemize}[nosep]
-    \item package\_no: FK(sale)
-    \item cust\_no: FK(customer) NOT NULL
-    \item \textsf{\textbf{(IC-1)}} cust\_no \textsf{must exist} in the package identified by package\_no
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  pay(\underline{package\_no}, cust\_no)
+  \begin{itemize}[nosep]
+      \item package\_no: FK(sale)
+      \item cust\_no: FK(customer) NOT NULL
+      \item \textsf{\textbf{(IC-1)}}: cust\_no \textsf{must exist} in the package identified by package\_no
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-product(\underline{sku}, name, description, price)
-\begin{itemize}[nosep]
-    \item \textsf{\textbf{(IC-7)}} any sku in product \textsf{must exist} in supplier
-    \item \textsf{\textbf{(IC-8)}} when a product \textsf{is removed} from the database it \textsf{must also}\\
-          be removed from ean\_product if present
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  product(\underline{sku}, name, description, price)
+  \begin{itemize}[nosep]
+      \item \textsf{\textbf{(IC-7)}}: any sku in product \textsf{must exist} in supplier
+      \item \textsf{\textbf{(IC-8)}}: when a product \textsf{is removed} from the database it \textsf{must also} be removed from ean\_product if present
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-ean\_product(\underline{sku}, ean)
-\begin{itemize}[nosep]
-    \item sku: FK(product)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  ean\_product(\underline{sku}, ean)
+  \begin{itemize}[nosep]
+      \item sku: FK(product)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-contains(\underline{package\_no},\underline{sku}, qty)
-\begin{itemize}[nosep]
-    \item package\_no: FK(package)
-    \item sku: FK(product)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  contains(\underline{package\_no},\underline{sku}, qty)
+  \begin{itemize}[nosep]
+      \item package\_no: FK(package)
+      \item sku: FK(product)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-supplier(\underline{tin}, name, address, sku, supply\_contract\_date)
-\begin{itemize}[nosep]
-    \item sku: FK(product)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  supplier(\underline{tin}, name, address, sku, supply\_contract\_date)
+  \begin{itemize}[nosep]
+      \item sku: FK(product)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-department(\underline{name})
+  \vspace*{10pt}
+  \noindent
+  department(\underline{name})
 
-\vspace*{10pt}
-\noindent
-workplace(\underline{address}, lat, long)
-\begin{itemize}[nosep]
-    \item UNIQUE(lat, long)
-    \item \textsf{\textbf{(IC-9)}} when a workplace \textsf{is removed} from the database it \textsf{must also}\\
-          be removed from warehouse \textsf{and\_or} office if present
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  workplace(\underline{address}, lat, long)
+  \begin{itemize}[nosep]
+      \item UNIQUE(lat, long)
+      \item \textsf{\textbf{(IC-9)}}: when a workplace \textsf{is removed} from the database it \textsf{must also} be removed from warehouse \textsf{and/or} office if present
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-warehouse(\underline{address})
-\begin{itemize}[nosep]
-    \item address: FK(workplace)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  warehouse(\underline{address})
+  \begin{itemize}[nosep]
+      \item address: FK(workplace)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-delivery(\underline{address}, \underline{tin})
-\begin{itemize}[nosep]
-    \item address: FK(warehouse)
-    \item tin: FK(supplier)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  delivery(\underline{address}, \underline{tin})
+  \begin{itemize}[nosep]
+      \item address: FK(warehouse)
+      \item tin: FK(supplier)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-office(\underline{address})
-\begin{itemize}[nosep]
-    \item address: FK(workplace)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  office(\underline{address})
+  \begin{itemize}[nosep]
+      \item address: FK(workplace)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-employee(\underline{ssn}, tin, b\_date, name)
-\begin{itemize}[nosep]
-    \item UNIQUE(tin)
-    \item \textsf{\textbf{(IC-10)}} any ssn in employee \textsf{must exist} in works
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  employee(\underline{ssn}, tin, b\_date, name)
+  \begin{itemize}[nosep]
+      \item UNIQUE(tin)
+      \item \textsf{\textbf{(IC-10)}}: any ssn in employee \textsf{must exist} in works
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-works(\underline{ssn}, \underline{name}, \underline{address})
-\begin{itemize}[nosep]
-    \item ssn: FK(employee)
-    \item name: FK(department)
-    \item address: FK(workplace)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  works(\underline{ssn}, \underline{name}, \underline{address})
+  \begin{itemize}[nosep]
+      \item ssn: FK(employee)
+      \item name: FK(department)
+      \item address: FK(workplace)
+  \end{itemize}
 
-\vspace*{10pt}
-\noindent
-process(\underline{ssn}, \underline{package\_no})
-\begin{itemize}[nosep]
-    \item ssn: FK(employee)
-    \item package\_no: FK(package)
-\end{itemize}
+  \vspace*{10pt}
+  \noindent
+  process(\underline{ssn}, \underline{package\_no})
+  \begin{itemize}[nosep]
+      \item ssn: FK(employee)
+      \item package\_no: FK(package)
+  \end{itemize}
+  \sffamily
 
-\vspace*{15pt}
+  \section*{Álgebra Relacional}
 
-\section*{Álgebra Relacional e SQL}
-
-\begin{enumerate}
-
-    \item \textbf{Liste o nome de todos os clientes que fizeram encomendas contendo produtos de\\
-              preço superior a 50 € no ano de 2023.}
-          \[
-              \begin{aligned}
-                    & c \leftarrow \sigma_{\op{date}\geq'\text{2023/01/01}'~\land~\op{date} \leq '\text{2023/12/31}'}(\op{costumer} \bowtie \op{package})\bowtie \op{contains} \\
-                    & \pi _{\op{costumer.name}}( \sigma _{\op{price} > \op{50}} (\op{c} \bowtie _{\op{contains.sku = product.sku}}\op{product}))
-              \end{aligned}
-          \]
+  \vspace*{10pt}
+  \begin{enumerate}
+    \item \textbf{Liste o nome de todos os clientes que fizeram encomendas contendo produtos de preço superior a 50\textmd{\texteuro} no ano de 2023.}
+    \[
+      \begin{aligned}
+        & c \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/12/31'} \;}(\op{costumer} \bowtie \op{package})\bowtie \op{contains} \\
+        & \Pi _{\; \op{costumer.name} \;}( \sigma _{\op{price} \; > \; \op{50} \;} (c \bowtie _{\; \op{contains.sku = product.sku}}\op{product}))
+      \end{aligned}
+    \]
 
     \item \textbf{Liste o nome de todos os empregados que trabalham em armazéns e não em escritórios e processaram encomendas em Janeiro de 2023.}
-          \[
-              \begin{aligned}
-                   & e \leftarrow \sigma_{\op{date}\geq'\text{2023/01/01}'~\land~\op{date} \leq '\text{2023/01/31}'}(\op{employee} \bowtie \op{process} \bowtie \op{package}) \bowtie _{\op{employee.ssn = works.ssn}} \op{works} \\
-                   & \pi _{\op{employee.name}}((\op{e} \bowtie \op{warehouse}) - (\op{e} \bowtie \op{office}))
-              \end{aligned}
-          \]
+    \[
+      \begin{aligned}
+        & e \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/01/31'} \;}(\op{employee} \bowtie \op{process} \bowtie \op{package}) \bowtie _{\; \op{employee.ssn = works.ssn}} \op{works} \\
+        & \Pi _{\; \op{employee.name} \;}((e \bowtie \op{warehouse}) - (e \bowtie \op{office}))
+      \end{aligned}
+    \]
 
     \item \textbf{Indique o nome do produto mais vendido.}
-          \[
-              \begin{aligned}
-                   & p \leftarrow _{\op{sku}}G_{\op{sum(qty)}\mapsto \op{p\_qty}}(\op{product} \bowtie \op{contains} \bowtie \op{sale}) \\
-                   & \pi _{\op{name}}(G_{\op{max(p\_qty)}\mapsto\op{p\_qty}}(\op{p}) \bowtie \op{p} \bowtie \op{product})
-              \end{aligned}
-          \]
 
-    \item \textbf{Indique o nome do produto mais vendido.}
-          \[
-              \begin{aligned}
-                   & _{\op{package\_no}} G _{\op{sum(price * qty)}\mapsto \op{total\_val}}(\pi_{\op{package\_no, sku, price * qty}}(\op{sale} \bowtie \op{contains} \bowtie \op{product}))
-              \end{aligned}
-          \]
+    Em caso de empate do produto mais vendido decidimos apresentar todos esses produtos.
+    \[
+      \begin{aligned}
+        & p \; \leftarrow \; _{\op{sku} \;} G _{\; \op{sum(qty)} \; \mapsto \; \op{p\_qty} \;}(\op{product} \bowtie \op{contains} \bowtie \op{sale}) \\
+        & \Pi _{\; \op{name} \;}(G _{\; \op{max(p\_qty)} \; \mapsto \; \op{p\_qty} \;}(p) \bowtie p \bowtie \op{product})
+      \end{aligned}
+    \]
 
-\end{enumerate}
+    \item \textbf{Indique o valor total de cada venda realizada.}
+
+    Apresentámos com o valor total o correspondente \texttt{package\_no} da venda, pois para casos em que
+    há duas vendas com o mesmo valor total não seria possível distinguir esses valores.
+    \[
+      \begin{aligned}
+          & _{\op{package\_no} \;} G _{\; \op{sum}(\op{price} \; * \; \op{qty}) \; \mapsto \; \op{total\_val} \;}(\Pi _{ \; \op{package\_no}, \; \op{sku}, \; \op{price} \; * \; \op{qty} \;}(\op{sale} \bowtie \op{contains} \bowtie \op{product}))
+      \end{aligned}
+    \]
+  \end{enumerate}
 \end{document}
