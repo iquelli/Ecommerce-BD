@@ -2,13 +2,13 @@
 
 __1. Liste o nome de todos os clientes que fizeram encomendas contendo produtos de preço superior a 50 € no ano de 2023.__
 
-$c \\; \leftarrow \\; \sigma_{ \\; date \\; \geq \\; \text{'2023/01/01'} \\; \wedge \\; date \\; \leq \\; \text{'2023/12/31'} \\;}(customer \bowtie package) \bowtie contains$
+$c \\; \leftarrow \\; \sigma_{ \\; date \\; \geq \\; \text{'2023/01/01'} \\; \wedge \\; date \\; \leq \\; \text{'2023/12/31'} \\;}(package) \bowtie customer \bowtie  contains$
 
 $\Pi_{ \\; customer.name \\;}(\sigma_{ \\; price \\; > \\; 50 \\;}(c \bowtie_{ \\; contains.sku \\; = \\; product.sku} product))$
 
 __2. Liste o nome de todos os empregados que trabalham em armazéns e não em escritórios e processaram encomendas em Janeiro de 2023.__
 
-$e \\; \leftarrow \\; \sigma_{ \\; date \\; \geq \\; \text{'2023/01/01'} \\; \wedge \\; date \\; \leq \\; \text{'2023/01/31'} \\;}(employee \bowtie process \bowtie package) \bowtie_{ \\; employee.ssn \\; = \\; works.ssn} works$
+$e \\; \leftarrow \\; \sigma_{ \\; date \\; \geq \\; \text{'2023/01/01'} \\; \wedge \\; date \\; \leq \\; \text{'2023/01/31'} \\;}(package) \bowtie process \bowtie employee \bowtie_{ \\; employee.ssn \\; = \\; works.ssn} works$
 
 $\Pi_{\\; employee.name \\;}((e \bowtie warehouse) - (e \bowtie office))$
 

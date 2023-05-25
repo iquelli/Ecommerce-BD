@@ -266,7 +266,7 @@ literate=%
     \item \textbf{Liste o nome de todos os clientes que fizeram encomendas contendo produtos de preço superior a 50\textmd{\texteuro} no ano de 2023.}
     \[
       \begin{aligned}
-        & c \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/12/31'} \;}(\op{customer} \bowtie \op{package})\bowtie \op{contains} \\
+        & c \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/12/31'} \;}(\op{package}) \bowtie \op{customer} \bowtie \op{contains} \\
         & \Pi _{\; \op{customer.name} \;}( \sigma _{\op{price} \; > \; \op{50} \;} (c \bowtie _{\; \op{contains.sku = product.sku}}\op{product}))
       \end{aligned}
     \]
@@ -274,7 +274,7 @@ literate=%
     \item \textbf{Liste o nome de todos os empregados que trabalham em armazéns e não em escritórios e processaram encomendas em Janeiro de 2023.}
     \[
       \begin{aligned}
-        & e \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/01/31'} \;}(\op{employee} \bowtie \op{process} \bowtie \op{package}) \bowtie _{\; \op{employee.ssn = works.ssn}} \op{works} \\
+        & e \; \leftarrow \; \sigma_{\op{date} \; \geq \; \text{'2023/01/01'} ~\land~ \op{date} \; \leq \; \text{'2023/01/31'} \;}(\op{package}) \bowtie \op{process} \bowtie \op{employee} \bowtie _{\; \op{employee.ssn = works.ssn}} \op{works} \\
         & \Pi _{\; \op{employee.name} \;}((e \bowtie \op{warehouse}) - (e \bowtie \op{office}))
       \end{aligned}
     \]
