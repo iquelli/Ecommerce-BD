@@ -40,12 +40,12 @@ CREATE TABLE customer (
 );
 CREATE TABLE package (
     package_no INT,
-    date DATE NOT NULL,
+    package_date DATE NOT NULL,
     cust_no INT NOT NULL,
     CONSTRAINT pk_package PRIMARY KEY(package_no),
     CONSTRAINT fk_package_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
-    -- (IC-6): Any package_no in package must exist in contains.
+    -- (IC-6): any package_no in package must exist in contains
 );
 CREATE TABLE sale (
     package_no INT,
@@ -61,16 +61,16 @@ CREATE TABLE pay (
         REFERENCES sale(package_no),
     CONSTRAINT fk_pay_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
-    -- (IC-1): cust_no must exist in the package identified by package_no.
+    -- (IC-1): cust_no must exist in the package identified by package_no
 );
 CREATE TABLE product (
     sku VARCHAR(255),
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price NUMERIC(18,2) NOT NULL,
-    ean VARCHAR(13), -- TODO: não tenho a certeza se devíamos criar nova tabela para ean_product
+    ean VARCHAR(13),
     CONSTRAINT pk_product PRIMARY KEY(sku)
-    -- (IC-7): Any sku in product must exist in supplier.
+    -- (IC-7): any sku in product must exist in supplier
 );
 CREATE TABLE contains (
     package_no INT,
@@ -129,10 +129,10 @@ CREATE TABLE office (
 CREATE TABLE employee (
     ssn VARCHAR(20),
     tin VARCHAR(20) NOT NULL UNIQUE,
-    b_date DATE,
+    birth_date DATE,
     name VARCHAR(255),
     CONSTRAINT pk_employee PRIMARY KEY(ssn)
-    -- (IC-10): Any ssn in employee must exist in works.
+    -- (IC-10): any ssn in employee must exist in works
 );
 CREATE TABLE works (
     ssn VARCHAR(20),

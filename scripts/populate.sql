@@ -15,10 +15,10 @@ VALUES
 (1, 'Joaquim Souza', 'joaquim.souza@gmail.com', 91294337, 'Rua das Flores, 45, 6300-250, Guarda, Portugal'),
 (2, 'Jane Doe', 'jane.doe@hotmail.com', 12345678, 'Hensbury Street, 22, B74 5PQ, Birmingham, England'),
 (3, 'Hans Joanssen', 'hans_joanssen@gmail.com', 90695443, 'Nygade, 13, 1309, Aarhus, Denmark'),
-(4, 'Julia Teixeira', 'julia.teixeira@gmail.com', 966254228, 'Rua Alves Redol, 106, 2100-203, Lisboa, Portugal'),
-(5, 'Rui Pereira', 'rui.pereira@sapo.pt', 988899438, 'Rua do Sol, 157, 2100-322, Lisboa, Portugal'),
+(4, 'Julia Teixeira', 'julia.teixeira@gmail.com', 956254228, 'Rua Alves Redol, 106, 2100-203, Lisboa, Portugal'),
+(5, 'Rui Pereira', 'rui.pereira@sapo.pt', 88899438, 'Rua do Sol, 157, 2100-322, Lisboa, Portugal'),
 (6, 'Siobhan Santos', 'siobhan.santos@gmail.com', 988899438, 'Rua do Ouro, 36, 2100-245, Lisboa, Portugal'),
-(8, 'João Silva', 'joao.silva@gmail.com', 988899438, 'Travessa da Amizade, 21, 5005-056, Porto, Portugal'),
+(8, 'João Silva', 'joao.silva@gmail.com', 78899438, 'Travessa da Amizade, 21, 5005-056, Porto, Portugal'),
 (9, 'Dinis Matos', 'dinis.matos@gmail.com', 988899438, 'Avenida Central, 122, 4715-075, Braga, Portugal'),
 (7, 'Victor Alejandro', 'victor.alejandro@gmail.com', 988899438, 'Avenida del Libertador, 55, 99-209-056, Santiago, Chile');
 
@@ -87,23 +87,30 @@ VALUES
 ---------------------
 -- Product
 ---------------------
-INSERT INTO product
+INSERT INTO product(sku, name, description, price)
 VALUES
-('A1B2C3D4', 'Smartphone', 'Powerful smartphone with advanced features', 599.99, '1234567890123'),
-('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', 999.99, NULL),
-('I9J0K1L2', 'Headphones', 'High-quality headphones for immersive audio experience', 149.99, '3456789012345'),
-('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', 199.99, NULL),
-('Q7R8S9T0', 'Bluetooth Speaker', 'Portable speaker with wireless connectivity', 79.99, '5678901234567'),
+('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', 999.99),
+('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', 199.99),
+('C9D0E1F2', 'Gaming Mouse', 'Precision gaming mouse with customizable settings', 69.99),
+('G3H4I5J6', 'Smart TV', 'Ultra-HD smart TV with built-in streaming apps', 799.99),
+('P1Q2R3S4', 'Wireless Keyboard', 'Slim and ergonomic wireless keyboard', 89.99),
+('B3C4D5E6', 'Printers', 'Fast and reliable printers for home or office use', 129.99),
+('A1B2C3D4', 'Smartphone', 'Powerful smartphone with advanced features', 599.99),
+('I9J0K1L2', 'Headphones', 'High-quality headphones for immersive audio experience', 149.99),
+('Q7R8S9T0', 'Bluetooth Speaker', 'Portable speaker with wireless connectivity', 79.99),
+('F7G8H9I0', 'Gaming Chair', 'A comfortable chair to sit on while gaming', 2001.99);
+
+---------------------
+-- EAN Product
+---------------------
+INSERT INTO product(sku, name, description, price, ean)
+VALUES
 ('U1V2W3X4', 'Wireless Earbuds', 'True wireless earbuds with noise cancellation', 129.99, '6789012345678'),
+('J5K6L7M8', 'Wireless Earbuds', 'Long battery standing brand new wireless earbuds', 109.99, '0706092335134'),
 ('Y5Z6A7B8', 'Tablet', 'Versatile tablet for work and entertainment', 299.99, '7890123456789'),
-('C9D0E1F2', 'Gaming Mouse', 'Precision gaming mouse with customizable settings', 69.99, NULL),
-('G3H4I5J6', 'Smart TV', 'Ultra-HD smart TV with built-in streaming apps', 799.99, NULL),
 ('K7L8M9N0', 'Fitness Tracker', 'Activity tracker for monitoring health and fitness', 49.99, '0123456789012'),
-('P1Q2R3S4', 'Wireless Keyboard', 'Slim and ergonomic wireless keyboard', 89.99, NULL),
 ('T5U6V7W8', 'Camera', 'High-resolution camera for capturing memorable moments', 399.99, '2345678901234'),
-('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', 149.99,'3456789012345'),
-('B3C4D5E6', 'Printers', 'Fast and reliable printers for home or office use', 129.99, NULL),
-('F7G8H9I0', 'Wireless Router', 'High-speed wireless router for seamless internet connectivity', 79.99, NULL);
+('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', 149.99,'3456789012345');
 
 ---------------------
 -- Contains
@@ -160,7 +167,8 @@ VALUES
 ('452187396', 'Connectech', 'Gran Via de les Corts Catalanes, 789, 08015, Barcelona, Spain', 'T5U6V7W8', '2022/12/01'),
 ('197864325', 'Dutch Electronics', 'Kalverstraat, 123, 1012 NX, Amsterdam, Netherlands', 'X9Y0Z1A2', '2022/12/15'),
 ('526493178', 'Tech Empire', 'Karntner Strasse, 456, 1010, Vienna, Austria', 'B3C4D5E6', '2022/12/28'),
-('318274965', 'Porto Tech', 'Rua do Carmo, 789, 4050-164, Porto, Portugal', 'F7G8H9I0', '2022/12/31');
+('318274965', 'Porto Tech', 'Rua do Carmo, 789, 4050-164, Porto, Portugal', 'F7G8H9I0', '2022/12/31'),
+('123456788', 'Global Solutions', 'Avenida da Liberdade, 123, 1000-200, Lisbon, Portugal', 'J5K6L7M8', '2023/09/30');
 
 ---------------------
 -- Department

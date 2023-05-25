@@ -284,7 +284,7 @@ literate=%
     Em caso de empate, apresentamos todos os produtos mais vendidos.
     \[
       \begin{aligned}
-        & p \; \leftarrow \; _{\op{sku} \;} G _{\; \op{sum(qty)} \; \mapsto \; \op{p\_qty} \;}(\op{product} \bowtie \op{contains}) \\
+        & p \; \leftarrow \; _{\op{sku} \;} G _{\; \op{sum(qty)} \; \mapsto \; \op{p\_qty} \;}(\op{contains}) \\
         & \Pi _{\; \op{name} \;}(G _{\; \op{max(p\_qty)} \; \mapsto \; \op{p\_qty} \;}(p) \bowtie p \bowtie \op{product})
       \end{aligned}
     \]

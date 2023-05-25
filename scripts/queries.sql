@@ -13,41 +13,38 @@ SELECT DISTINCT customer.name
 FROM customer
     NATURAL JOIN package
     NATURAL JOIN contains
-    INNER JOIN product ON contains.sku = product.sku
-WHERE date >= '2023/01/01'
-    AND date <= '2023/12/31'
+    INNER JOIN product USING (sku)
+WHERE EXTRACT(YEAR FROM package_date)=2023
     AND price > 50;
 
 -- (2): List the names of all the employees who work in warehouses and not in offices and processed packages in January 2023.
-(SELECT DISTINCT employee.name
+SELECT DISTINCT employee.name
 FROM employee
     NATURAL JOIN process
     NATURAL JOIN package
-    NATURAL JOIN works
+    INNER JOIN works USING (ssn)
     NATURAL JOIN warehouse
-WHERE date >= '2023/01/01'
-    AND date <= '2023/01/31'
-)
+WHERE EXTRACT(YEAR FROM package_date)=2023
+    AND EXTRACT(MONTH FROM package_date)=1
 EXCEPT
-(SELECT employee.name
+SELECT employee.name
 FROM employee
-    NATURAL JOIN works
-    NATURAL JOIN office
-);
+    INNER JOIN works USING (ssn)
+    NATURAL JOIN office;
 
 -- (3): Indicate the name of the best selling product.
 SELECT DISTINCT name
-FROM product
-    NATURAL JOIN contains
-    NATURAL JOIN sale
-GROUP BY sku
+FROM contains
+    NATURAL JOIN product
+GROUP BY name, sku
 HAVING SUM(qty) >= ALL (
-    SELECT SUM(qty) FROM contains
+    SELECT SUM(qty)
+    FROM contains
     GROUP BY sku
 );
 
 -- (4): Indicate the total amount each sale made.
-SELECT package_no, SUM(product.price * contains.qty) AS total_val
+SELECT package_no, SUM(price * qty) AS total_val
 FROM product
     NATURAL JOIN contains
     NATURAL JOIN sale
