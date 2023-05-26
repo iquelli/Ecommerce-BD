@@ -98,7 +98,7 @@ CREATE TABLE department (
 );
 CREATE TABLE workplace (
     address VARCHAR(255),
-    lat NUMERIC(9,6) NOT NULL,
+    lat NUMERIC(8,6) NOT NULL,
     long NUMERIC(9,6) NOT NULL,
     UNIQUE(lat, long),
     CONSTRAINT pk_workplace PRIMARY KEY(address)

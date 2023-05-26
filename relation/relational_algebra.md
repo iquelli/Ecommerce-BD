@@ -15,7 +15,7 @@ $\Pi_{\\; employee.name \\;}((e \bowtie warehouse) - (e \bowtie office))$
 
 __3. Indique o nome do produto mais vendido.__
 
-$p \\; \leftarrow {}\_{sku \\; } G_{\\; sum(qty) \\; \mapsto \\; p \textunderscore qty \\;}(contains)$
+$p \\; \leftarrow {}\_{sku \\; } G_{\\; sum(qty) \\; \mapsto \\; p \textunderscore qty \\;}(contains \bowtie sale)$
 
 $\Pi_{\\; name \\;}(G_{\\; max(p \textunderscore qty) \\; \mapsto \\; p \textunderscore qty \\;}(p) \bowtie p \bowtie product)$
 

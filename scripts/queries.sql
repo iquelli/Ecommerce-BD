@@ -18,7 +18,7 @@ WHERE EXTRACT(YEAR FROM package_date)=2023
     AND price > 50;
 
 -- (2): List the names of all the employees who work in warehouses and not in offices and processed packages in January 2023.
-SELECT DISTINCT employee.name
+SELECT employee.name
 FROM employee
     NATURAL JOIN process
     NATURAL JOIN package
@@ -35,11 +35,13 @@ FROM employee
 -- (3): Indicate the name of the best selling product.
 SELECT DISTINCT name
 FROM contains
+    NATURAL JOIN sale
     NATURAL JOIN product
-GROUP BY name, sku
+GROUP BY sku, name
 HAVING SUM(qty) >= ALL (
     SELECT SUM(qty)
     FROM contains
+        NATURAL JOIN sale
     GROUP BY sku
 );
 
