@@ -133,12 +133,7 @@ literate=%
 
   \section*{Modelo Relacional}
 
-  Renomeámos a relação \texttt{order} para \texttt{package} na conversão para o modelo relacional, pois em \texttt{PostgreSQL} a palavra \texttt{order} é uma keyword protegida.
-  Mantivemos a numeração das \textit{Integrity Constraints} consoante as fornecidas no enunciado, iniciando a contagem a 6 para as \textit{ICs} adicionadas.
-  A única \textit{IC} que não foi passível de converter para o modelo relacional foi a \textbf{(IC-1)}, sendo todas as outras convertidas através da propriedade \texttt{UNIQUE}.
-
   \ttfamily
-  \vspace*{10pt}
   \noindent
   customer(\underline{cust\_no}, name, email, phone, address)
   \begin{itemize}[nosep]
@@ -151,6 +146,7 @@ literate=%
   \begin{itemize}[nosep]
       \item cust\_no: FK(customer) NOT NULL
       \item \textsf{\textbf{(IC-6)}}: any package\_no in package \textsf{must exist} in contains
+      \item \textsf{\textbf{(IC-7)}}: when a package \textsf{is removed} from the database it \textsf{must also} be removed from sale if present
   \end{itemize}
 
   \vspace*{10pt}
@@ -173,8 +169,8 @@ literate=%
   \noindent
   product(\underline{sku}, name, description, price)
   \begin{itemize}[nosep]
-      \item \textsf{\textbf{(IC-7)}}: any sku in product \textsf{must exist} in supplier
-      \item \textsf{\textbf{(IC-8)}}: when a product \textsf{is removed} from the database it \textsf{must also} be removed from ean\_product if present
+      \item \textsf{\textbf{(IC-8)}}: any sku in product \textsf{must exist} in supplier
+      \item \textsf{\textbf{(IC-9)}}: when a product \textsf{is removed} from the database it \textsf{must also} be removed from ean\_product if present
   \end{itemize}
 
   \vspace*{10pt}
@@ -208,7 +204,7 @@ literate=%
   workplace(\underline{address}, lat, long)
   \begin{itemize}[nosep]
       \item UNIQUE(lat, long)
-      \item \textsf{\textbf{(IC-9)}}: when a workplace \textsf{is removed} from the database it \textsf{must also} be removed from warehouse \textsf{and/or} office if present
+      \item \textsf{\textbf{(IC-10)}}: when a workplace \textsf{is removed} from the database it \textsf{must also} be removed from warehouse \textsf{and/or} office if present
   \end{itemize}
 
   \vspace*{10pt}
@@ -238,7 +234,7 @@ literate=%
   employee(\underline{ssn}, tin, b\_date, name)
   \begin{itemize}[nosep]
       \item UNIQUE(tin)
-      \item \textsf{\textbf{(IC-10)}}: any ssn in employee \textsf{must exist} in works
+      \item \textsf{\textbf{(IC-11)}}: any ssn in employee \textsf{must exist} in works
   \end{itemize}
 
   \vspace*{10pt}
@@ -259,9 +255,14 @@ literate=%
   \end{itemize}
   \sffamily
 
+  \vspace*{10pt}
+  \noindent
+  Renomeámos a relação \texttt{order} para \texttt{package} na conversão para o modelo relacional, pois em \texttt{PostgreSQL} a palavra \texttt{order} é uma keyword protegida.
+  Mantivemos a numeração das \textit{Integrity Constraints} consoante as fornecidas no enunciado, iniciando a contagem a 6 para as \textit{ICs} adicionadas.
+  A única \textit{IC} que não foi passível de converter para o modelo relacional foi a \textbf{(IC-1)}, sendo todas as outras convertidas através da propriedade \texttt{UNIQUE}.
+
   \section*{Álgebra Relacional}
 
-  \vspace*{10pt}
   \begin{enumerate}
     \item \textbf{Liste o nome de todos os clientes que fizeram encomendas contendo produtos de preço superior a 50\textmd{\texteuro} no ano de 2023.}
     \[

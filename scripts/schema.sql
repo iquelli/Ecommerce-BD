@@ -52,6 +52,7 @@ CREATE TABLE sale (
     CONSTRAINT pk_sale PRIMARY KEY(package_no),
     CONSTRAINT fk_sale_package FOREIGN KEY(package_no)
         REFERENCES package(package_no)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE pay (
     package_no INT,
@@ -70,7 +71,7 @@ CREATE TABLE product (
     price NUMERIC(18,2) NOT NULL,
     ean VARCHAR(13),
     CONSTRAINT pk_product PRIMARY KEY(sku)
-    -- (IC-7): any sku in product must exist in supplier
+    -- (IC-8): any sku in product must exist in supplier
 );
 CREATE TABLE contains (
     package_no INT,
@@ -132,7 +133,7 @@ CREATE TABLE employee (
     birth_date DATE,
     name VARCHAR(255),
     CONSTRAINT pk_employee PRIMARY KEY(ssn)
-    -- (IC-10): any ssn in employee must exist in works
+    -- (IC-11): any ssn in employee must exist in works
 );
 CREATE TABLE works (
     ssn VARCHAR(20),

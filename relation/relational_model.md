@@ -6,6 +6,7 @@
 - package(<ins>package_no</ins>, date, cust_no)
     - cust_no: FK(customer) NOT NULL
     - **(IC-6)**: Any package_no in package must exist in contains.
+    - **(IC-7)**: When a package is removed from the database it must also be removed from sale if present.
 
 - sale(<ins>package_no</ins>)
     - package_no: FK(package)
@@ -16,8 +17,8 @@
     - **(IC-1)**: cust_no must exist in the package identified by package_no.
 
 - product(<ins>sku</ins>, name, description, price)
-    - **(IC-7)**: Any sku in product must exist in supplier.
-    - **(IC-8)**: When a product is removed from the database it must also be removed from ean_product if present.
+    - **(IC-8)**: Any sku in product must exist in supplier.
+    - **(IC-9)**: When a product is removed from the database it must also be removed from ean_product if present.
 
 - ean_product(<ins>sku</ins>, ean)
     - sku: FK(product)
@@ -33,7 +34,7 @@
 
 - workplace(<ins>address</ins>, lat, long)
     - UNIQUE(lat, long)
-    - **(IC-9)**: When a workplace is removed from the database it must also be removed from warehouse and/or office if present.
+    - **(IC-10)**: When a workplace is removed from the database it must also be removed from warehouse and/or office if present.
 
 - warehouse(<ins>address</ins>)
     - address: FK(workplace)
@@ -47,7 +48,7 @@
 
 - employee(<ins>ssn</ins>, tin, b_date, name)
     - UNIQUE(tin)
-    - **(IC-10)**: Any ssn in employee must exist in works.
+    - **(IC-11)**: Any ssn in employee must exist in works.
 
 - works(<ins>ssn</ins>, <ins>name</ins>, <ins>address</ins>)
     - ssn: FK(employee)
