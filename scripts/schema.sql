@@ -40,7 +40,7 @@ CREATE TABLE customer (
 );
 CREATE TABLE package (
     package_no INT,
-    package_date DATE NOT NULL,
+    date DATE NOT NULL,
     cust_no INT NOT NULL,
     CONSTRAINT pk_package PRIMARY KEY(package_no),
     CONSTRAINT fk_package_customer FOREIGN KEY(cust_no)
@@ -88,7 +88,7 @@ CREATE TABLE supplier (
     name VARCHAR(255),
     address VARCHAR(255),
     sku VARCHAR(255) NOT NULL,
-    supply_contract_date DATE NOT NULL,
+    date DATE NOT NULL,
     CONSTRAINT pk_supplier PRIMARY KEY(tin),
     CONSTRAINT fk_supplier_product FOREIGN KEY(sku)
         REFERENCES product(sku)

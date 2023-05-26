@@ -14,7 +14,7 @@ FROM customer
     NATURAL JOIN package
     NATURAL JOIN contains
     INNER JOIN product USING (sku)
-WHERE EXTRACT(YEAR FROM package_date)=2023
+WHERE EXTRACT(YEAR FROM package.date)=2023
     AND price > 50;
 
 -- (2): List the names of all the employees who work in warehouses and not in offices and processed packages in January 2023.
@@ -24,8 +24,8 @@ FROM employee
     NATURAL JOIN package
     INNER JOIN works USING (ssn)
     NATURAL JOIN warehouse
-WHERE EXTRACT(YEAR FROM package_date)=2023
-    AND EXTRACT(MONTH FROM package_date)=1
+WHERE EXTRACT(YEAR FROM package.date)=2023
+    AND EXTRACT(MONTH FROM package.date)=1
 EXCEPT
 SELECT employee.name
 FROM employee

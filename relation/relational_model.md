@@ -27,7 +27,7 @@
     - package_no: FK(package)
     - sku: FK(product)
 
-- supplier(<ins>tin</ins>, name, address, sku, supply_contract_date)
+- supplier(<ins>tin</ins>, name, address, sku, date)
     - sku: FK(product) NOT NULL
 
 - department(<ins>name</ins>)
