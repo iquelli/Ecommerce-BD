@@ -8,7 +8,7 @@
 --		Description: Presents the corresponding SQL expression for each
 --                   relational algebra query.
 
--- (1): List the names of all the customers who placed packages containing products priced over €50 in the year 2023.
+-- (1): List the names of all the customers who ordered packages containing products priced over €50 in the year 2023.
 SELECT DISTINCT customer.name
 FROM customer
     NATURAL JOIN package
