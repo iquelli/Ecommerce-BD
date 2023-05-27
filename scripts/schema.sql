@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS process CASCADE;
 ----------------------------------------
 -- Table Creation
 ----------------------------------------
--- NOTE: The integrity constraints not captured by SQL
+-- NOTE: The integrity constraints not captured by DDL
 -- are presented as comments in the corresponding tables.
 
 CREATE TABLE customer (
@@ -36,7 +36,9 @@ CREATE TABLE customer (
     email VARCHAR(255) NOT NULL UNIQUE,
     phone NUMERIC(15),
     address VARCHAR(255),
-    CONSTRAINT pk_customer PRIMARY KEY(cust_no)
+    CONSTRAINT pk_customer PRIMARY KEY(cust_no),
+    CHECK (email LIKE '_%@_%\._%'),
+    CHECK (phone > 0)
 );
 CREATE TABLE package (
     package_no INT,
@@ -66,11 +68,12 @@ CREATE TABLE pay (
 );
 CREATE TABLE product (
     sku VARCHAR(255),
-    name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
+    name VARCHAR(255),
+    description TEXT,
     price NUMERIC(18,2) NOT NULL,
     ean VARCHAR(13),
-    CONSTRAINT pk_product PRIMARY KEY(sku)
+    CONSTRAINT pk_product PRIMARY KEY(sku),
+    CHECK (price > 0)
     -- (IC-8): any sku in product must exist in supplier
 );
 CREATE TABLE contains (
@@ -81,7 +84,8 @@ CREATE TABLE contains (
     CONSTRAINT fk_contains_package FOREIGN KEY(package_no)
         REFERENCES package(package_no),
     CONSTRAINT fk_contains_product FOREIGN KEY(sku)
-        REFERENCES product(sku)
+        REFERENCES product(sku),
+    CHECK (qty > 0)
 );
 CREATE TABLE supplier (
     tin VARCHAR(20),
@@ -102,7 +106,9 @@ CREATE TABLE workplace (
     lat NUMERIC(8,6) NOT NULL,
     long NUMERIC(9,6) NOT NULL,
     UNIQUE(lat, long),
-    CONSTRAINT pk_workplace PRIMARY KEY(address)
+    CONSTRAINT pk_workplace PRIMARY KEY(address),
+    CHECK (lat >= -90 AND lat <= 90),
+    CHECK (long >= -180 AND long <= 180)
 );
 CREATE TABLE warehouse (
     address VARCHAR(255),
