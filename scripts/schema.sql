@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS package CASCADE;
 DROP TABLE IF EXISTS sale CASCADE;
 DROP TABLE IF EXISTS pay CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS ean_product CASCADE;
 DROP TABLE IF EXISTS contains CASCADE;
 DROP TABLE IF EXISTS supplier CASCADE;
 DROP TABLE IF EXISTS department CASCADE;
@@ -71,10 +72,17 @@ CREATE TABLE product (
     name VARCHAR(255),
     description TEXT,
     price NUMERIC(18,2) NOT NULL,
-    ean VARCHAR(13),
     CONSTRAINT pk_product PRIMARY KEY(sku),
     CHECK (price > 0)
     -- (IC-8): any sku in product must exist in supplier
+);
+CREATE TABLE ean_product(
+    sku VARCHAR(255),
+    ean VARCHAR(13) NOT NULL,
+    CONSTRAINT pk_ean_product PRIMARY KEY(sku),
+    CONSTRAINT fk_ean_product_product FOREIGN KEY(sku)
+        REFERENCES product(sku)
+        ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE contains (
     package_no INT,

@@ -109,7 +109,7 @@ VALUES
 ---------------------
 -- Product
 ---------------------
-INSERT INTO product(sku, name, description, price)
+INSERT INTO product
 VALUES
 ('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', 999.99),
 ('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', 199.99),
@@ -134,24 +134,35 @@ VALUES
 ('S7T8U9V0', 'Art Supplies Kit', 'Comprehensive set of art materials for creative expression and crafting', 149.99),
 ('A1B2C3D6', 'Fitness Exercise Ball', 'High-quality exercise ball for core strengthening and balance training', 34.99),
 ('E5F6G7H7', 'Gourmet Chocolate Box', 'Deluxe assortment of premium chocolates from renowned chocolatiers', 79.99),
-('I9J0K1L6', 'Travel Luggage Set', 'Stylish and durable luggage set for all your travel needs', 179.99);
+('I9J0K1L6', 'Travel Luggage Set', 'Stylish and durable luggage set for all your travel needs', 179.99),
+('U1V2W3G4', 'Wireless Earbuds', 'True wireless earbuds with noise cancellation', 129.99),
+('J5K6L7M8', 'Wireless Earbuds', 'Long battery standing brand new wireless earbuds', 109.99),
+('Y5Z6A7B8', 'Tablet', 'Versatile tablet for work and entertainment', 299.99),
+('K7L8M9N0', 'Fitness Tracker', 'Activity tracker for monitoring health and fitness', 49.99),
+('T5U6V7W8', 'Camera', 'High-resolution camera for capturing memorable moments', 399.99),
+('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', 149.99),
+('K6L7M8N9', 'Yoga Mat', 'Eco-friendly and non-slip yoga mat', 29.99),
+('M3N4O5Y6', 'Essential Oil Diffuser', 'Aromatherapy diffuser with soothing LED lights for a relaxing ambiance', 49.99),
+('Q7R6S9T0', 'Gardening Tool Set', 'Complete set of essential tools for gardening and landscaping', 39.99),
+('U172W3X4', 'Wireless Charging Pad', 'Sleek wireless charging pad compatible with Qi-enabled devices', 29.99),
+('Y5Z6A7B6', 'Cookbook Collection', 'Collection of bestselling cookbooks featuring diverse cuisines and recipes', 69.99);
 
 ---------------------
 -- EAN Product
 ---------------------
-INSERT INTO product(sku, name, description, price, ean)
+INSERT INTO ean_product
 VALUES
-('U1V2W3G4', 'Wireless Earbuds', 'True wireless earbuds with noise cancellation', 129.99, '6789012345678'),
-('J5K6L7M8', 'Wireless Earbuds', 'Long battery standing brand new wireless earbuds', 109.99, '0706092335134'),
-('Y5Z6A7B8', 'Tablet', 'Versatile tablet for work and entertainment', 299.99, '7890123456789'),
-('K7L8M9N0', 'Fitness Tracker', 'Activity tracker for monitoring health and fitness', 49.99, '0123456789012'),
-('T5U6V7W8', 'Camera', 'High-resolution camera for capturing memorable moments', 399.99, '2345678901234'),
-('X9Y0Z1A2', 'External Hard Drive', 'Portable storage device with large capacity', 149.99,'3456789012345'),
-('K6L7M8N9', 'Yoga Mat', 'Eco-friendly and non-slip yoga mat', 29.99, '9780735619678'),
-('M3N4O5Y6', 'Essential Oil Diffuser', 'Aromatherapy diffuser with soothing LED lights for a relaxing ambiance', 49.99, '8712345600029'),
-('Q7R6S9T0', 'Gardening Tool Set', 'Complete set of essential tools for gardening and landscaping', 39.99, '4265432100036'),
-('U172W3X4', 'Wireless Charging Pad', 'Sleek wireless charging pad compatible with Qi-enabled devices', 29.99, '9356789000045'),
-('Y5Z6A7B6', 'Cookbook Collection', 'Collection of bestselling cookbooks featuring diverse cuisines and recipes', 69.99, '3689012345006');
+('U1V2W3G4', '6789012345678'),
+('J5K6L7M8', '0706092335134'),
+('Y5Z6A7B8', '7890123456789'),
+('K7L8M9N0', '0123456789012'),
+('T5U6V7W8', '2345678901234'),
+('X9Y0Z1A2', '3456789012345'),
+('K6L7M8N9', '9780735619678'),
+('M3N4O5Y6', '8712345600029'),
+('Q7R6S9T0', '4265432100036'),
+('U172W3X4', '9356789000045'),
+('Y5Z6A7B6', '3689012345006');
 
 ---------------------
 -- Contains
