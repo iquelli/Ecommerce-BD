@@ -21,4 +21,4 @@ $\Pi_{\\; name \\;}(G_{\\; max(p \textunderscore qty) \\; \mapsto \\; p \textund
 
 __4. Indique o valor total de cada venda realizada.__
 
-${}\_{package \textunderscore no \\; } G_{\\; sum(price \\; * \\; qty) \\; \mapsto \\; total \textunderscore val \\;}( \Pi_{\\; package \textunderscore no, \\; sku, \\; price \\; * \\; qty \\;}(sale \bowtie contains \bowtie product))$
+${}\_{package \textunderscore no \\; } G_{\\; sum(p \textunderscore val) \\; \mapsto \\; total \textunderscore val \\;}(\rho_{\\; r(3 \\; \mapsto \\; p \textunderscore val) \\;}(\Pi_{\\; package \textunderscore no, \\; sku, \\; price \\; * \\; qty \\;}(sale \bowtie contains \bowtie product)))$

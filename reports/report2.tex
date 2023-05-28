@@ -103,7 +103,7 @@ literate=%
     \begin{center}
       \vspace*{5cm}
       \Huge
-      \textbf{Projeto BD - Parte 2}
+      \textbf{Projeto de BD - Parte 2}
 
       \vspace{0.5cm}
       \LARGE
@@ -296,7 +296,7 @@ literate=%
     há duas vendas com o mesmo valor total não seria possível de as distinguir.
     \[
       \begin{aligned}
-          & _{\op{package\_no} \;} G _{\; \op{sum}(\op{price} \; * \; \op{qty}) \; \mapsto \; \op{total\_val} \;}(\Pi _{ \; \op{package\_no}, \; \op{sku}, \; \op{price} \; * \; \op{qty} \;}(\op{sale} \bowtie \op{contains} \bowtie \op{product}))
+          & _{\op{package\_no} \;} G _{\; \op{sum}(\op{p\_val}) \; \mapsto \; \op{total\_val} \;}(\rho _{\; \op{r} (\op{3} \; \mapsto \; \op{p\_val}) \;}(\Pi _{ \; \op{package\_no}, \; \op{sku}, \; \op{price} \; * \; \op{qty} \;}(\op{sale} \bowtie \op{contains} \bowtie \op{product})))
       \end{aligned}
     \]
   \end{enumerate}

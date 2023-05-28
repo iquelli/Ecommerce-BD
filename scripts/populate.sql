@@ -275,6 +275,7 @@ VALUES
 ('Customer Service'),
 ('IT'),
 ('Procurement'),
+('Accountant'),
 ('Quality Assurance');
 
 ---------------------
@@ -341,8 +342,8 @@ VALUES
 ('567890123', '543210987', '1987/09/18', 'Tiago Rodrigues'),
 ('678901234', '432109876', '1989/07/06', 'Ana Oliveira'),
 ('789012345', '321098765', '1983/12/03', 'Ricardo Sousa'),
-('890123456', '210987654', '1986/04/28', 'Carla Fernandes'),
-('901234567', '109876543', '1993/02/14', 'Hugo Matos'),
+('890123456', '210087654', '1986/04/28', 'Carla Fernandes'),
+('901234567', '109878543', '1993/02/14', 'Hugo Matos'),
 ('012345678', '098765432', '1984/06/07', 'Ines Ferreira'),
 ('210987654', '887766554', '1981/09/30', 'Joao Santos'),
 ('109876543', '998877665', '1988/11/26', 'Luis Pereira');
@@ -362,6 +363,7 @@ VALUES
 ('890123456', 'Operations', 'Estrada da Maia, 789, 4470-110, Maia, Portugal'),
 ('901234567', 'Operations', 'Rua das Flores, 987, 4425-010, Gondomar, Portugal'),
 ('012345678', 'Sales', 'Avenida dos Carvalhos, 321, 4760-150, Vila Nova de Famalicão, Portugal'),
+('012345678', 'Accountant', 'Rua da Boa Sorte, 123, 4765-770, Guimaraes, Portugal'),
 ('210987654', 'Finance', 'Rua das Oliveiras, 123, 4700-100, Braga, Portugal'),
 ('109876543', 'Operations', 'Avenida dos Pinheiros, 456, 4780-200, Trofa, Portugal');
 
@@ -386,7 +388,7 @@ VALUES
 ('345678901', 128457),
 ('345678901', 763459),
 ('456789012', 598317),
-('567890123', 972638),
+('012345678', 972638),
 ('345678901', 436127),
 ('345678901', 305972),
 ('456789012', 794516);
