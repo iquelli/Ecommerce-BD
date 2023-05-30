@@ -1,9 +1,8 @@
 --
---		File: queries.sql
+--		File: view.sql
 --		Authors:
 --		        - Gonçalo Bárias (ist1103124)
 --		        - Raquel Braunschweig (ist1102624)
 --              - Vasco Paisana (ist1102533)
 --		Group: 2
---		Description: Presents the corresponding SQL expression for each
---                   question proposed in section 2.
+--		Description:
