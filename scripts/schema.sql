@@ -36,15 +36,14 @@ CREATE TABLE customer (
     phone VARCHAR(15),
     address VARCHAR(255),
     CONSTRAINT pk_customer PRIMARY KEY(cust_no),
-    CHECK (email LIKE '_%@_%\._%'),
-    CHECK (phone > 0)
+    CHECK (email LIKE '_%@_%\._%')
 );
 CREATE TABLE orders (
     order_no INT,
     cust_no INT NOT NULL,
     date DATE NOT NULL,
-    CONSTRAINT pk_package PRIMARY KEY(order_no),
-    CONSTRAINT fk_package_customer FOREIGN KEY(cust_no)
+    CONSTRAINT pk_orders PRIMARY KEY(order_no),
+    CONSTRAINT fk_orders_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
     -- order_no must exist in contains
 );
@@ -52,8 +51,8 @@ CREATE TABLE pay (
     order_no INT,
     cust_no INT NOT NULL,
     CONSTRAINT pk_pay PRIMARY KEY(order_no),
-    CONSTRAINT fk_pay_sale FOREIGN KEY(order_no)
-        REFERENCES sale(order_no),
+    CONSTRAINT fk_pay_orders FOREIGN KEY(order_no)
+        REFERENCES orders(order_no),
     CONSTRAINT fk_pay_customer FOREIGN KEY(cust_no)
         REFERENCES customer(cust_no)
 );
@@ -62,7 +61,8 @@ CREATE TABLE employee (
     tin VARCHAR(20) NOT NULL UNIQUE,
     bdate DATE,
     name VARCHAR NOT NULL,
-    CONSTRAINT pk_employee PRIMARY KEY(ssn)
+    CONSTRAINT pk_employee PRIMARY KEY(ssn),
+    CHECK (EXTRACT(YEAR FROM AGE(bdate)) >= 18)
     -- age must be >= 18
 );
 CREATE TABLE process (
@@ -71,8 +71,8 @@ CREATE TABLE process (
     CONSTRAINT pk_process PRIMARY KEY(ssn, order_no),
     CONSTRAINT fk_process_employee FOREIGN KEY(ssn)
         REFERENCES employee(ssn),
-    CONSTRAINT fk_process_package FOREIGN KEY(order_no)
-        REFERENCES package(order_no)
+    CONSTRAINT fk_process_orders FOREIGN KEY(order_no)
+        REFERENCES orders(order_no)
 );
 CREATE TABLE department (
     name VARCHAR,
@@ -117,7 +117,7 @@ CREATE TABLE product (
     name VARCHAR(200) NOT NULL,
     description VARCHAR,
     price NUMERIC(10,2) NOT NULL,
-    ean NUMERIC(13) NOT NULL UNIQUE,
+    ean NUMERIC(13) UNIQUE,
     CONSTRAINT pk_product PRIMARY KEY(sku),
     CHECK (price >= 0)
 );
@@ -126,8 +126,8 @@ CREATE TABLE contains (
     sku VARCHAR(25),
     qty INT NOT NULL,
     CONSTRAINT pk_contains PRIMARY KEY(order_no, sku),
-    CONSTRAINT fk_contains_package FOREIGN KEY(order_no)
-        REFERENCES package(order_no),
+    CONSTRAINT fk_contains_orders FOREIGN KEY(order_no)
+        REFERENCES orders(order_no),
     CONSTRAINT fk_contains_product FOREIGN KEY(sku)
         REFERENCES product(sku),
     CHECK (qty > 0)
