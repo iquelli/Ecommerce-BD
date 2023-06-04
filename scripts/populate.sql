@@ -13,24 +13,24 @@
 INSERT INTO customer
 VALUES
 (1111, 'Joaquim Souza', 'joaquim.souza@gmail.com', '91294337', 'Rua das Flores, 45, 6300-250, Guarda, Portugal'),
-(1112, 'Jane Doe', 'jane.doe@hotmail.com', '12345678', 'Hensbury Street, 22, B74 5PQ, Birmingham, England'),
-(1113, 'Hans Joanssen', 'hans_joanssen@gmail.com', '90695443', 'Nygade, 13, 1309, Aarhus, Denmark'),
+(1112, 'Jane Doe', 'jane.doe@hotmail.com', '12345678', 'Hensbury Street, 22, B74-5PQ, Birmingham, England'),
+(1113, 'Hans Joanssen', 'hans_joanssen@gmail.com', '90695443', 'Nygade, 13, 1-309, Aarhus, Denmark'),
 (1114, 'Julia Teixeira', 'julia.teixeira@gmail.com', '956254228', 'Rua Alves Redol, 106, 2100-203, Lisboa, Portugal'),
 (1115, 'Rui Pereira', 'rui.pereira@sapo.pt', '88899438', 'Rua do Sol, 157, 2100-322, Lisboa, Portugal'),
 (1116, 'Siobhan Santos', 'siobhan.santos@gmail.com', '988899438', 'Rua do Ouro, 36, 2100-245, Lisboa, Portugal'),
 (1117, 'Victor Alejandro', 'victor.alejandro@gmail.com', '988899438', 'Avenida del Libertador, 55, 99-209-056, Santiago, Chile'),
 (1118, 'João Silva', 'joao.silva@gmail.com', '78899438', 'Travessa da Amizade, 21, 5005-056, Porto, Portugal'),
 (1119, 'Dinis Matos', 'dinis.matos@gmail.com', '988899438', 'Avenida Central, 122, 4715-075, Braga, Portugal'),
-(1120, 'Sophie Turner', 'sophie.turner@gmail.com', '77123456', 'Oak Street, 10, M34 5AB, Manchester, England'),
-(1121, 'Isabella Rossi', 'isabella.rossi@hotmail.com', '88456732', 'Via Roma, 22, 20121, Milan, Italy'),
-(1122, 'Alexander Petrov', 'alexander.petrov@gmail.com', '77994362', 'Nevsky Prospect, 45, 190000, Saint Petersburg, Russia'),
-(1123, 'Michael Johnson', 'michael.johnson@gmail.com', '67324561', 'Main Street, 123, 90210, Los Angeles, USA'),
+(1120, 'Sophie Turner', 'sophie.turner@gmail.com', '77123456', 'Oak Street, 10, M34-5AB, Manchester, England'),
+(1121, 'Isabella Rossi', 'isabella.rossi@hotmail.com', '88456732', 'Via Roma, 22, 20-121, Milan, Italy'),
+(1122, 'Alexander Petrov', 'alexander.petrov@gmail.com', '77994362', 'Nevsky Prospect, 45, 190-000, Saint Petersburg, Russia'),
+(1123, 'Michael Johnson', 'michael.johnson@gmail.com', '67324561', 'Main Street, 123, 90-210, Los Angeles, USA'),
 (1124, 'Raphael Costa', 'raphael.costa@gmail.com', '98988776', 'Avenida Paulista, 1000, 01310-100, São Paulo, Brazil'),
 (1125, 'Maria Santos', 'maria.santos@gmail.com', '99004433', 'Rua das Oliveiras, 56, 4000-123, Porto, Portugal'),
-(1126, 'Luisa Fernandez', 'luisa.fernandez@gmail.com', '89564213', 'Calle del Sol, 8, 28001, Madrid, Spain'),
-(1127, 'Andreas Müller', 'andreas.mueller@yahoo.com', '99029381', 'Hauptstraße, 5, 10115, Berlin, Germany'),
-(1128, 'Liam Murphy', 'liam.murphy@yahoo.com', '55667788', 'Baker Street, 221B, NW1 6XE, London, England'),
-(1129, 'Emma Wong', 'emma.wong@hotmail.com', '66238899', 'Victoria Street, 27, 8001, Melbourne, Australia');
+(1126, 'Luisa Fernandez', 'luisa.fernandez@gmail.com', '89564213', 'Calle del Sol, 8, 28-001, Madrid, Spain'),
+(1127, 'Andreas Müller', 'andreas.mueller@yahoo.com', '99029381', 'Hauptstraße, 5, 10-115, Berlin, Germany'),
+(1128, 'Liam Murphy', 'liam.murphy@yahoo.com', '55667788', 'Baker Street, 221B, NW1-6XE, London, England'),
+(1129, 'Emma Wong', 'emma.wong@hotmail.com', '66238899', 'Victoria Street, 27, 8-001, Melbourne, Australia');
 
 ---------------------
 -- Orders
