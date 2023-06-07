@@ -7,5 +7,4 @@
 # 		        - Raquel Braunschweig (ist1102624)
 #               - Vasco Paisana (ist1102533)
 # 		Group: 2
-# 		Description:
-#
+# 		Description: Used to create the web app prototype.

@@ -1,11 +1,19 @@
 # Ecommerce Manager (Project BD)
 
-Our goal was, in the first part, to provide a concise, coherent and organized
-data model using the graphical notation model Entity-Association, and
-specify the appropriate Integrity Constraints.
+The main concept of this project is to create a  manager for an ecommerce company with a basic domain.
 
-### Project Statements
-[Project Statement 1](docs/statement-p1.pdf) | [Project Statement 2](docs/statement-p2.pdf) | [Project Statement 3](docs/statement-p3.pdf)
+The [initial goal](https://github.com/goncalobarias/Ecommerce-BD/tree/E1) was to develop a full schema, in an Entity-Association model while
+specifying the appropriate Integrity Constraints.
+
+[After that](https://github.com/goncalobarias/Ecommerce-BD/tree/E2), we had to develop a Relational model for the Entity-Association model, translate
+everything into `PostgreSQL`, populate the tables with synthetic test data and develop a bunch of relational algebra queries in the report and in sql.
+
+[Finally](https://github.com/goncalobarias/Ecommerce-BD) we had to implement the Integrity Constraints in sql with Stored Procedures/Triggers, develop
+advanced queries, implement a view for the products sales of the company, develop a prototype web app that presents useful information about the tables
+and lets users interact with the database backend, develop OLAP queries and speed up queries by creating indexes on certain columns.
+
+### Statements
+[Statement 1](docs/statement-p1.pdf) | [Statement 2](docs/statement-p2.pdf) | [Statement 3](docs/statement-p3.pdf)
 
 ### Reports
 [Report 1](reports/report1.pdf) | [Report 2](reports/report2.pdf) | [Report 3](reports/report3.pdf)
