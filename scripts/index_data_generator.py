@@ -75,15 +75,15 @@ def index_data_generator():
         # 1111 `cust_no` is Joaquim Souza, very rich individual
 
         product_query = f"""
-        INSERT INTO product(sku, name, price, ean) VALUES
+        INSERT INTO product(SKU, name, price, ean) VALUES
         {",".join("(%s, %s, %s, %s)" for _ in range(SIZE_PRODUCT))};
         """
-        sku_data = tuple(random_str(25) for _ in range(SIZE_PRODUCT))
+        SKU_data = tuple(random_str(25) for _ in range(SIZE_PRODUCT))
         product_data = tuple(
             sum(
                 (
                     (
-                        sku_data[i],
+                        SKU_data[i],
                         f"A{random_str(19)}"
                         if random.random() <= 0.5
                         else random_str(20),
@@ -99,7 +99,7 @@ def index_data_generator():
         )
 
         contains_query = f"""
-        INSERT INTO contains(order_no, sku, qty) VALUES
+        INSERT INTO contains(order_no, SKU, qty) VALUES
         {",".join("(%s, %s, %s)" for _ in range(SIZE_CONTAINS))};
         """
         contains_data = tuple(
@@ -107,7 +107,7 @@ def index_data_generator():
                 (
                     (
                         random.choice(order_no_data),
-                        random.choice(sku_data),
+                        random.choice(SKU_data),
                         random.randint(1, 10**2),
                     )
                     for _ in range(SIZE_CONTAINS)

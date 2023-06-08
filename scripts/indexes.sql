@@ -23,7 +23,7 @@ EXPLAIN ANALYZE
 SELECT order_no
 FROM orders
     JOIN contains USING (order_no)
-    JOIN product USING (sku)
+    JOIN product USING (SKU)
 WHERE price > 50 AND
     EXTRACT(YEAR FROM date) = 2023;
 
@@ -38,6 +38,6 @@ CREATE INDEX index_product_name ON product USING BTREE(name);
 EXPLAIN ANALYZE
 SELECT order_no, SUM(qty * price)
 FROM contains
-    JOIN product USING (sku)
+    JOIN product USING (SKU)
 WHERE name LIKE 'A%'
 GROUP BY order_no;

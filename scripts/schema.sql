@@ -26,8 +26,7 @@ DROP TABLE IF EXISTS delivery CASCADE;
 -- Table Creation
 ----------------------------------------
 -- NOTE: The integrity constraints are presented
--- as comments in the corresponding tables
--- and some of them are presented in ICs.sql.
+-- as comments in the corresponding tables.
 
 CREATE TABLE customer (
     cust_no INT PRIMARY KEY,
@@ -52,10 +51,9 @@ CREATE TABLE pay (
 
 CREATE TABLE employee (
     ssn VARCHAR(20) PRIMARY KEY,
-    tin VARCHAR(20) NOT NULL UNIQUE,
+    TIN VARCHAR(20) NOT NULL UNIQUE,
     bdate DATE,
-    name VARCHAR NOT NULL,
-    CHECK (EXTRACT(YEAR FROM AGE(bdate)) >= 18)
+    name VARCHAR NOT NULL
     -- age must be >= 18
 );
 
@@ -95,7 +93,7 @@ CREATE TABLE works (
 );
 
 CREATE TABLE product (
-    sku VARCHAR(25) PRIMARY KEY,
+    SKU VARCHAR(25) PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
     description VARCHAR,
     price NUMERIC(10, 2) NOT NULL,
@@ -104,22 +102,22 @@ CREATE TABLE product (
 
 CREATE TABLE contains (
     order_no INT REFERENCES orders,
-    sku VARCHAR(25) REFERENCES product,
+    SKU VARCHAR(25) REFERENCES product,
     qty INT NOT NULL,
-    PRIMARY KEY (order_no, sku),
+    PRIMARY KEY (order_no, SKU),
     CHECK (qty > 0)
 );
 
 CREATE TABLE supplier (
-    tin VARCHAR(20) PRIMARY KEY,
+    TIN VARCHAR(20) PRIMARY KEY,
     name VARCHAR(200),
     address VARCHAR(255),
-    sku VARCHAR(25) REFERENCES product,
+    SKU VARCHAR(25) REFERENCES product,
     date DATE
 );
 
 CREATE TABLE delivery (
     address VARCHAR(255) REFERENCES warehouse,
-    tin VARCHAR(20) REFERENCES supplier,
-    PRIMARY KEY (address, tin)
+    TIN VARCHAR(20) REFERENCES supplier,
+    PRIMARY KEY (address, TIN)
 );

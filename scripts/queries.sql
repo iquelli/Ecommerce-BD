@@ -13,7 +13,7 @@ SELECT cust_no, customer.name
 FROM customer
     NATURAL JOIN pay
     NATURAL JOIN contains
-    JOIN product ON (contains.sku = product.sku)
+    JOIN product ON (contains.SKU = product.SKU)
 GROUP BY cust_no
 HAVING SUM(qty * price) >= ALL(
     SELECT SUM(qty * price)

@@ -198,7 +198,7 @@ VALUES
 ---------------------
 -- Product
 ---------------------
-INSERT INTO product(sku, name, description, price)
+INSERT INTO product(SKU, name, description, price)
 VALUES
 ('E5F6G7H8', 'Laptop', 'Ultra-thin and lightweight laptop for productivity', 999.99),
 ('M3N4O5P6', 'Smart Watch', 'Elegant smartwatch with fitness tracking capabilities', 199.99),

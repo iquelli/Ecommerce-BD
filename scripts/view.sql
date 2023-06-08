@@ -10,9 +10,9 @@
 --                   from different tables of the database schema.
 
 -- The view has the following schema:
--- product_sales(sku, order_no, qty, total_price, year, month, day_of_month, day_of_week, city)
+-- product_sales(SKU, order_no, qty, total_price, year, month, day_of_month, day_of_week, city)
 
--- `sku`, `order_no`: correspond to the primary key of the contains table, but only orders that have been paid for should be included.
+-- `SKU`, `order_no`: correspond to the primary key of the contains table, but only orders that have been paid for should be included.
 -- `qty`: corresponds to the table attribute contains.
 -- `total_price`: product of qty and price.
 -- `year`, `month`, `day_of_month`, `day_of_week`: attributes derived from the attribute date.
@@ -24,7 +24,7 @@ DROP VIEW IF EXISTS product_sales;
 
 CREATE VIEW product_sales AS
 SELECT
-    product.sku,
+    product.SKU,
     orders.order_no,
     contains.qty,
     contains.qty * product.price AS total_price,
@@ -37,7 +37,7 @@ FROM
     contains
     JOIN pay ON (contains.order_no = pay.order_no)
     JOIN orders ON (contains.order_no = orders.order_no)
-    JOIN product ON (contains.sku = product.sku)
+    JOIN product ON (contains.SKU = product.SKU)
     JOIN customer ON (pay.cust_no = customer.cust_no),
 CAST(EXTRACT(YEAR FROM date) AS INT) AS year,
 CAST(EXTRACT(MONTH FROM date) AS INT) AS month,
