@@ -13,7 +13,7 @@ SELECT cust_no, customer.name
 FROM customer
     NATURAL JOIN pay
     NATURAL JOIN contains
-    JOIN product ON (contains.SKU = product.SKU)
+    JOIN product USING (SKU)
 GROUP BY cust_no
 HAVING SUM(qty * price) >= ALL(
     SELECT SUM(qty * price)
@@ -23,7 +23,8 @@ HAVING SUM(qty * price) >= ALL(
     GROUP BY cust_no
 );
 
--- (2): What are the names of all the employees that processed packages everyday of 2022 in which there was an order?
+-- (2): What are the names of all the employees that processed packages everyday of 2022 in which
+--      there was an order?
 SELECT DISTINCT name
 FROM employee
 WHERE NOT EXISTS (
@@ -38,10 +39,11 @@ WHERE NOT EXISTS (
 );
 
 -- (3): How many orders were placed but not paid for in each month of 2022?
-SELECT EXTRACT(MONTH FROM date) AS month_2022, COUNT(*) AS processed_unpaid_orders
-FROM orders
-    LEFT JOIN pay ON (orders.order_no = pay.order_no)
-WHERE EXTRACT(YEAR FROM date) = 2022
-    AND pay.order_no IS NULL
-GROUP BY EXTRACT(MONTH FROM date)
-ORDER BY month_2022 ASC;
+SELECT months.month AS month_2022, COUNT(orders.order_no) AS unpaid_orders_no
+FROM pay
+    RIGHT JOIN orders USING (order_no)
+    RIGHT JOIN GENERATE_SERIES(1, 12) AS months(month) ON (pay.order_no IS NULL
+        AND EXTRACT(YEAR FROM orders.date) = 2022
+        AND EXTRACT(MONTH FROM orders.date) = months.month)
+GROUP BY month_2022
+ORDER BY month_2022;
