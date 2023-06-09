@@ -42,7 +42,7 @@ CREATE CONSTRAINT TRIGGER trigger_workplace_not_specialized
     FOR EACH ROW EXECUTE FUNCTION workplace_not_specialized();
 
 /* When inserting into warehouse or office, make sure it is a non specialized
-   workplace. */
+   workplace. When updating the subclasses, we need to update the workplace. */
 CREATE OR REPLACE FUNCTION workplace_disjunction() RETURNS TRIGGER AS $$
 BEGIN
     IF EXISTS (
@@ -164,7 +164,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_customer_deps ON contains;
 CREATE TRIGGER trigger_remove_customer_deps
-    BEFORE DELETE OR UPDATE ON customer
+    BEFORE DELETE ON customer
     FOR EACH ROW EXECUTE FUNCTION remove_customer_deps();
 
 /* When an order is removed, remove everything that depends on it. */
@@ -179,7 +179,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_order_deps ON contains;
 CREATE TRIGGER trigger_remove_order_deps
-    BEFORE DELETE OR UPDATE ON orders
+    BEFORE DELETE ON orders
     FOR EACH ROW EXECUTE FUNCTION remove_order_deps();
 
 /* When a product is removed, remove everything that depends on it. */
@@ -193,7 +193,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_product_deps ON contains;
 CREATE TRIGGER trigger_remove_product_deps
-    BEFORE DELETE OR UPDATE ON product
+    BEFORE DELETE ON product
     FOR EACH ROW EXECUTE FUNCTION remove_product_deps();
 
 /* When a supplier is removed, remove everything that depends on it. */
@@ -206,7 +206,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_supplier_deps ON contains;
 CREATE TRIGGER trigger_remove_supplier_deps
-    BEFORE DELETE OR UPDATE ON supplier
+    BEFORE DELETE ON supplier
     FOR EACH ROW EXECUTE FUNCTION remove_supplier_deps();
 
 /* When a workplace is removed, remove everything that depends on it. */
@@ -221,7 +221,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_workplace_deps ON contains;
 CREATE TRIGGER trigger_remove_workplace_deps
-    BEFORE DELETE OR UPDATE ON workplace
+    BEFORE DELETE ON workplace
     FOR EACH ROW EXECUTE FUNCTION remove_workplace_deps();
 
 /* When a department is removed, remove everything that depends on it. */
@@ -234,7 +234,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_department_deps ON contains;
 CREATE TRIGGER trigger_remove_department_deps
-    BEFORE DELETE OR UPDATE ON department
+    BEFORE DELETE ON department
     FOR EACH ROW EXECUTE FUNCTION remove_department_deps();
 
 /* When an employee is removed, remove everything that depends on it. */
@@ -248,5 +248,5 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_employee_deps ON contains;
 CREATE TRIGGER trigger_remove_employee_deps
-    BEFORE DELETE OR UPDATE ON employee
+    BEFORE DELETE ON employee
     FOR EACH ROW EXECUTE FUNCTION remove_employee_deps();
