@@ -33,8 +33,7 @@ CREATE TABLE customer (
     name VARCHAR(80) NOT NULL,
     email VARCHAR(254) NOT NULL UNIQUE,
     phone VARCHAR(15),
-    address VARCHAR(255),
-    CHECK (email LIKE '_%@_%\._%')
+    address VARCHAR(255)
 );
 
 CREATE TABLE orders (
@@ -71,9 +70,7 @@ CREATE TABLE workplace (
     address VARCHAR PRIMARY KEY,
     lat NUMERIC(8, 6) NOT NULL,
     long NUMERIC(9, 6) NOT NULL,
-    UNIQUE(lat, long),
-    CHECK (lat >= -90 AND lat <= 90),
-    CHECK (long >= -180 AND long <= 180)
+    UNIQUE(lat, long)
     -- address must be in warehouse or office but not both
 );
 
@@ -103,9 +100,8 @@ CREATE TABLE product (
 CREATE TABLE contains (
     order_no INT REFERENCES orders,
     SKU VARCHAR(25) REFERENCES product,
-    qty INT NOT NULL,
-    PRIMARY KEY (order_no, SKU),
-    CHECK (qty > 0)
+    qty INT,
+    PRIMARY KEY (order_no, SKU)
 );
 
 CREATE TABLE supplier (

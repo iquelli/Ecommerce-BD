@@ -1,14 +1,14 @@
 # Ecommerce Manager (Project BD)
 
-The main concept of this project is to create a  manager for an ecommerce company with a basic domain.
+The main concept of this project was to create a manager for an ecommerce company with a basic domain.
 
-The [initial goal](https://github.com/goncalobarias/Ecommerce-BD/tree/E1) was to develop a full schema, in an Entity-Association model while
+The [initial goal](https://github.com/goncalobarias/Ecommerce-BD/releases/tag/delivery-1) was to develop a full schema, in an Entity-Association model while
 specifying the appropriate Integrity Constraints.
 
-[After that](https://github.com/goncalobarias/Ecommerce-BD/tree/E2), we had to develop a Relational model for the Entity-Association model, translate
+[After that](https://github.com/goncalobarias/Ecommerce-BD/releases/tag/delivery-2), we had to develop a Relational model for the Entity-Association model, translate
 everything into `PostgreSQL`, populate the tables with synthetic test data and develop a bunch of relational algebra queries in the report and in sql.
 
-[Finally](https://github.com/goncalobarias/Ecommerce-BD) we had to implement the Integrity Constraints in sql with Stored Procedures/Triggers, develop
+[Finally](https://github.com/goncalobarias/Ecommerce-BD/releases/tag/delivery-3) we had to implement the Integrity Constraints in sql with Stored Procedures/Triggers, develop
 advanced queries, implement a view for the products sales of the company, develop a prototype web app that presents useful information about the tables
 and lets users interact with the database backend, develop OLAP queries and speed up queries by creating indexes on certain columns.
 
