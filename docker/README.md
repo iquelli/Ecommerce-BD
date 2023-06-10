@@ -12,6 +12,13 @@ Stop the containers with
 sudo docker-compose down
 ```
 
+Do the following to run the sql files automatically
+
+```bash
+chmod 744 ./run.sh
+sudo ./run.sh
+```
+
 **pgadmin4** will be available at https://localhost:5050, with the following credentials:
 
 - Username: `postgres@example.com`
