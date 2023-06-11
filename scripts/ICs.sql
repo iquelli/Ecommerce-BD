@@ -120,13 +120,13 @@ CREATE CONSTRAINT TRIGGER trigger_order_not_in_contains
     DEFERRABLE INITIALLY DEFERRED
     FOR EACH ROW EXECUTE FUNCTION order_not_in_contains();
 
-/* When removing/updating an entry on `contains`, the order must still
-   exist in the `contains` relation at least once. */
+/* When removing/updating an entry on `contains`, if the order
+   becomes empty, then remove the order. */
 CREATE OR REPLACE FUNCTION update_order_contains() RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (SELECT order_no FROM contains WHERE order_no = OLD.order_no)
     THEN
-        RAISE EXCEPTION 'The Order (%) cannot become empty.', OLD.order_no;
+        DELETE FROM orders WHERE order_no = OLD.order_no;
     END IF;
     RETURN NEW;
 END;
