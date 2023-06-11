@@ -5,32 +5,32 @@
 --		        - Raquel Braunschweig (ist1102624)
 --              - Vasco Paisana (ist1102533)
 --		Group: 2
---		Description: Uses the view developed for question 4 to write two SQL
+--		Description: Uses the view developed for question 4 to write two OLAP
 --                   queries that lets us analyze information from the tables.
 
--- (1): Analyze the total sales quantity and values of each product in 2022,  globally, by city, by
---      month, by day of the month, and by day of the week.
-SELECT SKU, city, month, day_of_month, day_of_week,  SUM(qty) AS qty, SUM(total_price) AS total_price
+-- (1): Analyze the total sales quantity and values of each product in 2022, globally, by city, by
+--      month, day of month and day of week.
+SELECT SKU, city, month, day_of_month, day_of_week, SUM(qty) AS t_qty, SUM(total_price) AS t_value
 FROM product_sales
-WHERE MAKE_DATE(year, month, day_of_month)
-    BETWEEN '2022-01-01' AND '2022-12-31'
-GROUP BY GROUPING SETS(SKU, (SKU, city, month), (SKU, city, day_of_month), (SKU, city, day_of_week))
-ORDER BY SKU NULLS FIRST, city NULLS FIRST, day_of_week NULLS FIRST, day_of_month NULLS FIRST, month NULLS FIRST;
+WHERE year = 2022
+GROUP BY GROUPING SETS (SKU, (SKU, city, month), (SKU, city, day_of_month), (SKU, city, day_of_week))
+ORDER BY SKU, city, month, day_of_month, day_of_week;
 
--- (2): Analyze the average daily sales value for all products in 2022, globally, by month and day of the
---      week.
-WITH dates AS (
-SELECT
-  CAST(TO_CHAR(dates, 'DD') AS INT) AS day_of_month,
-  CAST(TO_CHAR(dates, 'MM') AS INT) AS month,
-  CAST(TO_CHAR(dates, 'YYYY') AS INT) AS year,
-  TO_CHAR(dates, 'Day') AS day_of_week
-FROM GENERATE_SERIES('2022-01-01'::DATE, '2022-12-31'::DATE, '1 day') AS dates)
-SELECT month, day_of_week, AVG(daily_price) AS average_daily_sales
-FROM
-(SELECT dates.month, dates.day_of_week, dates.day_of_month, SUM(COALESCE(total_price, 0)) AS daily_price
-FROM product_sales RIGHT JOIN dates
-ON (dates.day_of_month=product_sales.day_of_month AND dates.month=product_sales.month AND dates.year=product_sales.year)
-GROUP BY (dates.day_of_month, dates.month, dates.day_of_week)) AS daily_sales
-GROUP BY GROUPING SETS(month, day_of_week, ())
-ORDER BY day_of_week NULLS FIRST, month NULLS FIRST, day_of_week NULLS FIRST;
+-- (2): Analyze the average daily sales value for all products in 2022, globally, by month and day of week.
+WITH daily_sales AS (
+    SELECT month, day_of_month, day_of_week, SUM(total_price) AS daily_values
+    FROM product_sales
+    WHERE year = 2022
+    GROUP BY (month, day_of_month, day_of_week)
+), dates AS (
+    SELECT EXTRACT(MONTH FROM dates) AS month,
+        EXTRACT(DAY FROM dates) AS day_of_month,
+        EXTRACT(DOW FROM dates) AS day_of_week
+    FROM GENERATE_SERIES('2022-01-01'::DATE, '2022-12-31'::DATE, '1 day') AS dates
+)
+SELECT dates.month, dates.day_of_week, AVG(COALESCE(daily_values, 0)) AS average_sales_2022
+FROM daily_sales
+    RIGHT JOIN dates ON (dates.month = daily_sales.month
+        AND dates.day_of_month = daily_sales.day_of_month)
+GROUP BY GROUPING SETS ((), dates.month, dates.day_of_week)
+ORDER BY month, day_of_week;

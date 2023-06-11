@@ -42,5 +42,5 @@ FROM
 CAST(EXTRACT(YEAR FROM date) AS INT) AS year,
 CAST(EXTRACT(MONTH FROM date) AS INT) AS month,
 CAST(EXTRACT(DAY FROM date) AS INT) AS day_of_month,
-TO_CHAR(date, 'Day') AS day_of_week,
+CAST(EXTRACT(DOW FROM date) AS INT) AS day_of_week,
 CAST(SUBSTRING(address FROM '%-___ #"%#"' FOR '#') AS VARCHAR) AS city;
