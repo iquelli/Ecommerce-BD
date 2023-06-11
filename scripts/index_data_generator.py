@@ -10,13 +10,11 @@
 import random
 import string
 import time
-
-## Libs postgres
 import psycopg2
 import psycopg2.extras
 
-## DBMS configs
-DB_HOST = "127.0.0.1"
+# DBMS configs
+DB_HOST = "localhost"
 DB_DATABASE = "postgres"
 DB_USER = "postgres"
 DB_PASSWORD = "postgres"
@@ -35,7 +33,7 @@ def random_str(size):
 def random_date(time_format, prop):
     start_time = (
         time.mktime(time.strptime("2000/01/01", time_format))
-        if random.random() <= 0.60
+        if random.random() <= 0.80
         else time.mktime(time.strptime("2023/01/01", time_format))
     )
     end_time = time.mktime(time.strptime("2023/06/06", time_format))
@@ -44,9 +42,9 @@ def random_date(time_format, prop):
 
 
 def index_data_generator():
-    SIZE_ORDERS = 100000
-    SIZE_PRODUCT = 250000
-    SIZE_CONTAINS = 300000
+    SIZE_ORDERS = 20000
+    SIZE_PRODUCT = 100000
+    SIZE_CONTAINS = 0
 
     dbConn = None
     cursor = None
@@ -54,12 +52,8 @@ def index_data_generator():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        orders_query = f"""
-        INSERT INTO orders(order_no, cust_no, date) VALUES
-        {",".join("(%s, %s, %s)" for _ in range(SIZE_ORDERS))};
-        """
         order_no_data = tuple(10**6 + i for i in range(SIZE_ORDERS))
-        orders_data = tuple(
+        data = tuple(
             sum(
                 (
                     (
@@ -71,24 +65,19 @@ def index_data_generator():
                 ),
                 (),
             )
-        )
-        # 1111 `cust_no` is Joaquim Souza, very rich individual
+        )  # 1111 `cust_no` is Joaquim Souza, very rich individual
 
-        product_query = f"""
-        INSERT INTO product(SKU, name, price, ean) VALUES
-        {",".join("(%s, %s, %s, %s)" for _ in range(SIZE_PRODUCT))};
-        """
         SKU_data = tuple(random_str(25) for _ in range(SIZE_PRODUCT))
-        product_data = tuple(
+        data += tuple(
             sum(
                 (
                     (
                         SKU_data[i],
                         f"A{random_str(19)}"
-                        if random.random() <= 0.5
+                        if random.random() <= 0.2
                         else random_str(20),
-                        random.randint(0, 10**7) / 100
-                        if random.random() <= 0.5
+                        random.randint(0, 5000) / 100
+                        if random.random() <= 0.8
                         else random.randint(5000, 10**7) / 100,
                         random.randint(10**12, 10**13 - 1),
                     )
@@ -98,27 +87,41 @@ def index_data_generator():
             )
         )
 
-        contains_query = f"""
+        for order_no in order_no_data:
+            r = random.randint(1, 5)
+            SIZE_CONTAINS += r
+            random_SKU_data = set()
+            while len(random_SKU_data) < r:
+                random_SKU_data.add(random.choice(SKU_data))
+            data += tuple(
+                sum(
+                    (
+                        (
+                            order_no,
+                            random_SKU_data.pop(),
+                            random.randint(1, 10**2),
+                        )
+                        for _ in range(r)
+                    ),
+                    (),
+                )
+            )
+
+        query = f"""
+        BEGIN TRANSACTION;
+
+        INSERT INTO orders(order_no, cust_no, date) VALUES
+        {",".join("(%s, %s, %s)" for _ in range(SIZE_ORDERS))};
+
+        INSERT INTO product(SKU, name, price, ean) VALUES
+        {",".join("(%s, %s, %s, %s)" for _ in range(SIZE_PRODUCT))};
+
         INSERT INTO contains(order_no, SKU, qty) VALUES
         {",".join("(%s, %s, %s)" for _ in range(SIZE_CONTAINS))};
-        """
-        contains_data = tuple(
-            sum(
-                (
-                    (
-                        random.choice(order_no_data),
-                        random.choice(SKU_data),
-                        random.randint(1, 10**2),
-                    )
-                    for _ in range(SIZE_CONTAINS)
-                ),
-                (),
-            )
-        )
 
-        cursor.execute(orders_query, orders_data)
-        cursor.execute(product_query, product_data)
-        cursor.execute(contains_query, contains_data)
+        END TRANSACTION;
+        """
+        cursor.execute(query, data)
     except Exception as e:
         raise e
     finally:
