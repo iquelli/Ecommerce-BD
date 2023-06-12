@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
+    <title>Nerd Express | Intelligent Vending Machines</title>
+    <style>
+      h3 {
+        text-align: center;
+      }
+      h5 {
+        text-align: center;
+      }
+      p {
+        text-align: center;
+      }
+      div {
+        text-align: center;
+      }
+      img {
+        border-radius: 10%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body style="padding: 20px">
+    {% if cursor %}
+    <nav>
+      <li><strong>Nerd-Express</strong></li>
+      <ul>
+        <li><a href="categories">Listar Categorias </a></li>
+        <li><a href="retailers">Listar Retalhistas </a></li>
+        <li><a href="ivms">Listar IVMs </a></li>
+      </ul>
+    </nav>
+    <h3>Bem-vindo ao painel de Administração das máquinas Nerd-Express!</h3>
+    <h5>Este site está em desenvolvimento.</h5>
+    <p>versão 0.2.7</p>
+    <br />
+    <br />
+    <br />
+    <div>
+      <img
+        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.dribbble.com%2Fusers%2F639325%2Fscreenshots%2F2656809%2Fvending-machine.gif&f=1&nofb=1"
+      />
+    </div>
+
+    {% else %}
+    <p>Erro: ao obter dados da base de dados!</p>
+    {% endif %}
+  </body>
+</html>

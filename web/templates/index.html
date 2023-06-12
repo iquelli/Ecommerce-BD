@@ -1,9 +1,54 @@
-{% extends 'partial/base.html' %}
-{% block title %}<title>Home</title>{% endblock %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../static/css/general.css" />
+  <link rel="stylesheet" href="../static/css/home.css" />
+  <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
+  <title>Home | Técnico Shop</title>
+</head>
 
-  <button>Error</button>
-  <button>Success</button>
+<body style="background-color: white;">
+  <div class="nav-bar">
+    <p><strong>Técnico Shop</strong></p>
+    <div class="nav-text">
+      <a href="#client">Client</a>
+      <a href="#admin">Administrator</a>
+      <a href="#about">About</a>
+    </div>
+  </div>
+  <div class="gif">
+    <div class="intro">
+      <h1 class="intro-title">Welcome to Técnico Shop</h1>
+      <p>A project done for Data Base course @ Instituto Superior Técnico.</p>
+    </div>
+    <img src="../static/images/shop.gif" alt="" class="gif-image">
+  </div>
+  <div class="client-view" id="client">
+    <div>
+      <h1>Client</h1>
+      <p>Here you can find the functions related to clients on our data base.</p>
+    </div>
+    <button class="client-button">Client View</button>
+  </div>
+  <div class="admin-view" id="admin">
+    <div>
+      <h1>Administrator</h1>
+      <p>Here you can find the functions related to admin on our data base.</p>
+    </div>
+    <button class="admin-button">Admin View</button>
+  </div>
+  <div class="about-project" id="about">
+    <h1>About Project</h1>
+    <li>The main concept of this project was to create a manager for an ecommerce company with a basic domain.</li>
+    <li>We had to implement the Integrity Constraints in sql with Stored Procedures/Triggers, develop advanced queries, implement a view for the products sales of the company, develop a prototype web app that presents useful information about the tables and lets users interact with the database backend, develop OLAP queries and speed up queries by creating indexes on certain columns.</li>
+  </div>
+  <footer style="color: black; background-color:white;">
+    <hr>
+    Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624), Vasco Paisana (102533)
+  </footer>
 
-{% endblock %}
+</body>
+
+</html>

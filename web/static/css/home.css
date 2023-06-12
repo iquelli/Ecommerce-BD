@@ -1,0 +1,71 @@
+.nav-bar {
+  display: flex;
+  padding: 1%;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: solid;
+  border-color: white;
+  border-bottom-color: lightgrey;
+}
+
+.nav-text {
+  display: flex;
+  gap: 10px;
+}
+
+.gif {
+  margin-top: 100px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.gif,
+.client-view,
+.admin-view {
+  display: flex;
+  padding: 5%;
+  justify-content: space-between;
+}
+
+
+.gif-image {
+  border-radius: 100%;
+  padding: 30px;
+  width: 50%;
+  height: auto;
+}
+
+.about-project {
+  padding: 5%;
+  color: white;
+}
+
+.client-view {
+  background-color: #596296;
+  color: white
+}
+
+.admin-view {
+  color: #596296
+}
+
+.about-project {
+  background-color: #e7f9fe;
+  color: #596296;
+}
+
+.client-button {
+  background-color: white;
+  color: #596296;
+}
+
+.admin-button {
+  color: white;
+  background-color: #596296;
+}
