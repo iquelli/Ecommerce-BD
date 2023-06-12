@@ -28,7 +28,7 @@ em concreto.
 
 Por fim, criámos um índice para o ano do atributo `date` de `orders`, pois
 estando a fazer uma comparação de igualdade no ano das datas das encomendas,
-faz todo o sentido usar um índice `Hash` para otimizar a igualdade.
+faz todo o sentido usar um índice `Hash` já que a comparação em `O(1)` é ideal.
 */
 
 CREATE INDEX product_price_index ON product USING BTREE(price);

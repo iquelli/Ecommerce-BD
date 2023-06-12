@@ -123,9 +123,9 @@
     \large
     \begin{minipage}{0.8\textwidth}
       \begin{itemize}
-        \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - XXh
-        \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - XXh
-        \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - XXh
+        \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - 36h
+        \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - 36h
+        \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - 36h
       \end{itemize}
     \end{minipage}
   \end{center}
@@ -134,5 +134,66 @@
 \section*{Desenvolvimento da Aplicação}
 
 \section*{Índices}
+
+Foi pedido, ainda, que se indicasse (justificando) os índices que faria sentido
+criar, por forma a \textit{agilizar} a execução de cada uma das \textit{queries}
+apresentadas de seguida.
+
+\subsection*{Primeira \textit{query}:}
+
+\lstinputlisting[language=SQL]{sql/index_query1.sql}
+
+Para a primeira \textit{query}, optou-se por criar dois índices: um no atributo
+\texttt{price} da relação \texttt{product}, e outro no ano do atributo \texttt{date}
+da relação \texttt{orders}.
+
+\vspace*{0.25cm}
+
+\begin{itemize}
+  \item Não foi criado nenhum índice para os atributos \texttt{order\_no} e \texttt{SKU} de \texttt{contains}, pois o
+        \texttt{PostgreSQL} já cria um índice \textbf{BTree} para (\texttt{order\_no}, \texttt{SKU}) dado que se trata
+        de uma chave primária.
+        O \texttt{planner} é capaz de usar este índice e assim não se justifica criar dois
+        índices separados para estes atributos apenas devido às clásulas \texttt{JOIN}.
+
+  \item Optámos pela criação de um índice \textbf{BTree} no atributo \texttt{price} de \texttt{product}, pois
+        a comparação pretendida engloba um intervalo de preços e assim um índice \textbf{Hash}
+        não seria particularmente inteligente, já que não se pretende um único preço
+        em concreto.
+
+  \item Por fim, criámos um índice para o ano do atributo \texttt{date} de \texttt{orders}, pois
+        estando a fazer uma comparação de igualdade no ano das datas das encomendas,
+        faz todo o sentido usar um índice \textbf{Hash} já que a comparação em $O(1)$ é ideal.
+\end{itemize}
+
+O trecho de código correspondente à indexação pretendida encontra-se abaixo:
+
+\lstinputlisting[language=SQL]{sql/index1.sql}
+
+\subsection*{Segunda \textit{query}:}
+
+\lstinputlisting[language=SQL]{sql/index_query2.sql}
+
+Para a segunda \textit{query}, optou-se por criar um índice no atributo \texttt{name} da relação
+\texttt{product}.
+
+\vspace*{0.25cm}
+
+\begin{itemize}
+  \item Aqui a clásula \texttt{GROUP BY} beneficia de um índice \textbf{BTree} em \texttt{order\_no} de
+        \texttt{contains}, pois o \texttt{GROUP BY} procura agrupar os dados sobre o atributo \texttt{order\_no}
+        e os índices \textbf{BTree} já vêm, por natureza, ordenados.
+        Porém, tal como no ponto anterior, o \texttt{planner} é capaz de usar o índice criado
+        na chave primária de \texttt{contains} para agilizar a computação do \texttt{GROUP BY}, sendo
+        esse já um índice \textbf{BTree}.
+
+  \item Assim, apenas é necessário criar um índice \textbf{BTree} para o atributo \texttt{name}
+        de \texttt{product}, pois a comparação pretendida engloba todo um intervalo de nomes
+        de produtos que começam pela letra \texttt{A}, logo um índice \textbf{Hash} não ajudaria.
+\end{itemize}
+
+O trecho de código correspondente à indexação pretendida encontra-se abaixo:
+
+\lstinputlisting[language=SQL]{sql/index2.sql}
 
 \end{document}
