@@ -1,0 +1,12 @@
+{% extends 'partial/base.html' %}
+{% block title %}<title>Error</title>{% endblock %}
+
+{% block content %}
+
+  <div class="message-wrap">
+    <img src="{{ url_for('static', filename='images/error-image.png') }}" alt="" class="message-img">
+    <h1 class="message">An error has occurred and the action could not be performed.</h1>
+    <p class="interactive-text">Go back</p>
+  </div>
+
+{% endblock %}

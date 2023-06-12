@@ -1,0 +1,12 @@
+{% extends 'partial/base.html' %}
+{% block title %}<title>Success</title>{% endblock %}
+
+{% block content %}
+
+<div class="message-wrap">
+    <img src="{{ url_for('static', filename='images/success-image.png') }}" alt="" class="message-img">
+  <h1 class="message">The action was performed successfully!</h1>
+  <p class="interactive-text">Go back</p>
+</div>
+
+{% endblock %}

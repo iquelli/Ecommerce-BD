@@ -33,7 +33,7 @@ def homepage():
     try:
         return render_template("index.html")
     except Exception as e:
-        return render_template("error_page.html", error=e)
+        return render_template("error.html", error=e)
 
 @app.route('/addproduct', methods=["GET"])
 def register_product_get():
