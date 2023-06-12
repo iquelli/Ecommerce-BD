@@ -28,6 +28,13 @@ DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (
 
 app = Flask(__name__)
 
+@app.route("/")
+def homepage():
+    try:
+        return render_template("index.html")
+    except Exception as e:
+        return render_template("error_page.html", error=e)
+
 @app.route('/addproduct', methods=["GET"])
 def register_product_get():
     try:
