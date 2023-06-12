@@ -13,13 +13,13 @@ html {
 }
 
 footer {
-  position:fixed;
   bottom:0px;
   height:50px;
   width:100%;
   font-size: 15px;
   text-align: center;
-  color: white;
+  color: black;
+  background-color: white;
 }
 
 hr {
@@ -27,7 +27,6 @@ hr {
   margin: auto;
   margin-bottom: 10px;
   border: solid;
-  border-color: white;
   border-width: 0.1px;
 }
 

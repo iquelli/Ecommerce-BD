@@ -1,0 +1,33 @@
+body {
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.nav-bar {
+  display: flex;
+  padding: 1%;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  margin-bottom: 90px;
+}
+
+.footer-messages {
+  position: fixed;
+}
+
+.form-entry,
+.page-title {
+  color: #596296;
+}
+
+.page-title {
+  font-size: 40px;
+}
+
+.form-entry {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

@@ -21,27 +21,33 @@ body {
     border-width: 2px;
   }
   
-  .message-img {
-    height: 200px;
-    width: 200px;
-  }
-  
-  .message {
-    font-size: 1em;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-  
-  .interactive-text {
-    cursor: pointer;
-    color: grey;
-    transition: color 0.2s;
-  }
-  
-  .interactive-text:hover {
-    color: rgb(42, 184, 232);
-  }
-  
-  .interactive-text:active {
-    color: rgb(33, 144, 181);
-  }
+.message-img {
+height: 200px;
+width: 200px;
+}
+
+.message {
+font-size: 1em;
+text-align: center;
+margin-bottom: 25px;
+}
+
+.interactive-text {
+cursor: pointer;
+color: grey;
+transition: color 0.2s;
+transition: opacity 0.2s;
+}
+
+.interactive-text:hover {
+color: #596296;
+}
+
+.interactive-text:active {
+color: #596296;
+opacity: 0.7;
+}
+
+.footer-messages {
+  position: fixed;
+}

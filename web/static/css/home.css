@@ -10,7 +10,9 @@
   border: solid;
   border-color: white;
   border-bottom-color: lightgrey;
+  border-width: 1px;
 }
+
 
 .nav-text {
   display: flex;
