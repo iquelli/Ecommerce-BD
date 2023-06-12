@@ -1,12 +1,23 @@
-{% extends 'partial/base.html' %}
-{% block title %}<title>Error</title>{% endblock %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
+  <title>Error | Técnico Shop</title>
+</head>
 
+<body>
   <div class="message-wrap">
-    <img src="{{ url_for('static', filename='images/error-image.png') }}" alt="" class="message-img">
-    <h1 class="message">An error has occurred and the action could not be performed.</h1>
-    <p class="interactive-text">Go back</p>
+    <img src="../static/images/error-image.png" alt="" class="message-img">
+    <h1 class="message">An error has occured!</h1>
+    <p class="interactive-text"> <- Go back</p>
   </div>
+  <footer>
+    <hr>
+    Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624), Vasco Paisana (102533)
+  </footer>
+</body>
 
-{% endblock %}
+</html>

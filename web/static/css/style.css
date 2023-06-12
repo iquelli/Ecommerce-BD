@@ -9,11 +9,27 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: rgb(156, 230, 254);
+}
+
+footer {
+  position:fixed;
+  bottom:0px;
+  height:50px;
+  width:100%;
+  font-size: 15px;
+  text-align: center;
+}
+
+hr {
+  width: 750px;
+  margin: auto;
+  color: black;
+  margin-bottom: 10px;
 }
 
 button {
@@ -26,7 +42,7 @@ button:hover {
 }
 
 .message-wrap {
-  position: relative;
+  position: absolute;
   width: 600px;
   height: 400px;
   background: rgb(255, 255, 255);
@@ -35,14 +51,32 @@ button:hover {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border: solid;
+  border-color: grey;
+  border-width: 2px;
 }
 
 .message-img {
-  height: 100px;
-  width: 100px;
-  object-fit: fill;
+  height: 200px;
+  width: 200px;
+}
+
+.message {
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .interactive-text {
   cursor: pointer;
+  color: grey;
+  transition: color 0.2s;
+}
+
+.interactive-text:hover {
+  color: blue;
+}
+
+.interactive-text:active {
+  color: darkblue;
 }
