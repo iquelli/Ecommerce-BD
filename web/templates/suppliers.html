@@ -17,13 +17,13 @@
       <p style="color: #596296;">Manager</p>
     </div>
     <div>
-        <a href="index.html" class="nav-text">Logout</a>
+      <a href="./" class="nav-text">Logout</a>
     </div>
   </div>
   <div class="admin-menu">
-    <a href="" class="menu-link">Clients</a>
-    <a href="" class="menu-link-selected">Suppliers</a>
-    <a href="" class="menu-link">Products</a>
+    <a href="./clients" class="menu-link">Clients</a>
+    <a href="./suppliers" class="menu-link-selected">Suppliers</a>
+    <a href="./products" class="menu-link">Products</a>
   </div>
 
   <div style="padding:2%">
@@ -33,6 +33,34 @@
     </div>
     <hr class = "menu-line">
     <div>
+        {% if cursor %}
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>TIN</th>
+                  <th>Nome</th>
+                  <th>Morada</th>
+                  <th>SKU</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for record in cursor %}
+                <tr>
+                  <td>{{ record[0] }}</td>
+                  <td>{{ record[1] }}</td>
+                  <td>{{ record[2] }}</td>
+                  <td>{{ record[3] }}</td>
+                  <td>{{ record[4] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+            <p>There is no suppliers</p>
+        {% endif %}
       <!-- Here goes the info on orders -->
     </div>
   </div>

@@ -10,7 +10,7 @@
 # 		Description: Used to create the web app prototype.
 
 from wsgiref.handlers import CGIHandler
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 import psycopg2
 import psycopg2.extras
@@ -46,7 +46,7 @@ def homepage():
 @_app.route("/customer/register", methods=["GET"])
 def register_customer_get():
     try:
-        return render_template("customer_register.html")
+        return render_template("client-register.html")
     except Exception as e:
         return render_template("error.html", error=e)
 
