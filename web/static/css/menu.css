@@ -1,0 +1,44 @@
+.nav-bar {
+  border-bottom: solid;
+  border-bottom-color: #596296;
+  border-bottom-width: 0.1px;
+}
+
+.admin-menu {
+  background-color: #596296;
+  padding: 20px;
+}
+
+.menu-link {
+  color: #bcc5f9e3;;
+}
+
+.menu-link-selected {
+  color: white;
+  text-decoration: underline;
+}
+
+.orders-header {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #596296;
+  margin-bottom: 10px;
+}
+
+.action-button {
+  height: 50px;
+  font-size: 25px;
+  border-radius: 10px;
+  background-color: #596296;
+  color: white;
+  margin: 0px;
+}
+
+.menu-line {
+  border-color: #596296;
+  width: 100%;
+  border-width:2px;
+}

@@ -1,18 +1,11 @@
 .nav-bar {
-  display: flex;
-  padding: 1%;
-  justify-content: space-between;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   background-color: #bcc5f9e3;
   border: solid;
   border-color: #bcc5f9e3;
   border-bottom-color: #bcc5f9e3;
   border-width: 1px;
+  position: fixed;
 }
-
 
 .nav-text {
   display: flex;
