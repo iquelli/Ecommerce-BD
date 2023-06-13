@@ -73,6 +73,33 @@ input {
   border-radius: 3%;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #b1aeae;
+  font-size: 20px;
+}
+
+/* Alternating row colors */
+tbody tr:nth-child(even) {
+  background-color: #e7f9fe;
+}
+
+/* Styling thead */
+thead {
+  background-color: #333;
+  color: #fff;
+}
+
+thead th {
+  padding: 8px;
+}
+
 /* navigation bar settings */
 
 .logo {
