@@ -11,13 +11,19 @@
 
 <body>
   <div class="nav-bar">
-    <p><strong>Técnico Shop</strong></p>
+    <div class="right-side-nav">
+      <img src="../static/images/favicon.png" class="logo">
+      <p><strong>Técnico Shop</strong></p>
+      <p style="color: #596296;">Client</p>
+    </div>
     <a href="index.html" class="nav-text">Go back</a>
   </div>
-  <h2 class="page-title">Register Client</h2>
+  <div class="title-wrapper">
+    <h2 class="page-title">Register</h2>
+  </div>
   <div>
     <form action="" method="post">
-      <div>
+      <div class="form">
         <div class="form-entry">
           <p>Name</p>
           <input type="text" placeholder="Name" id="name" name="name" maxlength="255" oninput="checkOption()" />
@@ -35,10 +41,13 @@
         </div>
         <div class="form-entry">
           <p>Phone</p>
-          <input type="text" placeholder="Phone" id="phone" name="phone" maxlength="255" oninput="checkOption()" />
+          <div style="display:flex; gap: 10px; align-items: center;">
+            <p style="color:grey">+351</p>
+            <input type="text" class="phone" placeholder="Phone" id="phone" name="phone" maxlength="9" oninput="checkOption()" />
+          </div>
         </div>
+        <button class="register-button"> Register </button>
       </div>
-    <button> Register </button>
 </body>
 
 <footer class="footer-messages">
