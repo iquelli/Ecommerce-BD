@@ -17,32 +17,32 @@
       <p style="color: #596296;">Manager</p>
     </div>
     <div>
-      <a href="./" class="nav-text">Logout</a>
+        <a href="./" class="nav-text">Logout</a>
     </div>
   </div>
   <div class="admin-menu">
     <a href="./clients" class="menu-link">Clients</a>
-    <a href="./suppliers" class="menu-link-selected">Suppliers</a>
-    <a href="./products" class="menu-link">Products</a>
+    <a href="./suppliers" class="menu-link">Suppliers</a>
+    <a href="./products" class="menu-link-selected">Products</a>
   </div>
 
   <div style="padding:2%">
     <div class="orders-header">
-      <h1>SUPPLIERS IN DATABASE</h1>
-      <button class="action-button">+ NEW SUPPLIER</button>
+      <h1>PRODUCTS IN DATABASE</h1>
+      <button class="action-button">+ NEW PRODUCT</button>
     </div>
     <hr class = "menu-line">
-    <div>
+      <div>
         {% if cursor %}
           <div class="table-container">
             <table>
               <thead>
                 <tr>
-                  <th>TIN</th>
-                  <th>Name</th>
-                  <th>Address</th>
                   <th>SKU</th>
-                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>EAN</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,7 +62,7 @@
         {% else %}
             <p>There is no suppliers</p>
         {% endif %}
-    </div>
+      </div>
   </div>
 
 </body>

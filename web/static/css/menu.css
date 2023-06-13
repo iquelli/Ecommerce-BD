@@ -42,3 +42,18 @@
   width: 100%;
   border-width:2px;
 }
+
+.remove-text {
+  text-decoration: underline;
+  color: #596296;
+  transition: opacity 0.2ms;
+  cursor: pointer;
+}
+
+.remove-text:hover {
+  opacity: 70%;
+}
+
+.remove-text:active {
+  opacity: 100%;
+}

@@ -103,7 +103,7 @@ def remove_customer():
         dbConn.close()
 
 
-@_app.route("/customers")
+@_app.route("/clients")
 def list_customers():
     dbConn = None
     cursor = None
@@ -112,7 +112,7 @@ def list_customers():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "SELECT * FROM customer;"
         cursor.execute(query)
-        return render_template("customers.html", cursor=cursor)
+        return render_template("clients.html", cursor=cursor)
     except Exception as e:
         return render_template("error.html", error=e)
     finally:
@@ -370,7 +370,11 @@ def list_products():
     dbConn = None
     cursor = None
     try:
-        pass  # TODO
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        query = "SELECT * FROM product;"
+        cursor.execute(query)
+        return render_template("products.html", cursor=cursor)
     except Exception as e:
         return render_template("error.html", error=e)
     finally:
