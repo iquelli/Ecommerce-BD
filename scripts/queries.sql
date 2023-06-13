@@ -8,7 +8,7 @@
 --		Description: Presents the corresponding SQL expression for each
 --                   question proposed in section 2.
 
--- (1): What is the number and name of the client(s) with the biggest value of paid orders?
+-- (1): What is the number and name of the customer(s) with the biggest value of paid orders?
 SELECT cust_no, customer.name
 FROM customer
     NATURAL JOIN pay

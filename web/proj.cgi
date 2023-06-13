@@ -28,56 +28,52 @@ DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (
 )
 
 _app = Flask(__name__)
-_u = ""
 
 
 # Runs the function once the root page is requested.
 # The request comes with the folder structure setting ~/web as the root.
 @_app.route("/")
 def homepage():
-    global _u
     try:
-        u = request.args.get("user")
-        return render_template("index.html", user=u)
+        return render_template("index.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
 
 
 @_app.route("/customer/register", methods=["GET"])
-def register_customer_get():
+def customer_register_get():
     try:
-        return render_template("client-register.html")
+        return render_template("customer_register.html")
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
 
 
 @_app.route("/customer/register", methods=["POST"])
-def register_customer_post():
-    global _u
+def customer_register_post():
     dbConn = None
     cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query_get_cust_no = "SELECT MAX(cust_no) + 1 FROM customer;"
-        cursor.execute(query_get_cust_no)
+
+        query_next_cust_no = "SELECT MAX(cust_no) + 1 FROM customer;"
+        cursor.execute(query_next_cust_no)
         [cust_no] = cursor.fetchone()
         if cust_no is None:
             cust_no = "0"
-        if _u == "":
-            _u = cust_no
         name = request.form["name"]
         email = request.form["email"]
-        address = request.form["address"]
         phone = request.form["phone"]
+        address = request.form["address"]
         if name == "" or email == "":
-            return redirect("/customer/register")
+            return redirect(url_for("customer_register_get"))
+
         data = (cust_no, name, email, phone, address)
         query = "INSERT INTO customer(cust_no, name, email, phone, adress) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -85,72 +81,80 @@ def register_customer_post():
 
 
 @_app.route("/customer/remove")
-def remove_customer():
+def customer_remove():
     dbConn = None
     cursor = None
     cust_no = request.args.get("customer")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "DELETE FROM customer WHERE cust_no = %s;"
         cursor.execute(query, (cust_no,))
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
         dbConn.close()
 
 
-@_app.route("/clients")
-def list_customers():
+@_app.route("/customers")
+def customers_list():
     dbConn = None
     cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "SELECT * FROM customer;"
         cursor.execute(query)
-        return render_template("clients.html", cursor=cursor)
+        return render_template("customers.html", cursor=cursor, params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         cursor.close()
         dbConn.close()
 
 
 @_app.route("/order/register", methods=["GET"])
-def register_order_get():
+def order_register_get():
     dbConn = None
     cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "SELECT * FROM product;"
         cursor.execute(query)
-        return render_template("order_register.html")
+        return render_template(
+            "order_register.html", cursor=cursor, params=request.args
+        )
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         cursor.close()
         dbConn.close()
 
 
 @_app.route("/order/register", methods=["POST"])
-def register_order_post():
+def order_register_post():
     dbConn = None
     cursor = None
-    cust_no = request.args.get("cust_no")
+    cust_no = request.args.get("customer")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query_get_order_no = "SELECT MAX(order_no) + 1 FROM orders;"
-        cursor.execute(query_get_order_no)
+
+        query_next_order_no = "SELECT MAX(order_no) + 1 FROM orders;"
+        cursor.execute(query_next_order_no)
         [order_no] = cursor.fetchone()
         if order_no is None:
             order_no = "0"
+
         data = (order_no, cust_no, datetime.today().strftime("%Y-%m-%d"))
+        NUM_PRODUCTS = 0
         # TODO: Add all products of the order to data with the right qty
         query = f"""
         BEGIN TRANSACTION;
@@ -160,9 +164,9 @@ def register_order_post():
         END TRANSACTION;
         """
         cursor.execute(query, data)
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -170,19 +174,19 @@ def register_order_post():
 
 
 @_app.route("/order/remove")
-def remove_order():
+def order_remove():
     dbConn = None
     cursor = None
-    cust_no = request.args.get("customer")
     order_no = request.args.get("order")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "DELETE FROM orders WHERE order_no = %s;"
         cursor.execute(query, (order_no,))
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -190,62 +194,60 @@ def remove_order():
 
 
 @_app.route("/orders")
-def list_orders():
+def orders_lists():
     dbConn = None
     cursor = None
     cust_no = request.args.get("customer")
-    try:  # TODO: Need to also list orders by client
+    try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM orders;"
+
+        if cust_no:
+            query = "SELECT * FROM orders WHERE cust_no = %s;"
+        else:
+            query = "SELECT * FROM orders;"
         cursor.execute(query)
-        return render_template("orders.html", cursor=cursor)
+        return render_template("orders.html", cursor=cursor, params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         cursor.close()
         dbConn.close()
 
 
 @_app.route("/order/product/add", methods=["GET"])
-def add_products_to_order_get():
+def product_add_to_order_get():
     dbConn = None
     cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "SELECT * FROM product;"
         cursor.execute(query)
-        return render_template("order_edit.html", cursor=cursor)
+        return render_template("order_edit.html", cursor=cursor, params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         cursor.close()
         dbConn.close()
 
 
 @_app.route("/order/product/add", methods=["POST"])
-def add_products_to_order_post():
+def product_add_to_order_post():
     dbConn = None
     cursor = None
     try:
-        pass  # TODO
-    except Exception as e:
-        return render_template("error.html", error=e)
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-
-@_app.route("/order/product/remove")
-def remove_products_from_order():
-    dbConn = None
-    cursor = None
-    try:
-        pass  # TODO
+        sku = request.form["sku"]
+        qty = request.form["qty"]
+        query = "INSERT INTO contains(order_no, SKU, qty) VALUES (%s, %s, %s)"
+        cursor.execute(query, (request.args.get("order"), sku, qty))
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -254,26 +256,27 @@ def remove_products_from_order():
 
 @_app.route("/order/pay", methods=["GET"])
 def perform_payment_get():
-    try:  # TODO: Needs to display pre defined payments methods
-        return render_template("pay.html")
+    try:
+        return render_template("pay.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
 
 
 @_app.route("/order/pay", methods=["POST"])
 def perform_payment_post():
     dbConn = None
     cursor = None
-    cust_no = request.args.get("cust_no")
-    order_no = request.args.get("order_no")
+    cust_no = request.args.get("customer")
+    order_no = request.args.get("order")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "INSERT INTO pay(order_no, cust_no) VALUES (%s, %s)"
         cursor.execute(query, (order_no, cust_no))
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -281,31 +284,33 @@ def perform_payment_post():
 
 
 @_app.route("/product/register", methods=["GET"])
-def register_product_get():
+def product_register_get():
     try:
-        return render_template("product_register.html")
+        return render_template("product_register.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
 
 
 @_app.route("/product/register", methods=["POST"])
-def register_product_post():
+def product_register_post():
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         sku = request.form["sku"]
         name = request.form["name"]
         description = request.form["description"]
         price = request.form["price"]
         ean = request.form["ean"]
         if sku == "" or name == "" or price == "" or ean == "":
-            return redirect("/product/register")
+            return redirect(url_for("product_register_get"))
+
         query = "INSERT INTO product(SKU, name, description, price, ean) VALUES (%s, %s, %s, %s, %s);"
         data = (sku, name, description, price, ean)
         cursor.execute(query, data)
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -313,18 +318,23 @@ def register_product_post():
 
 
 @_app.route("/product/remove")
-def remove_product():
+def product_remove():
     dbConn = None
     cursor = None
-    sku = request.args.get("sku")
+    sku = request.args.get("product")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "DELETE FROM product WHERE SKU = %s;"
-        cursor.execute(query, (sku,))
-        return render_template("success.html")
+
+        if request.args.get("order"):
+            query = "DELETE FROM contains WHERE SKU = %s AND order_no = %s;"
+            cursor.execute(query, (sku, request.args.get("order")))
+        else:
+            query = "DELETE FROM product WHERE SKU = %s;"
+            cursor.execute(query, (sku,))
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -332,33 +342,37 @@ def remove_product():
 
 
 @_app.route("/product/edit", methods=["GET"])
-def edit_product_get():
+def product_edit_get():
     try:
-        return render_template("product_edit.html")
+        return render_template("product_edit.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
 
 
 @_app.route("/product/edit", methods=["POST"])
-def edit_product_post():
-    try:  # TODO
+def product_edit_post():
+    try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         sku = request.form["sku"]
-        price = request.form["price"]
+        name = request.form["name"]
         description = request.form["description"]
-        if price:
-            cursor.execute(
-                "UPDATE product SET price = %s WHERE SKU = %s;", (price, sku)
-            )
-        if description:
-            cursor.execute(
-                "UPDATE product SET description = %s WHERE SKU = %s;",
-                (description, sku),
-            )
-        return render_template("success.html")
+        price = request.form["price"]
+        ean = request.form["ean"]
+        if sku == "" or name == "" or price == "" or ean == "":
+            return redirect(url_for("product_edit_get"))
+
+        query = """
+        UPDATE product
+        SET SKU = %s, name = %s, description = %s, price = %s, ean = %s
+        WHERE SKU = %s
+        """
+        data = (sku, name, description, price, ean, request.args.get("product"))
+        cursor.execute(query, data)
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -366,58 +380,69 @@ def edit_product_post():
 
 
 @_app.route("/products")
-def list_products():
+def products_list():
     dbConn = None
     cursor = None
+    order_no = request.args.get("order")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM product;"
+
+        if order_no:
+            query = """
+            SELECT * FROM product NATURAL JOIN contains
+            WHERE order_no = %s;"""
+        else:
+            query = "SELECT * FROM product;"
         cursor.execute(query)
-        return render_template("products.html", cursor=cursor)
+        return render_template("products.html", cursor=cursor, params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
-        dbConn.commit()
         cursor.close()
         dbConn.close()
 
 
 @_app.route("/supplier/register", methods=["GET"])
-def register_supplier_get():
+def supplier_register_get():
     dbConn = None
     cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "SELECT * FROM product;"
         cursor.execute(query)
-        return render_template("supplier_register.html", cursor=cursor)
+        return render_template(
+            "supplier_register.html", cursor=cursor, params=request.args
+        )
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         cursor.close()
         dbConn.close()
 
 
 @_app.route("/supplier/register", methods=["POST"])
-def register_supplier_post():
+def supplier_register_post():
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         tin = request.form["tin"]
         name = request.form["name"]
         address = request.form["address"]
-        sku = request.form["sku"]  # TODO: We shouldn't get this from a form
+        sku = request.form["sku"]
         date = request.form["date"]
         if sku == "":
-            return redirect("/supplier/register")
+            return redirect(url_for("supplier_register_get"))
+
         data = (tin, name, address, sku, date)
         query = "INSERT INTO supplier(TIN, name, adress, SKU, date) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         dbConn.commit()
         cursor.close()
@@ -425,16 +450,17 @@ def register_supplier_post():
 
 
 @_app.route("/supplier/remove")
-def remove_supplier():
+def supplier_remove():
     dbConn = None
     cursor = None
-    tin = request.args.get("tin")
+    tin = request.args.get("supplier")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "DELETE FROM supplier WHERE TIN = %s;"
         cursor.execute(query, (tin,))
-        return render_template("success.html")
+        return render_template("success.html", params=request.args)
     except Exception as e:
         return render_template("error.html", error=e)
     finally:
@@ -444,17 +470,18 @@ def remove_supplier():
 
 
 @_app.route("/suppliers")
-def list_suppliers():
+def suppliers_list():
     dbConn = None
     cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
         query = "SELECT * FROM supplier;"
         cursor.execute(query)
-        return render_template("suppliers.html", cursor=cursor)
+        return render_template("suppliers.html", cursor=cursor, params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e)
+        return render_template("error.html", error=e, params=request.args)
     finally:
         cursor.close()
         dbConn.close()

@@ -21,7 +21,7 @@
 }
 
 .gif,
-.client-view,
+.customer-view,
 .admin-view {
   display: flex;
   padding: 5%;
@@ -41,7 +41,7 @@
   color: white;
 }
 
-.client-view {
+.customer-view {
   background-color: #596296;
   color: white
 }
@@ -55,7 +55,7 @@
   color: #596296;
 }
 
-.client-button {
+.customer-button {
   background-color: white;
   color: #596296;
 }
