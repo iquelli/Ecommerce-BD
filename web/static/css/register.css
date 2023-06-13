@@ -8,6 +8,13 @@
   align-items: center;  
   padding: 3%;
   text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.forms {
+  display: flex; 
+  justify-content: space-around;
 }
 
 .page-title {

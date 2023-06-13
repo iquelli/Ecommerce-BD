@@ -18,36 +18,59 @@
     </div>
     <a href="index.html" class="nav-text">Go back</a>
   </div>
-  <div class="title-wrapper">
-    <h2 class="page-title">Register</h2>
-  </div>
   <div>
-    <form action="" method="post">
-      <div class="form">
-        <div class="form-entry">
-          <p>Name</p>
-          <input type="text" placeholder="Name" id="name" name="name" maxlength="255" oninput="checkOption()" />
+    <div class="forms">
+      <div class="register-form">
+        <div class="title-wrapper">
+          <h2 class="page-title">Register</h2>
         </div>
+          <form action="" method="post">
+            <div class="form">
+              <div class="form-entry">
+                <p>Name</p>
+                <input type="text" placeholder="Name" id="name" name="name" maxlength="255"/>
+              </div>
+      
+              <div class="form-entry">
+                <p>Email</p>
+                <input type="text" placeholder="Email" id="email" name="email" maxlength="255"/>
+              </div>
+      
+              <div class="form-entry">
+                <p>Address</p>
+                <input type="text" placeholder="Address" id="address" name="address" maxlength="255"/>
+              </div>
 
-        <div class="form-entry">
-          <p>Email</p>
-          <input type="text" placeholder="Email" id="email" name="email" maxlength="255" oninput="checkOption()" />
-        </div>
-
-        <div class="form-entry">
-          <p>Address</p>
-          <input type="text" placeholder="Address" id="address" name="address" maxlength="255" oninput="checkOption()" />
-
-        </div>
-        <div class="form-entry">
-          <p>Phone</p>
-          <div style="display:flex; gap: 10px; align-items: center;">
-            <p style="color:grey">+351</p>
-            <input type="text" class="phone" placeholder="Phone" id="phone" name="phone" maxlength="9" oninput="checkOption()" />
-          </div>
-        </div>
-        <button class="register-button"> Register </button>
+              <div class="form-entry">
+                <p>Phone</p>
+                <div style="display:flex; gap: 10px; align-items: center;">
+                  <p style="color:grey">+351</p>
+                  <input type="text" class="phone" placeholder="Phone" id="phone" name="phone" maxlength="9"/>
+                </div>
+              </div>
+              <button class="register-button"> Register </button>
+            </div>
       </div>
+      <div class="login-form">
+        <div class="title-wrapper">
+          <h2 class="page-title">Login</h2>
+        </div>
+          <form action="" method="post">
+            <div class="form">
+              <div class="form-entry">
+                <p>Name</p>
+                <input type="text" placeholder="Name" id="name" name="name" maxlength="255"/>
+              </div>
+      
+              <div class="form-entry">
+                <p>Email</p>
+                <input type="text" placeholder="Email" id="email" name="email" maxlength="255"/>
+              </div>
+              <button class="register-button"> Login </button>
+            </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 <footer class="footer-messages" style="position:fixed;">
