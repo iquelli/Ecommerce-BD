@@ -37,8 +37,8 @@ _u = ""
 def homepage():
     global _u
     try:
-        _u = request.args.get("user")
-        return render_template("index.html", user=_u)
+        u = request.args.get("user")
+        return render_template("index.html", user=u)
     except Exception as e:
         return render_template("error.html", error=e)
 
@@ -48,7 +48,7 @@ def register_customer_get():
     try:
         return render_template("customer_register.html")
     except Exception as e:
-        return render_template("error.html", error=e, user=_u)
+        return render_template("error.html", error=e)
 
 
 @_app.route("/customer/register", methods=["POST"])
@@ -75,9 +75,9 @@ def register_customer_post():
         data = (cust_no, name, email, phone, address)
         query = "INSERT INTO customer(cust_no, name, email, phone, adress) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
-        return render_template("success.html", user=_u)
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, user=_u)
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -94,9 +94,9 @@ def remove_customer():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "DELETE FROM customer WHERE cust_no = %s;"
         cursor.execute(query, (cust_no,))
-        return render_template("success.html", user=_u, context="customer")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, user=_u, context="customer")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -114,7 +114,7 @@ def list_customers():
         cursor.execute(query)
         return render_template("customers.html", cursor=cursor)
     except Exception as e:
-        return render_template("error.html", error=e, user=_u, context="customer")
+        return render_template("error.html", error=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -131,7 +131,7 @@ def register_order_get():
         cursor.execute(query)
         return render_template("order_register.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="order")
+        return render_template("error.html", error=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -160,9 +160,9 @@ def register_order_post():
         END TRANSACTION;
         """
         cursor.execute(query, data)
-        return render_template("success.html", context="order")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="order")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -180,9 +180,9 @@ def remove_order():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "DELETE FROM orders WHERE order_no = %s;"
         cursor.execute(query, (order_no,))
-        return render_template("success.html", customer=cust_no, context="order")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, customer=cust_no, context="order")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -199,9 +199,9 @@ def list_orders():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "SELECT * FROM orders;"
         cursor.execute(query)
-        return render_template("orders.html", cursor=cursor, customer=cust_no)
+        return render_template("orders.html", cursor=cursor)
     except Exception as e:
-        return render_template("error.html", error=e, user=_u, context="order")
+        return render_template("error.html", error=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -218,7 +218,7 @@ def add_products_to_order_get():
         cursor.execute(query)
         return render_template("order_edit.html", cursor=cursor)
     except Exception as e:
-        return render_template("error.html", error=e, user=_u, context="order")
+        return render_template("error.html", error=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -231,7 +231,7 @@ def add_products_to_order_post():
     try:
         pass  # TODO
     except Exception as e:
-        return render_template("error.html", error=e, user=_u, context="order")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -245,7 +245,7 @@ def remove_products_from_order():
     try:
         pass  # TODO
     except Exception as e:
-        return render_template("error.html", error=e, user=_u, context="order")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -257,7 +257,7 @@ def perform_payment_get():
     try:  # TODO: Needs to display pre defined payments methods
         return render_template("pay.html")
     except Exception as e:
-        return render_template("error.html", error=e, customer=cust_no, context="order")
+        return render_template("error.html", error=e)
 
 
 @_app.route("/order/pay", methods=["POST"])
@@ -271,9 +271,9 @@ def perform_payment_post():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "INSERT INTO pay(order_no, cust_no) VALUES (%s, %s)"
         cursor.execute(query, (order_no, cust_no))
-        return render_template("success.html", customer=cust_no, context="order")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, customer=cust_no, context="order")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -285,7 +285,7 @@ def register_product_get():
     try:
         return render_template("product_register.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="product")
+        return render_template("error.html", error=e)
 
 
 @_app.route("/product/register", methods=["POST"])
@@ -303,9 +303,9 @@ def register_product_post():
         query = "INSERT INTO product(SKU, name, description, price, ean) VALUES (%s, %s, %s, %s, %s);"
         data = (sku, name, description, price, ean)
         cursor.execute(query, data)
-        return render_template("success.html", context="product")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="product")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -322,9 +322,9 @@ def remove_product():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "DELETE FROM product WHERE SKU = %s;"
         cursor.execute(query, (sku,))
-        return render_template("success.html", context="product")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="product")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -336,7 +336,7 @@ def edit_product_get():
     try:
         return render_template("product_edit.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="product")
+        return render_template("error.html", error=e)
 
 
 @_app.route("/product/edit", methods=["POST"])
@@ -356,9 +356,9 @@ def edit_product_post():
                 "UPDATE product SET description = %s WHERE SKU = %s;",
                 (description, sku),
             )
-        return render_template("success.html", context="product")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="product")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -372,9 +372,7 @@ def list_products():
     try:
         pass  # TODO
     except Exception as e:
-        return render_template(
-            "error.html", error=e, user=_u, order=order_no, context="product"
-        )
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -392,7 +390,7 @@ def register_supplier_get():
         cursor.execute(query)
         return render_template("supplier_register.html", cursor=cursor)
     except Exception as e:
-        return render_template("error.html", error=e, context="supplier")
+        return render_template("error.html", error=e)
     finally:
         cursor.close()
         dbConn.close()
@@ -413,9 +411,9 @@ def register_supplier_post():
         data = (tin, name, address, sku, date)
         query = "INSERT INTO supplier(TIN, name, adress, SKU, date) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
-        return render_template("success.html", context="supplier")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="supplier")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -432,9 +430,9 @@ def remove_supplier():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = "DELETE FROM supplier WHERE TIN = %s;"
         cursor.execute(query, (tin,))
-        return render_template("success.html", context="supplier")
+        return render_template("success.html")
     except Exception as e:
-        return render_template("error.html", error=e, context="supplier")
+        return render_template("error.html", error=e)
     finally:
         dbConn.commit()
         cursor.close()
@@ -452,7 +450,7 @@ def list_suppliers():
         cursor.execute(query)
         return render_template("suppliers.html", cursor=cursor)
     except Exception as e:
-        return render_template("error.html", error=e, context="supplier")
+        return render_template("error.html", error=e)
     finally:
         cursor.close()
         dbConn.close()
