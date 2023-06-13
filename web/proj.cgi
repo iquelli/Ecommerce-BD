@@ -173,26 +173,6 @@ def order_register_post():
         dbConn.close()
 
 
-@_app.route("/order/remove")
-def order_remove():
-    dbConn = None
-    cursor = None
-    order_no = request.args.get("order")
-    try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-        query = "DELETE FROM orders WHERE order_no = %s;"
-        cursor.execute(query, (order_no,))
-        return render_template("success.html", params=request.args)
-    except Exception as e:
-        return render_template("error.html", error=e, params=request.args)
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
-
-
 @_app.route("/orders")
 def orders_lists():
     dbConn = None

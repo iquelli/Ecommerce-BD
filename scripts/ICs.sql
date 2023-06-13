@@ -63,47 +63,56 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_warehouse_cannot_be_office ON warehouse;
 DROP TRIGGER IF EXISTS trigger_office_cannot_be_warehouse ON office;
-CREATE CONSTRAINT TRIGGER trigger_warehouse_cannot_be_office
-    AFTER INSERT OR UPDATE ON warehouse
-    FOR EACH ROW EXECUTE FUNCTION workplace_disjunction();
+DROP TRIGGER IF EXISTS trigger_warehouse_cannot_be_office ON warehouse;
 CREATE CONSTRAINT TRIGGER trigger_office_cannot_be_warehouse
     AFTER INSERT OR UPDATE ON office
     FOR EACH ROW EXECUTE FUNCTION workplace_disjunction();
+CREATE CONSTRAINT TRIGGER trigger_warehouse_cannot_be_office
+    AFTER INSERT OR UPDATE ON warehouse
+    FOR EACH ROW EXECUTE FUNCTION workplace_disjunction();
 
-/* When an office is removed, remove the workplace. */
+/* When an office is removed, make sure the workplace is removed. */
 CREATE OR REPLACE FUNCTION remove_office_deps() RETURNS TRIGGER AS $$
 BEGIN
-    DELETE FROM workplace WHERE address = OLD.address;
+    IF EXISTS (SELECT address FROM workplace WHERE address = OLD.address)
+    THEN
+        RAISE EXCEPTION 'To remove a warehouse, you need to remove the workplace first.';
+    END IF;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_office_deps ON office;
-CREATE TRIGGER trigger_remove_office_deps
-    BEFORE DELETE ON office
+CREATE CONSTRAINT TRIGGER trigger_remove_office_deps
+    AFTER DELETE ON office
+    DEFERRABLE INITIALLY DEFERRED
     FOR EACH ROW EXECUTE FUNCTION remove_office_deps();
 
-/* When a warehouse is removed, remove everything that depends on it. */
+/* When a warehouse is removed, make sure the workplace is removed
+   and remove everything that depends on the warehouse. */
 CREATE OR REPLACE FUNCTION remove_warehouse_deps() RETURNS TRIGGER AS $$
 BEGIN
-    DELETE FROM workplace WHERE address = OLD.address;
+    IF EXISTS (SELECT address FROM workplace WHERE address = OLD.address)
+    THEN
+        RAISE EXCEPTION 'To remove a warehouse, you need to remove the workplace first.';
+    END IF;
     DELETE FROM delivery WHERE address = OLD.address;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS trigger_remove_warehouse_deps ON warehouse;
-CREATE TRIGGER trigger_remove_warehouse_deps
-    BEFORE DELETE ON warehouse
+CREATE CONSTRAINT TRIGGER trigger_remove_warehouse_deps
+    AFTER DELETE ON warehouse
+    DEFERRABLE INITIALLY DEFERRED
     FOR EACH ROW EXECUTE FUNCTION remove_warehouse_deps();
 
 ----------
 -- (IC-3): An `order` must be in `contains`.
 ----------
 
-/* Each new order must have at least one product in the `contains` relation. */
+/* Each new order must have at least one product in the contains relation. */
 CREATE OR REPLACE FUNCTION order_not_in_contains() RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (SELECT order_no FROM contains WHERE order_no = NEW.order_no)
@@ -120,7 +129,7 @@ CREATE CONSTRAINT TRIGGER trigger_order_not_in_contains
     DEFERRABLE INITIALLY DEFERRED
     FOR EACH ROW EXECUTE FUNCTION order_not_in_contains();
 
-/* When removing/updating an entry on `contains`, if the order
+/* When removing/updating an entry on contains, if the order
    becomes empty, then remove the order. */
 CREATE OR REPLACE FUNCTION update_order_contains() RETURNS TRIGGER AS $$
 BEGIN
@@ -156,31 +165,30 @@ CHECK (qty > 0);
 /* When a customer is removed, remove everything that depends on it. */
 CREATE OR REPLACE FUNCTION remove_customer_deps() RETURNS TRIGGER AS $$
 BEGIN
-    DELETE FROM pay WHERE cust_no = OLD.cust_no;
-    DELETE FROM orders WHERE cust_no = OLD.cust_no;
+    DELETE FROM contains WHERE order_no
+        IN (SELECT order_no FROM orders WHERE cust_no = OLD.cust_no);
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_customer_deps ON contains;
+DROP TRIGGER IF EXISTS trigger_remove_customer_deps ON customer;
 CREATE TRIGGER trigger_remove_customer_deps
     BEFORE DELETE ON customer
     FOR EACH ROW EXECUTE FUNCTION remove_customer_deps();
 
-/* When an order is removed, remove everything that depends on it. */
-CREATE OR REPLACE FUNCTION remove_order_deps() RETURNS TRIGGER AS $$
+/* When an empty order is removed, remove everything that depends on it. */
+CREATE OR REPLACE FUNCTION remove_empty_order_deps() RETURNS TRIGGER AS $$
 BEGIN
     DELETE FROM pay WHERE order_no = OLD.order_no;
-    DELETE FROM contains WHERE order_no = OLD.order_no;
     DELETE FROM process WHERE order_no = OLD.order_no;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_order_deps ON contains;
-CREATE TRIGGER trigger_remove_order_deps
+DROP TRIGGER IF EXISTS trigger_remove_empty_order_deps ON orders;
+CREATE TRIGGER trigger_remove_empty_order_deps
     BEFORE DELETE ON orders
-    FOR EACH ROW EXECUTE FUNCTION remove_order_deps();
+    FOR EACH ROW EXECUTE FUNCTION remove_empty_order_deps();
 
 /* When a product is removed, remove everything that depends on it. */
 CREATE OR REPLACE FUNCTION remove_product_deps() RETURNS TRIGGER AS $$
@@ -191,7 +199,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_product_deps ON contains;
+DROP TRIGGER IF EXISTS trigger_remove_product_deps ON product;
 CREATE TRIGGER trigger_remove_product_deps
     BEFORE DELETE ON product
     FOR EACH ROW EXECUTE FUNCTION remove_product_deps();
@@ -204,7 +212,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_supplier_deps ON contains;
+DROP TRIGGER IF EXISTS trigger_remove_supplier_deps ON supplier;
 CREATE TRIGGER trigger_remove_supplier_deps
     BEFORE DELETE ON supplier
     FOR EACH ROW EXECUTE FUNCTION remove_supplier_deps();
@@ -212,14 +220,14 @@ CREATE TRIGGER trigger_remove_supplier_deps
 /* When a workplace is removed, remove everything that depends on it. */
 CREATE OR REPLACE FUNCTION remove_workplace_deps() RETURNS TRIGGER AS $$
 BEGIN
+    DELETE FROM works WHERE address = OLD.address;
     DELETE FROM office WHERE address = OLD.address;
     DELETE FROM warehouse WHERE address = OLD.address;
-    DELETE FROM works WHERE address = OLD.address;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_workplace_deps ON contains;
+DROP TRIGGER IF EXISTS trigger_remove_workplace_deps ON workplace;
 CREATE TRIGGER trigger_remove_workplace_deps
     BEFORE DELETE ON workplace
     FOR EACH ROW EXECUTE FUNCTION remove_workplace_deps();
@@ -232,7 +240,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_department_deps ON contains;
+DROP TRIGGER IF EXISTS trigger_remove_department_deps ON department;
 CREATE TRIGGER trigger_remove_department_deps
     BEFORE DELETE ON department
     FOR EACH ROW EXECUTE FUNCTION remove_department_deps();
@@ -246,7 +254,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS trigger_remove_employee_deps ON contains;
+DROP TRIGGER IF EXISTS trigger_remove_employee_deps ON employee;
 CREATE TRIGGER trigger_remove_employee_deps
     BEFORE DELETE ON employee
     FOR EACH ROW EXECUTE FUNCTION remove_employee_deps();
