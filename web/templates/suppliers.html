@@ -53,14 +53,18 @@
                   <td>{{ record[2] }}</td>
                   <td>{{ record[3] }}</td>
                   <td>{{ record[4] }}</td>
-                  <td class="remove-text">Remove</td>
+                  <td>
+                    <a href="./supplier/remove?supplier={{ record[0] }}" class="remove-text">
+                      Remove
+                    </a>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
         {% else %}
-            <p>There is no suppliers</p>
+            <p>There is no suppliers.</p>
         {% endif %}
     </div>
   </div>
