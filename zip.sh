@@ -10,7 +10,6 @@ cp ./scripts/ICs.sql /tmp/$FOLDER_NAME
 cp ./scripts/queries.sql /tmp/$FOLDER_NAME
 cp ./scripts/view.sql /tmp/$FOLDER_NAME
 cp ./scripts/analytics.sql /tmp/$FOLDER_NAME
-cp ./scripts/schema.sql /tmp/$FOLDER_NAME
 cp -r ./web /tmp/$FOLDER_NAME
 
 pushd /tmp
