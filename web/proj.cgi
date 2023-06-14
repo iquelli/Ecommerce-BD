@@ -71,7 +71,7 @@ def customer_register_post():
         data = (cust_no, name, email, phone, address)
         query = "INSERT INTO customer(cust_no, name, email, phone, address) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
-        return render_template("success.html", params=request.args)
+        return redirect(url_for("customer_menu", customer=cust_no))
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
@@ -172,22 +172,17 @@ def order_register_post():
         cursor.close()
         dbConn.close()
 
-
-@_app.route("/orders")
-def orders_lists():
+@_app.route("/customer_menu", methods=["GET"])
+def customer_menu():
     dbConn = None
     cursor = None
     cust_no = request.args.get("customer")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-        if cust_no:
-            query = "SELECT * FROM orders WHERE cust_no = %s;"
-        else:
-            query = "SELECT * FROM orders;"
-        cursor.execute(query)
-        return render_template("orders.html", cursor=cursor, params=request.args)
+        query = "SELECT * FROM orders WHERE cust_no = %s;"
+        cursor.execute(query, (cust_no, ))
+        return render_template("customer_menu.html", cursor=cursor, params=request.args)
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
