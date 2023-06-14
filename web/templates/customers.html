@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script src="../static/js/utils.js"></script>
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/menu.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
@@ -62,6 +63,17 @@
             {% endfor %}
           </tbody>
         </table>
+
+        <form id="offsetForm" action="/costumers" method="get">
+          <div class="show-wrapper">
+            <input type="hidden" id="offset" name="offset" value="{{ offset }}">
+            {% if offset != 0 %}
+            <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+            {% endif %}
+              <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+            </div>
+        </form>
+
       </div>
     {% else %}
         <p>There is no clients.</p>

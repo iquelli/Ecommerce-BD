@@ -57,3 +57,19 @@
 .remove-text:active {
   opacity: 100%;
 }
+
+.show-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.show-wrapper button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: #596296;
+  width: 80px;
+  background-color: white;
+}

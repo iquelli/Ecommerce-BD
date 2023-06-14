@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script src="../static/js/utils.js"></script>
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/menu.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
@@ -17,7 +18,7 @@
       <p style="color: #596296;">Manager</p>
     </div>
     <div>
-        <a href="./" class="nav-text">Logout</a>
+      <a href="./" class="nav-text">Logout</a>
     </div>
   </div>
   <div class="admin-menu">
@@ -31,50 +32,61 @@
       <h1>PRODUCTS IN DATABASE</h1>
       <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
     </div>
-    <hr class = "menu-line">
-      <div>
-        {% if cursor %}
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>SKU</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>EAN</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for record in cursor %}
-                <tr>
-                  <td>{{ record[0] }}</td>
-                  <td>{{ record[1] }}</td>
-                  <td>{{ record[2] }}</td>
-                  <td>{{ record[3] }}</td>
-                  <td>{{ record[4] }}</td>
-                  <td>
-                    <a href="./product/remove?product={{ record[0] }}" class="remove-text">
-                      Remove
-                    </a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        {% else %}
-            <p>There is no products.</p>
-        {% endif %}
+    <hr class="menu-line">
+    <div>
+      {% if cursor %}
+      <form id="limitForm">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>EAN</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in cursor %}
+              <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>{{ record[3] }}</td>
+                <td>{{ record[4] }}</td>
+                <td>
+                  <a href="./product/remove?product={{ record[0] }}" class="remove-text">
+                    Remove
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        
+        <form id="offsetForm" action="/products" method="get">
+          <div class="show-wrapper">
+            <input type="hidden" id="offset" name="offset" value="{{ offset }}">
+            {% if offset != 0 %}
+            <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+            {% endif %}
+              <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+            </div>
+        </form>
+
       </div>
+      {% else %}
+      <p>There is no products.</p>
+      {% endif %}
+    </div>
   </div>
-
-</body>
-
 <footer class="footer-messages">
   <hr>
   Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624), Vasco Paisana (102533)
 </footer>
+</body>
+
 
 </html>

@@ -14,6 +14,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 import psycopg2
 import psycopg2.extras
+import json
 
 # DBMS configs
 DB_HOST = "db"
@@ -104,13 +105,15 @@ def customer_remove():
 def customers_list():
     dbConn = None
     cursor = None
+    offset = int(request.args.get("offset", 0)) 
+    
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        query = "SELECT * FROM customer;"
-        cursor.execute(query)
-        return render_template("customers.html", cursor=cursor, params=request.args)
+        query = "SELECT * FROM customer OFFSET %s LIMIT %s;"
+        cursor.execute(query , (offset, 10))
+        return render_template("customers.html", cursor=cursor, offset=offset, params=request.args)
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
@@ -177,12 +180,13 @@ def customer_menu():
     dbConn = None
     cursor = None
     cust_no = request.args.get("customer")
+    offset = int(request.args.get("offset", 0))
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        query = "SELECT * FROM orders WHERE cust_no = %s;"
-        cursor.execute(query, (cust_no, ))
-        return render_template("customer_menu.html", cursor=cursor, params=request.args)
+        query = "SELECT * FROM orders WHERE cust_no = %s OFFSET %s LIMIT %s;"
+        cursor.execute(query, (cust_no, offset, 10))
+        return render_template("customer_menu.html", cursor=cursor, offset=offset, params=request.args)
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
@@ -378,13 +382,14 @@ def product_edit_post():
         dbConn.commit()
         cursor.close()
         dbConn.close()
-
-
+        
 @_app.route("/products")
 def products_list():
     dbConn = None
     cursor = None
     order_no = request.args.get("order")
+    offset = int(request.args.get("offset", 0)) 
+
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -392,16 +397,23 @@ def products_list():
         if order_no:
             query = """
             SELECT * FROM product NATURAL JOIN contains
-            WHERE order_no = %s;"""
+            WHERE order_no = %s
+            OFFSET %s
+            LIMIT %s;
+            """
+            cursor.execute(query, (order_no, offset, 10))
         else:
-            query = "SELECT * FROM product;"
-        cursor.execute(query)
-        return render_template("products.html", cursor=cursor, params=request.args)
+            query = "SELECT * FROM product OFFSET %s LIMIT %s;"
+            cursor.execute(query, (offset, 10))
+
+        return render_template("products.html", cursor=cursor, offset=offset, params=request.args)
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
-        cursor.close()
-        dbConn.close()
+        if cursor:
+            cursor.close()
+        if dbConn:
+            dbConn.close()
 
 
 @_app.route("/supplier/register", methods=["GET"])
@@ -474,13 +486,14 @@ def supplier_remove():
 def suppliers_list():
     dbConn = None
     cursor = None
+    offset = int(request.args.get("offset", 0))
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        query = "SELECT * FROM supplier;"
-        cursor.execute(query)
-        return render_template("suppliers.html", cursor=cursor, params=request.args)
+        query = "SELECT * FROM supplier OFFSET %s LIMIT %s;"
+        cursor.execute(query, (offset,10))
+        return render_template("suppliers.html", cursor=cursor, offset=offset, params=request.args)
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
