@@ -33,7 +33,7 @@
       <h1>Customer</h1>
       <p>Here you can find the functions related to customers on our data base such as register, view orders that you made and place an order.</p>
     </div>
-    <a href="./customer/register" class="button">
+    <a href="{{ url_for('customer_register_post') }}" class="button">
       <button class="customer-button">Customer View</button>
     </a>
   </div>
@@ -42,7 +42,7 @@
       <h1>Manager</h1>
       <p>Here you can find the functions related to manager on our data base.</p>
     </div>
-    <a href="./customers" class="button">
+    <a href="{{ url_for('customers_list') }}" class="button">
       <button class="admin-button" type="submit">Manager View</button>
     </a>
   </div>
