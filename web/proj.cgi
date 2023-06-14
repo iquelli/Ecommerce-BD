@@ -69,7 +69,7 @@ def customer_register_post():
             return redirect(url_for("customer_register_get"))
 
         data = (cust_no, name, email, phone, address)
-        query = "INSERT INTO customer(cust_no, name, email, phone, adress) VALUES (%s, %s, %s, %s, %s);"
+        query = "INSERT INTO customer(cust_no, name, email, phone, address) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
         return render_template("success.html", params=request.args)
     except Exception as e:
