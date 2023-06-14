@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/register.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
-  <title>Client Register | Técnico Shop</title>
+  <title>Client Login | Técnico Shop</title>
 </head>
 
 <body>
@@ -22,7 +22,7 @@
     <div class="forms">
       <div class="register-form">
         <div class="title-wrapper">
-          <h2 class="page-title">Register</h2>
+          <h2 class="page-title">Login</h2>
         </div>
           <form action="" method="post">
             <div class="form">
@@ -35,24 +35,11 @@
                 <p>Email</p>
                 <input type="text" placeholder="Email" id="email" name="email" maxlength="255"/>
               </div>
-      
-              <div class="form-entry">
-                <p>Address</p>
-                <input type="text" placeholder="Address" id="address" name="address" maxlength="255"/>
-              </div>
-
-              <div class="form-entry">
-                <p>Phone</p>
-                <div style="display:flex; gap: 10px; align-items: center;">
-                  <p style="color:grey">+351</p>
-                  <input type="text" class="phone" placeholder="Phone" id="phone" name="phone" maxlength="9"/>
-                </div>
-              </div>
-              <button class="register-button"> Register </button>
+              <button class="register-button">Login</button>
             </div>
-            <p>Already have an account? <a class="redirect-to-other" href="{{url_for('customer_login_get')}}">Login here</a></p>
+            <p>Don't have an account?<a class="redirect-to-other" href="{{url_for('customer_register_get')}}">Register here</a></p>
       </div>
-    </div>
+  </div>
 </body>
 
 <footer class="footer-messages" style="position:fixed;">

@@ -1,5 +1,4 @@
-.form-entry,
-.page-title {
+.form-entry {
   color: #596296;
 }
 
@@ -36,4 +35,9 @@
   align-items: center;
   gap: 40px;
   margin-top: 20px;
+}
+
+.redirect-to-other {
+  text-decoration: underline;
+  color: #596296;
 }

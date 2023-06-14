@@ -81,6 +81,41 @@ def customer_register_post():
         cursor.close()
         dbConn.close()
 
+@_app.route("/customer/login", methods=["GET"])
+def customer_login_get():
+    try:
+        return render_template("customer_login.html")
+    except Exception as e:
+        return render_template("error.html", error=e, params=request.args)
+
+@_app.route("/customer/login", methods=["POST"])
+def customer_login_post():
+    dbConn = None
+    cursor = None
+    name = request.args.get("name")
+    email = request.args.get("email")
+    
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        
+        if name == "" or email == "":
+            return redirect(url_for("customer_login_get"))
+        
+        query = "SELECT cust_no FROM customer WHERE name = %s AND email = %s;"
+        cursor.execute(query, (name, email,))
+        cust_no = cursor.fetchall()
+        
+        if cust_no is None:
+            return redirect(url_for("customer_login_get"))
+
+        return redirect(url_for("customer_menu", customer=cust_no))
+    except Exception as e:
+        return render_template("error.html", error=e, params=request.args)
+    finally:
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 @_app.route("/customer/remove")
 def customer_remove():
