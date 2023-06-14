@@ -135,6 +135,9 @@ CREATE OR REPLACE FUNCTION update_order_contains() RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (SELECT order_no FROM contains WHERE order_no = OLD.order_no)
     THEN
+        -- When an order becomes empty, delete all of its dependencies.
+        DELETE FROM pay WHERE order_no = OLD.order_no;
+        DELETE FROM process WHERE order_no = OLD.order_no;
         DELETE FROM orders WHERE order_no = OLD.order_no;
     END IF;
     RETURN NEW;
@@ -175,20 +178,6 @@ DROP TRIGGER IF EXISTS trigger_remove_customer_deps ON customer;
 CREATE TRIGGER trigger_remove_customer_deps
     BEFORE DELETE ON customer
     FOR EACH ROW EXECUTE FUNCTION remove_customer_deps();
-
-/* When an empty order is removed, remove everything that depends on it. */
-CREATE OR REPLACE FUNCTION remove_empty_order_deps() RETURNS TRIGGER AS $$
-BEGIN
-    DELETE FROM pay WHERE order_no = OLD.order_no;
-    DELETE FROM process WHERE order_no = OLD.order_no;
-    RETURN OLD;
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS trigger_remove_empty_order_deps ON orders;
-CREATE TRIGGER trigger_remove_empty_order_deps
-    BEFORE DELETE ON orders
-    FOR EACH ROW EXECUTE FUNCTION remove_empty_order_deps();
 
 /* When a product is removed, remove everything that depends on it. */
 CREATE OR REPLACE FUNCTION remove_product_deps() RETURNS TRIGGER AS $$
