@@ -439,7 +439,7 @@ def supplier_register_post():
             return redirect(url_for("supplier_register_get"))
 
         data = (tin, name, address, sku, date)
-        query = "INSERT INTO supplier(TIN, name, adress, SKU, date) VALUES (%s, %s, %s, %s, %s);"
+        query = "INSERT INTO supplier(TIN, name, address, SKU, date) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
         return render_template("success.html", params=request.args)
     except Exception as e:
