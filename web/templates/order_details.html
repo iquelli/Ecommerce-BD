@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="../static/css/tables-pages.css" />
+</head>
+<body>
+  <div class="order-details">
+    <h1>Details for Order: {{params["order"]}}</h1>
+  </div>
+  {% if products %}
+    <div class="table-container">
+      <table>
+        <thead>
+          <col style="width:60%">
+          <col style="width:20%">
+          <col style="width:20%">
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in products %}
+          <tr>
+            <td>{{ record[0] }}</td>
+            <td>{{ record[1] }}</td>
+            <td>{{ record[2] }}</td> 
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+    {% if total %}
+        <h2 class="total-price underline">TOTAL PRICE</h2>
+        <p class="total-price">{{ total[0] }}</p>
+    {% endif %}
+  </div>
+
+  {% else %}
+    <p>No products found.</p>
+  {% endif %}
+</div>
+  
+</body>
+</html>

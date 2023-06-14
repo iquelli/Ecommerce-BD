@@ -189,6 +189,32 @@ def customer_menu():
         cursor.close()
         dbConn.close()
 
+@_app.route("/orders_details")
+def order_details():
+    dbConn = None
+    cursor = None
+    order_no = request.args.get("order")
+    try:
+        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+        query = "SELECT name, qty, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
+        cursor.execute(query, (order_no,))
+        products= cursor.fetchall()
+
+        query = "SELECT SUM(contains.qty * product.price) FROM contains NATURAL JOIN product WHERE order_no = %s;"
+        cursor.execute(query, (order_no,))
+        total= cursor.fetchone()
+
+        return render_template("order_details.html", products=products, total=total,  params=request.args)
+    except Exception as e:
+        return render_template("error.html", error=e)
+    finally:
+        if cursor:
+            cursor.close()
+        if dbConn:
+            dbConn.close()
+
 
 @_app.route("/order/product/add", methods=["GET"])
 def product_add_to_order_get():

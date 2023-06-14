@@ -1,0 +1,47 @@
+/* general.css */
+body {
+  margin: 0;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 40px;
+}
+
+.table-container table {
+  width: 100%;
+  font-size: 16px; /* Increase the font size of the table */
+  margin-bottom: 20px; /* Increase the margin between the table and other elements */
+}
+
+.table-container th {
+  border-bottom: 2px solid #000;
+  font-weight: bold;
+  text-align: left;
+}
+
+.table-container td {
+  border-bottom: 1px dotted #ccc;
+}
+
+.total-price {
+  padding-top: 10px;
+  padding-right: 15px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.orders-header {
+  display: flex;
+  align-items: right;
+  margin-bottom: 40px;
+}
+
+hr.menu-line {
+  border: none;
+  border-top: 2px solid #ccc;
+  margin-bottom: 20px;
+}
+

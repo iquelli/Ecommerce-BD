@@ -17,7 +17,7 @@
       <p style="color: #596296;">Client</p>
     </div>
     <div>
-        <a href="index.html" class="nav-text">Logout</a>
+      <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
   <div style="padding:2%">
@@ -27,17 +27,65 @@
       <h1>LAST ORDERS</h1>
       <button class="action-button">+ NEW ORDER</button>
     </div>
-    <hr class = "menu-line">
-    <div>
-      <!-- Here goes the info on orders -->
+    <hr class="menu-line">
+    {% if cursor.rowcount %}
+    <div class="container">
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Order_No</th>
+              <th>Date</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in cursor %}
+            <tr><td>{{ record[0] }}</td>
+              <td>{{ record[2] }}</td>
+              <td>
+                <a style="font-size: 20px;" href="{{ url_for('order_details', order=record[0]) }}" target="order-details-iframe"class="remove-text">See Details</a>
+              </td>
+              <td class="remove-text">Cancel Order</td>
+              <td class="remove-text">Pay</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="iframe-container">
+        <iframe src="" name="order-details-iframe" width="100%" height="375"></iframe>
+      </div>
     </div>
+    {% else %}
+    <p>There are no orders.</p>
+    {% endif %}
   </div>
-
 </body>
 
 <footer class="footer-messages" style="position:fixed;">
   <hr>
   Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624), Vasco Paisana (102533)
 </footer>
+
+<style>
+  .iframe-container {
+    display: flex;
+    width: 50%; /* Set the desired width for the iframe container */
+    max-height: 375px; /* Set the maximum height of the iframe container */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+  }
+  .container {
+    display: flex;
+    gap: 20px; /* Set the desired spacing between the table and iframe */
+  }
+  .table-container {
+    flex: 1; /* Allow the table container to grow and fill the available space */
+    max-height: 375px; /* Set the maximum height of the table container */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+  }
+</style>
 
 </html>
