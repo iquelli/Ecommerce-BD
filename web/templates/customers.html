@@ -18,13 +18,13 @@
       <p style="color: #596296;">Manager</p>
     </div>
     <div>
-        <a href="./" class="nav-text">Logout</a>
+        <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
   <div class="admin-menu">
-    <a href="./customers" class="menu-link-selected">Customers</a>
-    <a href="./suppliers" class="menu-link">Suppliers</a>
-    <a href="./products" class="menu-link">Products</a>
+    <a href="{{url_for('customers_list')}}" class="menu-link-selected">Customers</a>
+    <a href="{{url_for('suppliers_list')}}" class="menu-link">Suppliers</a>
+    <a href="{{url_for('products_list')}}" class="menu-link">Products</a>
   </div>
 
   <div style="padding:2%">

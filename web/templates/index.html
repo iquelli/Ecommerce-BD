@@ -31,7 +31,7 @@
   <div class="customer-view" id="customer">
     <div>
       <h1>Customer</h1>
-      <p>Here you can find the functions related to customers on our data base such as register, view orders that you made and place an order.</p>
+      <p>Here you can find tasks customers would be able to perform such as register, login, place an order and see order history.</p>
     </div>
     <a href="{{ url_for('customer_register_post') }}" class="button">
       <button class="customer-button">Customer View</button>
@@ -40,14 +40,15 @@
   <div class="admin-view" id="man">
     <div>
       <h1>Manager</h1>
-      <p>Here you can find the functions related to manager on our data base.</p>
+      <p>Manager view is where you can see, alter and remove data from all tables our database has.</p>
+      <p>It is a overview of the database.</p>
     </div>
     <a href="{{ url_for('customers_list') }}" class="button">
       <button class="admin-button" type="submit">Manager View</button>
     </a>
   </div>
   <div class="about-project" id="about">
-    <h1>About Project</h1>
+    <h1>About Project | <a href="https://github.com/goncalobarias/Ecommerce-BD" target=”_blank”>Source code</a></h1>
     <li>The main concept of this project was to create a manager for an ecommerce company with a basic domain.</li>
     <li>This page is a prototype web app that presents useful information
       about the tables and lets users interact with the database backend.</li>
