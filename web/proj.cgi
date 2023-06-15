@@ -31,6 +31,7 @@ DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (
 _app = Flask(__name__)
 
 
+
 # Runs the function once the root page is requested.
 # The request comes with the folder structure setting ~/web as the root.
 @_app.route("/")
@@ -74,7 +75,7 @@ def customer_register_post():
         cursor.execute(query, data)
         return redirect(url_for("customer_menu", customer=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, params=request.args)
+        return render_template("error.html", error=e, params="customer")
     finally:
         dbConn.commit()
         cursor.close()
@@ -315,7 +316,7 @@ def product_register_post():
         cursor.execute(query, data)
         return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e, params=request.args)
+        return render_template("error.html", error=e, params="product")
     finally:
         dbConn.commit()
         cursor.close()
@@ -455,7 +456,7 @@ def supplier_register_post():
         cursor.execute(query, data)
         return render_template("success.html", params=request.args)
     except Exception as e:
-        return render_template("error.html", error=e, params=request.args)
+        return render_template("error.html", error=e, params="supplier")
     finally:
         dbConn.commit()
         cursor.close()

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="../static/css/general.css" />
@@ -8,18 +7,36 @@
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
   <title>Error | Técnico Shop</title>
 </head>
-
 <body>
   <div class="message-wrap">
-    <img src="../static/images/error_image.png" alt="" class="message-img">
-    <h1 class="message">An error has occured!</h1>
-    <pre><code>{{ error }}</code></pre>
-    <p class="interactive-text"> <- Go back</p>
+    <img src="../static/images/error_image.png" alt="" class="message-img" />
+    <h1 class="message">An error has occurred!</h1>
+    {% if params %}
+      {% if "23505" in error.pgcode and params == "product" %}
+        <p>Product with the same SKU or EAN already in the database</p>
+      {% elif "22007" in error.pgcode %}
+        <p>Invalid date format: Should be like YYYY-MM-DD</p>
+      {% elif "23503" in error.pgcode and params == "supplier" %}
+        <p>No product with the given SKU in the database</p>
+      {% elif "23502" in error.pgcode and params == "customer" %}
+        <p>Customer must have a name and e-mail</p>
+      {% elif "23502" in error.pgcode and params == "product" %}
+        <p>Product must have a name and price greater than 0</p>
+      {% elif "23505" in error.pgcode and params == "supplier" %}
+        <p>Supplier with the same TIN already in the database</p>
+      {% elif "23505" in error.pgcode and params == "customer" %}
+        <p>Customer with the same e-mail already in the database</p>
+      {% else %}
+        <p>ERRO: {{ error.pgcode }}</p>
+      {% endif %}
+    {% else %}
+      <p>ERRO: {{ error.pgcode }}</p>
+    {% endif %}
+    <p class="interactive-text">&lt;- Go back</p>
   </div>
   <footer class="footer-messages">
     <hr>
     Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624), Vasco Paisana (102533)
   </footer>
 </body>
-
 </html>
