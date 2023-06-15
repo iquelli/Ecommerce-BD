@@ -32,9 +32,9 @@
         <p>ERRO: {{ error.pgerror, error.pgcode}}</p>
       {% endif %}
     {% else %}
-      <p>ERRO: { error.pgerror, error.pgcode}</p>
+        <p>ERRO: {{ error.pgerror, error.pgcode}}</p>
     {% endif %}
-    <p class="interactive-text">&lt;- Go back</p>
+    <a href="{{ url }}" class="interactive-text">&lt;- Go back</a>
   </div>
   <footer class="footer-messages">
     <hr>

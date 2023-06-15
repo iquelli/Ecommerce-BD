@@ -33,7 +33,7 @@
       <h1>Customer</h1>
       <p>Here you can find tasks customers would be able to perform such as register, login, place an order and see order history.</p>
     </div>
-    <a href="{{ url_for('customer_register_post') }}" class="button">
+    <a href="{{ url_for('customer_register_get') }}" class="button">
       <button class="customer-button">Customer View</button>
     </a>
   </div>
@@ -43,7 +43,7 @@
       <p>Manager view is where you can see, alter and remove data from all tables our database has.</p>
       <p>It is a overview of the database.</p>
     </div>
-    <a href="{{ url_for('customers_list') }}" class="button">
+    <a href="{{ url_for('customers_list', user='manager') }}" class="button">
       <button class="admin-button" type="submit">Manager View</button>
     </a>
   </div>
