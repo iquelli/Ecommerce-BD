@@ -8,6 +8,49 @@
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/menu.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
+  <style>
+    /* Add custom styles for the popup form and background */
+    .popup-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Translucent background */
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .popup-form input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .popup-form button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .popup-form button:hover {
+      background-color: #45a049;
+    }
+  </style>
   <title>Manager Menu | Técnico Shop</title>
 </head>
 
@@ -37,75 +80,87 @@
     <div>
       {% if cursor %}
       <form id="limitForm">
-      <div class="table-container">
-        <form method="POST" action="/product/edit">
-        <table>
-          <thead>
-            <tr>
-              <th>SKU</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>EAN</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for record in cursor %}
-            <tr>
-                <td>
-                  {{ record[0] }}
-                  <input type="hidden" name="product_id" value="{{ record[0] }}">
-                </td>
-                <td>
-                  <div id="curr-name">
-                    {{ record[1] }}
-                  </div>
-                    <input type="text" name="name" id="name" value="{{ record[1] }}">
-                </td>
-                <td>
-                  <div id="curr-desc">
-                    {{ record[2] }}
-                  </div>
-                    <input type="text" name="description" id="description" value="{{ record[2] }}">
-                </td>
-                <td>
-                  <div id="curr-price">
-                    {{ record[3] }}
-                  </div>
-                  <input type="text" name="price" id="price" value="{{ record[3] }}">
-                </td>
-                <td>{{ record[4] }}</td>
-                <td>
-                  <p type="submit" class="edit-text" id="finish-button">Finish</p>
-                  <p class="edit-text" id="edit-button" onclick=showPopUp(event)>Edit</p>
-                </td>
-                <td>
-                  <a href="./product/remove?product={{ record[0] }}" class="remove-text">
-                    Remove
-                  </a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </form>
+        <div class="table-container">
+          <form method="POST" action="/product/edit">
+            <table>
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>EAN</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for record in cursor %}
+                <tr>
+                  <td>
+                    {{ record[0] }}
+                  </td>
+                  <td>
+                    <div id="curr-name">
+                      {{ record[1] }}
+                    </div>
+                  </td>
+                  <td>
+                    <div id="curr-desc-{{ record[0] }}">
+                      {{ record[2] }}
+                    </div>
+                  </td>
+                  <td>
+                    <div id="curr-price-{{ record[0] }}">
+                      {{ record[3] }}
+                    </div>
+                  </td>
+                  <td>{{ record[4] }}</td>
+                  <td>
+                    <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
 
-        <form id="offsetForm" action="/products" method="get">
-          <div class="show-wrapper">
-            <input type="hidden" id="offset" name="offset" value="{{offset}}">
-            {% if offset != 0 %}
-            <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
-            {% endif %}
+                  </td>
+                  <td>
+                    <a href="./product/remove?product={{ record[0] }}" class="remove-text">
+                      Remove
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </form>
+
+          <form id="offsetForm" action="/products" method="get">
+            <div class="show-wrapper">
+              <input type="hidden" id="offset" name="offset" value="{{offset}}">
+              {% if offset != 0 %}
+              <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+              {% endif %}
               <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
             </div>
-        </form>
+          </form>
 
-      </div>
+        </div>
       {% else %}
       <p>There are no products.</p>
       {% endif %}
+    </div>
+  </div>
+
+  <!-- Popup form and background -->
+  <div id="popupBackground" class="popup-background">
+    <div class="popup-form">
+      <h2>Edit Product</h2>
+      <form action="{{url_for('product_edit')}}" method="POST">
+        <input type="hidden" id="popup-sku" name="popup-sku" value="">
+        <label for="popup-description">Description:</label><br>
+        <input type="text" id="popup-description" name="popup-description"><br>
+        <label for="popup-price">Price:</label><br>
+        <input type="text" id="popup-price" name="popup-price"><br><br>
+        <button type="submit">Save</button>
+      </form>
+      <button onclick="hidePopUp()">Cancel</button>
     </div>
   </div>
 
@@ -113,6 +168,22 @@
     <hr>
     Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
   </footer>
+
+  <script>
+    // JavaScript function to show the popup form and pass the record ID
+    function showPopUp(event, productId) {
+      event.preventDefault();
+      document.getElementById("popup-description").value = document.getElementById("curr-desc-" + productId).innerText;
+      document.getElementById("popup-price").value = document.getElementById("curr-price-" + productId).innerText;
+      document.getElementById("popup-sku").value = productId;
+      document.getElementById("popupBackground").style.display = "flex";
+    }
+
+    // JavaScript function to hide the popup form
+    function hidePopUp() {
+      document.getElementById("popupBackground").style.display = "none";
+    }
+  </script>
 </body>
 
 </html>

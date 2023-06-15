@@ -388,7 +388,7 @@ def product_remove():
         dbConn.close()
 
 
-@_app.route("/product/edit")
+@_app.route("/product/edit", methods=["POST"])
 def product_edit():
     dbConn = None
     cursor = None
@@ -396,27 +396,29 @@ def product_edit():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        sku = request.form["sku"]
-        name = request.form["name"]
-        description = request.form["description"]
-        price = request.form["price"]
-        ean = request.form["ean"]
-        if sku == "" or name == "" or price == "" or ean == "":
+        sku = request.form["popup-sku"]
+        description = request.form["popup-description"]
+        price = request.form["popup-price"]
+        if sku == ""  or price == "" :
             return redirect(url_for("products_list", user=request.args.get("user")))
 
         query = """
         UPDATE product
-        SET SKU = %s, name = %s, description = %s, price = %s, ean = %s
+        SET description = %s, price = %s
         WHERE SKU = %s"""
-        data = (sku, name, description, price, ean, request.args.get("product"))
+        data = (description, price, sku)
         cursor.execute(query, data)
-        return redirect(url_for("homepage"))
+        dbConn.commit()
+        
+        return redirect(url_for("products_list"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
+        if cursor:
+            cursor.close()
+        if dbConn:
+            dbConn.close()
+
 
 
 @_app.route("/products")
