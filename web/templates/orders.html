@@ -34,7 +34,11 @@
     <div style="padding:2%">
     <h1 style="color: #596296; font-size: 40px">Welcome!</h1>
     <div class="header">
-      <h1>YOUR ORDERS</h1>
+      {% if params.get("payed") %}
+      <h1>YOUR PAYED ORDERS</h1>
+      {% else %}
+      <h1>YOUR PENDING ORDERS</h1>
+      {% endif %}
       <a href="{{url_for('products_list', user=params.get('user'))}}"class="nav-text"><button class="action-button">+ NEW ORDER</button></a>
     </div>
     <hr class="menu-line">
@@ -84,7 +88,9 @@
             {% if offset != 0 %}
             <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
             {% endif %}
+            {% if cursor.rowcount == 10 %}
               <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+            {% endif %}
             </div>
         </form>
       </div>

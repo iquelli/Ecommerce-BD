@@ -21,6 +21,7 @@
   text-decoration: underline;
 }
 
+.total-price-wrapper,
 .header {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -109,4 +110,18 @@
   color: #596296;
   width: 80px;
   background-color: white;
+}
+
+.details-wrapper {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+  gap: 20px;
+}
+
+.details-image {
+  width: 300px;
+  height: auto;
 }

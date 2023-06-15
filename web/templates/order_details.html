@@ -22,46 +22,50 @@
     </div>
   </div>
 
-    <div style="padding-right:30%;padding-left:30%;padding-top:0%;padding-bottom:5%;">
-    <img src="../static/images/shop.gif" style="display:flex;align-item:center;">
+  <div class="details-wrapper">
+    <img src="../static/images/basket.png" class="details-image">
     <div style="color:#596296;text-align:center;">
       <h1>SUMMARY</h1>
     </div>
-    <hr class="menu-line">
-    <div>
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for record in cursor %}
-            <tr>
-              <td>{{record[1]}}</td>
-              <td>{{record[2]}} &euro;</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    <div class="header">
-      <h1>TOTAL:</h1>
-      <h1>{{t_price}} &euro;</h1>
+    <hr class="menu-line" style="width:450px;">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in cursor %}
+          <tr>
+            <td>{{record[1]}}</td>
+            <td>{{record[2]}} &euro;</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-      <div style="display: flex; justify-content: center; margin-top: 50px;">
-          <a href="{{url_for('orders_list', user=params.get('user'))}}" class="nav-text"><button class="action-button" style="margin-right: 5%;">Home</button></a>
-          {% if not params.get('payed') %}
-          <form action="" method="post"><button class="action-button">Pay</button></form>
-          {% endif %}
-      </div>
+
+    <div class="total-price-wrapper">
+      <h1>TOTAL: {{t_price}} &euro;</h1>
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="{{url_for('orders_list', user=params.get('user'))}}" class="nav-text">
+        <button class="action-button" style="width:150px;">Back</button></a>
+      {% if not params.get('payed') %}
+        <form action="" method="post">
+          <button class="action-button" style="width:150px;color:#596296;background-color:white;border-color:#596296;border:solid;">
+            Pay
+          </button>
+        </form>
+      {% endif %}
     </div>
   </div>
 </body>
 
-<footer class="footer-messages">
+<footer class="footer-messages" style="margin-top: 20px;">
   <hr>
   Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
 </footer>
