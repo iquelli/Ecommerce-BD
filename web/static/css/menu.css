@@ -5,8 +5,11 @@
 }
 
 .admin-menu {
+  display: flex;
   background-color: #596296;
+  height: 70px;
   padding: 20px;
+  align-items: center;
 }
 
 .menu-link {

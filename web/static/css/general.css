@@ -16,7 +16,7 @@ footer {
   bottom: 0px;
   height: 50px;
   width: 100%;
-  font-size: 13px;
+  font-size: 14px;
   text-align: center;
   color: black;
   background-color: white;
@@ -104,7 +104,7 @@ thead th {
 /* navigation bar settings */
 
 .logo {
-  width: 50px;
+  width: 30px;
   height: auto;
 }
 
@@ -121,5 +121,6 @@ thead th {
   top: 0;
   left: 0;
   right: 0;
+  height: 55px;
   align-items: center;
 }
