@@ -29,13 +29,13 @@
       {% elif "23514" in error.pgcode and params == "customer" %}
       <p>E-mail is not in the correct format</p>
       {% else %}
-        <p>ERRO: {{ error.pgerror}}, {{error.pgcode}}</p>
+        <p>ERRO: {{error}}</p>
       {% endif %}
     {% else %}
-        <p>ERRO: {{ error.pgerror}}, {{error.pgcode}}</p>
+        <p>ERRO: {{error}}</p>
     {% endif %}
 
-    <a href="{{ url }}"> <button class="go-back-button">Go back</button></a>
+    <a href="{{url}}"> <button class="go-back-button">Go back</button></a>
   </div>
 </body>
 

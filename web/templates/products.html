@@ -22,14 +22,14 @@
       <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
-  <div class="admin-menu">
+  <div class="menu">
     <a href="{{url_for('customers_list')}}" class="menu-link">Customers</a>
     <a href="{{url_for('suppliers_list')}}" class="menu-link">Suppliers</a>
     <a href="{{url_for('products_list')}}" class="menu-link-selected">Products</a>
   </div>
 
   <div style="padding:2%">
-    <div class="orders-header">
+    <div class="header">
       <h1>PRODUCTS IN DATABASE</h1>
       <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
     </div>
@@ -94,7 +94,7 @@
 
         <form id="offsetForm" action="/products" method="get">
           <div class="show-wrapper">
-            <input type="hidden" id="offset" name="offset" value="{{ offset }}">
+            <input type="hidden" id="offset" name="offset" value="{{offset}}">
             {% if offset != 0 %}
             <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
             {% endif %}
@@ -104,11 +104,11 @@
 
       </div>
       {% else %}
-      <p>There is no products.</p>
+      <p>There are no products.</p>
       {% endif %}
     </div>
   </div>
-  
+
   <footer class="footer-messages">
     <hr>
     Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST

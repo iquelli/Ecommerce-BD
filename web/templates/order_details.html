@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
-  <link rel="stylesheet" href="../static/css/tables_pages.css" />
+  <script src="../static/js/pagination.js"></script>
+  <link rel="stylesheet" href="../static/css/general.css" />
+  <link rel="stylesheet" href="../static/css/menu.css" />
+  <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
+  <title>Customer Menu | Técnico Shop</title>
 </head>
+
 <body>
-  <div class="order-details">
-    <h1>Details for Order: {{params["order"]}}</h1>
-  </div>
-  {% if products %}
-    <div class="table-container">
-      <table>
-        <thead>
-          <col style="width:60%">
-          <col style="width:20%">
-          <col style="width:20%">
-          <tr>
-            <th>Product</th>
-            <th>Qty</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for record in products %}
-          <tr>
-            <td>{{ record[0] }}</td>
-            <td>{{ record[1] }}</td>
-            <td>{{ record[2] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <div class="nav-bar" style="background-color: #bcc5f9e3;">
+    <div class="right-side-nav">
+      <img src="../static/images/favicon.png" class="logo">
+      <p><strong>Técnico Shop</strong></p>
+      <p style="color: #596296;">Customer</p>
+    </div>
+    <div>
+      <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
-    {% if total %}
-        <h2 class="total-price underline">TOTAL PRICE</h2>
-        <p class="total-price">{{ total[0] }}</p>
-    {% endif %}
-  </div>
 
-  {% else %}
-    <p>No products found.</p>
-  {% endif %}
-</div>
+    <div style="padding-right:30%;padding-left:30%;padding-top:0%;padding-bottom:5%;">
+    <img src="../static/images/shop.gif" style="display:flex;align-item:center;">
+    <div style="color:#596296;text-align:center;">
+      <h1>SUMMARY</h1>
+    </div>
+    <hr class="menu-line">
+    <div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in cursor %}
+            <tr>
+              <td>{{record[1]}}</td>
+              <td>{{record[2]}} &euro;</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    <div class="header">
+      <h1>TOTAL:</h1>
+      <h1>{{t_price}} &euro;</h1>
+    </div>
+      <div style="display: flex; justify-content: center; margin-top: 50px;">
+          <a href="{{url_for('orders_list', user=params.get('user'))}}" class="nav-text"><button class="action-button" style="margin-right: 5%;">Home</button></a>
+          {% if not params.get('payed') %}
+          <form action="" method="post"><button class="action-button">Pay</button></form>
+          {% endif %}
+      </div>
+    </div>
+  </div>
 </body>
 
 <footer class="footer-messages">
   <hr>
   Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
 </footer>
+
+<style>
+  .table-container {
+    flex: 1;
+    max-height: 375px;
+    overflow-y: auto;
+  }
+</style>
 
 </html>

@@ -73,7 +73,9 @@ def customer_register_post():
         cursor.execute(query, data)
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, params="customer", url=url_for("homepage"))
+        return render_template(
+            "error.html", error=e, params="customer", url=url_for("homepage")
+        )
     finally:
         dbConn.commit()
         cursor.close()
@@ -92,19 +94,13 @@ def customer_login_get():
 def customer_login_post():
     dbConn = None
     cursor = None
-    name = request.args.get("name")
-    email = request.args.get("email")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        if name == "" or email == "":
-            return redirect(url_for("customer_login_get"))
-
-        query = "SELECT cust_no FROM customer WHERE name = %s AND email = %s;"
-        cursor.execute(query, (name, email))
-        cust_no = cursor.fetchall()
-        if cust_no is None:
+        cust_no = request.form["user"]
+        email = request.form["email"]
+        if cust_no == "" or email == "":
             return redirect(url_for("customer_login_get"))
 
         return redirect(url_for("orders_list", user=cust_no))
@@ -207,11 +203,21 @@ def orders_list():
     cursor = None
     offset = int(request.args.get("offset", 0))
     cust_no = request.args.get("user")
+    payed = request.args.get("payed")
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        query = "SELECT * FROM orders WHERE cust_no = %s OFFSET %s LIMIT %s;"
+        if payed:
+            query = """SELECT order_no, date, SUM(qty * price) FROM orders
+            NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
+            WHERE cust_no = %s GROUP BY order_no
+            OFFSET %s LIMIT %s;"""
+        else:
+            query = """SELECT order_no, date, SUM(qty * price) FROM orders
+            LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
+            WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no
+            OFFSET %s LIMIT %s;"""
         cursor.execute(query, (cust_no, offset, 10))
         return render_template(
             "orders.html", cursor=cursor, offset=offset, params=request.args
@@ -277,11 +283,13 @@ def order_details_get():
         cursor2 = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         query1 = "SELECT SKU, name, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
-        query2 = "SELECT SUM(price*qty) FROM product NATURAL JOIN contains WHERE order_no = %s;"
         cursor1.execute(query1, (order_no,))
+        query2 = "SELECT SUM(price*qty) FROM product NATURAL JOIN contains WHERE order_no = %s;"
         cursor2.execute(query2, (order_no,))
+        [t_price] = cursor2.fetchone()
+
         return render_template(
-            "order_details.html", cursor1=cursor1, cursor2=cursor2, params=request.args
+            "order_details.html", cursor=cursor1, t_price=t_price, params=request.args
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -303,7 +311,9 @@ def order_details_post():
 
         query = "INSERT INTO pay(order_no, cust_no) VALUES (%s, %s)"
         cursor.execute(query, (order_no, cust_no))
-        return redirect(url_for("orders_list", user=request.args.get("user")))
+        return redirect(
+            url_for("orders_list", user=request.args.get("user"), payed=True)
+        )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -345,7 +355,9 @@ def product_register_post():
         cursor.execute(query, data)
         return redirect(url_for("homepage"))
     except Exception as e:
-        return render_template("error.html", error=e, params="product", url=url_for("homepage"))
+        return render_template(
+            "error.html", error=e, params="product", url=url_for("homepage")
+        )
     finally:
         dbConn.commit()
         cursor.close()
@@ -468,7 +480,9 @@ def supplier_register_post():
         cursor.execute(query, data)
         return redirect(url_for("homepage"))
     except Exception as e:
-        return render_template("error.html", error=e, params="supplier", url=url_for("homepage"))
+        return render_template(
+            "error.html", error=e, params="supplier", url=url_for("homepage")
+        )
     finally:
         dbConn.commit()
         cursor.close()

@@ -21,14 +21,14 @@
         <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
-  <div class="admin-menu">
+  <div class="menu">
     <a href="{{url_for('customers_list')}}" class="menu-link-selected">Customers</a>
     <a href="{{url_for('suppliers_list')}}" class="menu-link">Suppliers</a>
     <a href="{{url_for('products_list')}}" class="menu-link">Products</a>
   </div>
 
   <div style="padding:2%">
-    <div class="orders-header">
+    <div class="header">
       <h1>CUSTOMERS IN DATABASE</h1>
     </div>
     <hr class = "menu-line">
@@ -38,7 +38,7 @@
         <table>
           <thead>
             <tr>
-              <th>Costumer Number</th>
+              <th>Customer Number</th>
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
@@ -49,13 +49,13 @@
           <tbody>
             {% for record in cursor %}
             <tr>
-              <td>{{ record[0] }}</td>
-              <td>{{ record[1] }}</td>
-              <td>{{ record[2] }}</td>
-              <td>{{ record[3] }}</td>
-              <td>{{ record[4] }}</td>
+              <td>{{record[0]}}</td>
+              <td>{{record[1]}}</td>
+              <td>{{record[2]}}</td>
+              <td>{{record[3]}}</td>
+              <td>{{record[4]}}</td>
               <td>
-                <a href="{{ url_for('customer_remove', user=record[0]) }}" class="remove-text">
+                <a href="{{url_for('customer_remove', user=record[0])}}" class="remove-text">
                   Remove
                 </a>
               </td>
@@ -66,7 +66,7 @@
 
         <form id="offsetForm" action="/costumers" method="get">
           <div class="show-wrapper">
-            <input type="hidden" id="offset" name="offset" value="{{ offset }}">
+            <input type="hidden" id="offset" name="offset" value="{{offset}}">
             {% if offset != 0 %}
             <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
             {% endif %}

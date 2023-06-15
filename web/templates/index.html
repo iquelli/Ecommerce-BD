@@ -17,7 +17,7 @@
       </div>
     <div class="nav-text">
       <a href="#customer">Customer</a>
-      <a href="#man">Manager</a>
+      <a href="#manager">Manager</a>
       <a href="#about">About</a>
     </div>
   </div>
@@ -31,20 +31,20 @@
   <div class="customer-view" id="customer">
     <div>
       <h1>Customer</h1>
-      <p>Here you can find tasks customers would be able to perform such as register, login, place an order and see order history.</p>
+      <p>Here you can find tasks customers would be able to perform such as register, login, place an order, see order history and edit orders.</p>
     </div>
-    <a href="{{ url_for('customer_register_get') }}" class="button">
+    <a href="{{url_for('customer_register_get')}}" class="button">
       <button class="customer-button">Customer View</button>
     </a>
   </div>
-  <div class="admin-view" id="man">
+  <div class="manager-view" id="manager">
     <div>
       <h1>Manager</h1>
-      <p>Manager view is where you can see, alter and remove data from all tables our database has.</p>
-      <p>It is a overview of the database.</p>
+      <p>Manager view is where you can see and manage data from most of the tables our database has.</p>
+      <p>It is essentially an overview of the database.</p>
     </div>
-    <a href="{{ url_for('customers_list', user='manager') }}" class="button">
-      <button class="admin-button" type="submit">Manager View</button>
+    <a href="{{url_for('customers_list', user='manager')}}" class="button">
+      <button class="manager-button" type="submit">Manager View</button>
     </a>
   </div>
   <div class="about-project" id="about">

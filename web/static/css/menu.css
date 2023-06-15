@@ -4,7 +4,7 @@
   border-bottom-width: 0.1px;
 }
 
-.admin-menu {
+.menu {
   display: flex;
   background-color: #596296;
   height: 70px;
@@ -21,7 +21,7 @@
   text-decoration: underline;
 }
 
-.orders-header {
+.header {
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
@@ -106,7 +106,6 @@
   margin: 0 5px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #4caf50;
   color: #596296;
   width: 80px;
   background-color: white;

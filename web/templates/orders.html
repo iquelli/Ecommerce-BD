@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div class="nav-bar">
+  <div class="nav-bar" style="background-color: #bcc5f9e3;">
     <div class="right-side-nav">
       <img src="../static/images/favicon.png" class="logo">
       <p><strong>Técnico Shop</strong></p>
@@ -21,58 +21,77 @@
       <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
-  <div style="padding:2%">
+  <div class="menu">
+    {% if params.get("payed") %}
+    <a href="{{url_for('orders_list', user=params.get('user'))}}" class="menu-link">Pending Orders</a>
+    <a href="{{url_for('orders_list', user=params.get('user'), payed=true)}}" class="menu-link-selected">Payed Orders</a>
+    {% else %}
+    <a href="{{url_for('orders_list', user=params.get('user'))}}" class="menu-link-selected">Pending Orders</a>
+    <a href="{{url_for('orders_list', user=params.get('user'), payed=true)}}" class="menu-link">Payed Orders</a>
+    {% endif %}
+  </div>
 
+    <div style="padding:2%">
     <h1 style="color: #596296; font-size: 40px">Welcome!</h1>
-    <div class="orders-header">
-      <h1>LAST ORDERS</h1>
-      <button class="action-button">+ NEW ORDER</button>
+    <div class="header">
+      <h1>YOUR ORDERS</h1>
+      <a href="{{url_for('products_list', user=params.get('user'))}}"class="nav-text"><button class="action-button">+ NEW ORDER</button></a>
     </div>
     <hr class="menu-line">
-    {% if cursor %}
-    <div class="container">
+    <div>
+    {% if cursor.rowcount %}
       <div class="table-container">
         <table>
           <thead>
             <tr>
-              <th>Order_No</th>
+              <th>Order Number</th>
               <th>Date</th>
+              <th>Total Price</th>
+              {% if params.get("payed") %}
+              <th></th>
+              {% else %}
               <th></th>
               <th></th>
-              <th></th>
+              {% endif %}
             </tr>
           </thead>
           <tbody>
             {% for record in cursor %}
-            <tr><td>{{ record[0] }}</td>
-              <td>{{ record[2] }}</td>
+            <tr>
+              <td>{{record[0]}}</td>
+              <td>{{record[1]}}</td>
+              <td>{{record[2]}} &euro;</td>
+              {% if params.get("payed") %}
               <td>
-                <a style="font-size: 20px;" href="{{ url_for('order_details', order=record[0]) }}" target="order-details-iframe"class="remove-text">See Details</a>
+                <a style="font-size: 20px;" href="{{url_for('order_details_get', user=params.get('user'), order=record[0], payed=True)}}" class="remove-text">See Details</a>
               </td>
-              <td class="remove-text">Cancel Order</td>
-              <td class="remove-text">Pay</td>
+              {% else %}
+              <td>
+                <a style="font-size: 20px;" href="{{url_for('order_edit_get', user=params.get('user'), order=record[0])}}" class="remove-text">Edit</a>
+              </td>
+              <td>
+                <a style="font-size: 20px;" href="{{url_for('order_details_get', user=params.get('user'), order=record[0])}}" class="remove-text">Check Out</a>
+              </td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
         </table>
 
         <form id="offsetForm" action="/products" method="get">
-            <div class="show-wrapper">
-              <input type="hidden" id="offset" name="offset" value="{{ offset }}">
-              {% if offset != 0 %}
-              <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
-              {% endif %}
-                <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
-              </div>
-          </form>
+          <div class="show-wrapper">
+            <input type="hidden" id="offset" name="offset" value="{{offset}}">
+            {% if offset != 0 %}
+            <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+            {% endif %}
+              <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+            </div>
+        </form>
       </div>
-      <div class="iframe-container">
-        <iframe src="" name="order-details-iframe" width="100%" height="375"></iframe>
-      </div>
-    </div>
     {% else %}
     <p>There are no orders.</p>
     {% endif %}
+    </div>
   </div>
 </body>
 
@@ -80,23 +99,5 @@
   <hr>
   Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
 </footer>
-
-<style>
-  .iframe-container {
-    display: flex;
-    width: 50%; /* Set the desired width for the iframe container */
-    max-height: 375px; /* Set the maximum height of the iframe container */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-  }
-  .container {
-    display: flex;
-    gap: 20px; /* Set the desired spacing between the table and iframe */
-  }
-  .table-container {
-    flex: 1; /* Allow the table container to grow and fill the available space */
-    max-height: 375px; /* Set the maximum height of the table container */
-    overflow-y: auto; /* Enable vertical scrolling if needed */
-  }
-</style>
 
 </html>

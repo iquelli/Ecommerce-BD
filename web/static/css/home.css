@@ -22,7 +22,7 @@
 
 .gif,
 .customer-view,
-.admin-view {
+.manager-view {
   display: flex;
   padding: 5%;
   justify-content: space-between;
@@ -45,7 +45,7 @@
   color: white;
 }
 
-.admin-view {
+.manager-view {
   color: #596296;
 }
 
@@ -59,7 +59,7 @@
   color: #596296;
 }
 
-.admin-button {
+.manager-button {
   color: white;
   background-color: #596296;
 }

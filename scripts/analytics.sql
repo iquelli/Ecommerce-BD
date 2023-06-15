@@ -29,8 +29,8 @@ WITH dpc AS (
 SELECT dpc.SKU, dpc.city, dpc.month, dpc.day_of_month, dpc.day_of_week,
     SUM(COALESCE(qty, 0)) AS t_qty, SUM(COALESCE(total_price, 0)) AS t_value
 FROM product_sales RIGHT JOIN dpc USING (year, month, day_of_month, sku, city)
-GROUP BY GROUPING SETS ((dpc.SKU), (dpc.SKU, dpc.city, dpc.month),
-    (dpc.SKU, dpc.city, dpc.day_of_month), (dpc.SKU, dpc.city, dpc.day_of_week))
+GROUP BY GROUPING SETS ((dpc.SKU), (dpc.SKU, dpc.city), (dpc.SKU, dpc.day_of_month),
+    (dpc.SKU, dpc.day_of_week))
 ORDER BY SKU, city, month, day_of_month, day_of_week;
 
 -- (2): Analyze the average daily sales value for all products in 2022, globally, by month and day of the

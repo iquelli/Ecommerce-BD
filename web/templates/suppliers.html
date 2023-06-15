@@ -21,14 +21,14 @@
       <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
-  <div class="admin-menu">
+  <div class="menu">
     <a href="{{url_for('customers_list')}}" class="menu-link">Customers</a>
     <a href="{{url_for('suppliers_list')}}" class="menu-link-selected">Suppliers</a>
     <a href="{{url_for('products_list')}}" class="menu-link">Products</a>
   </div>
 
   <div style="padding:2%">
-    <div class="orders-header">
+    <div class="header">
       <h1>SUPPLIERS IN DATABASE</h1>
       <a href="{{url_for('supplier_register_get')}}"class="nav-text"><button class="action-button">+ NEW SUPPLIER</button></a>
     </div>
@@ -50,13 +50,13 @@
               <tbody>
                 {% for record in cursor %}
                   <tr>
-                    <td>{{ record[0] }}</td>
-                    <td>{{ record[1] }}</td>
-                    <td>{{ record[2] }}</td>
-                    <td>{{ record[3] }}</td>
-                    <td>{{ record[4] }}</td>
+                    <td>{{record[0]}}</td>
+                    <td>{{record[1]}}</td>
+                    <td>{{record[2]}}</td>
+                    <td>{{record[3]}}</td>
+                    <td>{{record[4]}}</td>
                     <td>
-                      <a href="./supplier/remove?supplier={{ record[0] }}" class="remove-text">
+                      <a href="./supplier/remove?supplier={{record[0]}}" class="remove-text">
                         Remove
                       </a>
                     </td>
@@ -67,7 +67,7 @@
 
             <form id="offsetForm" action="/suppliers" method="get">
               <div class="show-wrapper">
-                <input type="hidden" id="offset" name="offset" value="{{ offset }}">
+                <input type="hidden" id="offset" name="offset" value="{{offset}}">
                 {% if offset != 0 %}
                 <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
                 {% endif %}
@@ -77,7 +77,7 @@
 
           </div>
         {% else %}
-            <p>There is no suppliers.</p>
+            <p>There are no suppliers.</p>
         {% endif %}
     </div>
   </div>

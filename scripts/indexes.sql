@@ -34,7 +34,7 @@ faz todo o sentido usar um índice `Hash` já que a comparação em `O(1)` é id
 CREATE INDEX product_price_index ON product USING BTREE(price);
 CREATE INDEX order_date_index ON orders USING HASH(EXTRACT(YEAR FROM date));
 
-EXPLAIN ANALYZE
+EXPLAIN ANALYZE VERBOSE
 SELECT order_no
 FROM orders
     JOIN contains USING (order_no)
@@ -58,7 +58,7 @@ de produtos que começam pela letra `A`, logo um índice `Hash` não ajudaria.
 
 CREATE INDEX product_name_index ON product USING BTREE(name);
 
-EXPLAIN ANALYZE
+EXPLAIN ANALYZE VERBOSE
 SELECT order_no, SUM(qty * price)
 FROM contains
     JOIN product USING (SKU)
