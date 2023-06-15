@@ -128,7 +128,8 @@
 
     /* Add custom styles for the popup form and background */
     .popup-background {
-        position: fixed;
+        z-index: 100;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
