@@ -126,7 +126,7 @@ def customer_remove():
 
         query = "DELETE FROM customer WHERE cust_no = %s;"
         cursor.execute(query, (cust_no,))
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -256,7 +256,7 @@ def order_edit_post():
         query = "UPDATE contains SET qty = %s WHERE order_no = %s AND SKU = %s"
         for sku in request.form.keys():
             cursor.execute(query, (request.form[sku], order_no, sku))
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -343,7 +343,7 @@ def product_register_post():
         query = "INSERT INTO product(SKU, name, description, price, ean) VALUES (%s, %s, %s, %s, %s);"
         data = (sku, name, description, price, ean)
         cursor.execute(query, data)
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, params="product", url=url_for("homepage"))
     finally:
@@ -367,7 +367,7 @@ def product_remove():
         else:
             query = "DELETE FROM product WHERE SKU = %s;"
             cursor.execute(query, (sku,))
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -376,16 +376,8 @@ def product_remove():
         dbConn.close()
 
 
-@_app.route("/product/edit", methods=["GET"])
-def product_edit_get():
-    try:
-        return render_template("product_edit.html", params=request.args)
-    except Exception as e:
-        return render_template("error.html", error=e, url=url_for("homepage"))
-
-
-@_app.route("/product/edit", methods=["POST"])
-def product_edit_post():
+@_app.route("/product/edit")
+def product_edit():
     dbConn = None
     cursor = None
     try:
@@ -398,7 +390,7 @@ def product_edit_post():
         price = request.form["price"]
         ean = request.form["ean"]
         if sku == "" or name == "" or price == "" or ean == "":
-            return redirect(url_for("product_edit_get", user=request.args.get("user")))
+            return redirect(url_for("products_list", user=request.args.get("user")))
 
         query = """
         UPDATE product
@@ -406,7 +398,7 @@ def product_edit_post():
         WHERE SKU = %s"""
         data = (sku, name, description, price, ean, request.args.get("product"))
         cursor.execute(query, data)
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -474,7 +466,7 @@ def supplier_register_post():
         data = (tin, name, address, sku, date)
         query = "INSERT INTO supplier(TIN, name, address, SKU, date) VALUES (%s, %s, %s, %s, %s);"
         cursor.execute(query, data)
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, params="supplier", url=url_for("homepage"))
     finally:
@@ -494,7 +486,7 @@ def supplier_remove():
 
         query = "DELETE FROM supplier WHERE TIN = %s;"
         cursor.execute(query, (tin,))
-        return render_template("success.html", url=url_for("homepage"))
+        return redirect(url_for("homepage"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
