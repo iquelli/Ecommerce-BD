@@ -8,50 +8,13 @@
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/menu.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
-  <style>
-    /* Add custom styles for the popup form and background */
-    .popup-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); /* Translucent background */
-      display: none;
-      justify-content: center;
-      align-items: center;
-    }
 
-    .popup-form {
-      background-color: white;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
+  {% if user == "manager" %}
+    <title> Manager Menu | Técnico Shop</title>
+  {% else %}
+    <title> Client Order | Técnico Shop</title>
+  {% endif %}
 
-    .popup-form input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-
-    .popup-form button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .popup-form button:hover {
-      background-color: #45a049;
-    }
-  </style>
-  <title>Manager Menu | Técnico Shop</title>
 </head>
 
 <body>
@@ -59,22 +22,33 @@
     <a href="{{url_for('homepage')}}" class="right-side-nav">
       <img src="../static/images/favicon.png" class="logo">
       <p><strong>Técnico Shop</strong></p>
-      <p style="color: #596296;">Manager</p>
+      {% if user == "manager" %}
+        <p style="color: #596296;">Manager</p>
+      {% else %}
+        <p style="color: #596296;">Client</p>
+      {% endif %}  
     </a>
     <div>
       <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
-  <div class="menu">
-    <a href="{{url_for('customers_list')}}" class="menu-link">Customers</a>
-    <a href="{{url_for('suppliers_list')}}" class="menu-link">Suppliers</a>
-    <a href="{{url_for('products_list')}}" class="menu-link-selected">Products</a>
-  </div>
+
+  {% if user == "manager" %}
+    <div class="menu">
+      <a href="{{url_for('customers_list', user='manager')}}" class="menu-link">Customers</a>
+      <a href="{{url_for('suppliers_list', user='manager')}}" class="menu-link">Suppliers</a>
+      <a href="{{url_for('products_list', user='manager')}}" class="menu-link-selected">Products</a>
+    </div>
+  {% endif %}
 
   <div style="padding:2%">
     <div class="header">
       <h1>PRODUCTS IN DATABASE</h1>
-      <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
+      {% if user == "manager" %}
+        <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
+      {% else %}
+        <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">MAKE ORDER</button></a>
+      {% endif %} 
     </div>
     <hr class="menu-line">
     <div>
@@ -85,21 +59,27 @@
             <table>
               <thead>
                 <tr>
-                  <th>SKU</th>
+                  {% if user == "manager" %}
+                    <th>SKU</th>
+                  {% endif %} 
                   <th>Name</th>
                   <th>Description</th>
                   <th>Price</th>
-                  <th>EAN</th>
-                  <th></th>
+                  {% if user == "manager" %}
+                    <th>EAN</th>
+                    <th></th>
+                  {% endif %} 
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {% for record in cursor %}
                 <tr>
-                  <td>
-                    {{ record[0] }}
-                  </td>
+                  {% if user == "manager" %}
+                    <td>
+                      {{ record[0] }}
+                    </td>
+                  {% endif %}
                   <td>
                     <div id="curr-name">
                       {{ record[1] }}
@@ -115,15 +95,20 @@
                       {{ record[3] }}
                     </div>
                   </td>
-                  <td>{{ record[4] }}</td>
+                  {% if user == "manager" %}
+                    <td>{{ record[4] }}</td>
+                    <td>
+                      <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
+                    </td>
+                  {% endif %}
                   <td>
-                    <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
-
-                  </td>
-                  <td>
-                    <a href="./product/remove?product={{ record[0] }}" class="remove-text">
-                      Remove
-                    </a>
+                    {% if user == "manager" %}
+                      <a href="./product/remove?product={{ record[0] }}" class="remove-text">
+                        Remove
+                      </a>
+                    {% else %}
+                      <p class="edit-text">Add</p>
+                    {% endif %}
                   </td>
                 </tr>
                 {% endfor %}
