@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../static/css/menu.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
 
-  {% if user == "manager" %}
+  {% if params["user"] == "manager" %}
     <title> Manager Menu | Técnico Shop</title>
   {% else %}
     <title> Client Order | Técnico Shop</title>
@@ -22,7 +22,7 @@
     <a href="{{url_for('homepage')}}" class="right-side-nav">
       <img src="../static/images/favicon.png" class="logo">
       <p><strong>Técnico Shop</strong></p>
-      {% if user == "manager" %}
+      {% if params["user"] == "manager" %}
         <p style="color: #596296;">Manager</p>
       {% else %}
         <p style="color: #596296;">Client</p>
@@ -33,7 +33,7 @@
     </div>
   </div>
 
-  {% if user == "manager" %}
+  {% if params["user"] == "manager" %}
     <div class="menu">
       <a href="{{url_for('customers_list', user='manager')}}" class="menu-link">Customers</a>
       <a href="{{url_for('suppliers_list', user='manager')}}" class="menu-link">Suppliers</a>
@@ -44,7 +44,7 @@
   <div style="padding:2%">
     <div class="header">
       <h1>PRODUCTS IN DATABASE</h1>
-      {% if user == "manager" %}
+      {% if params["user"] == "manager" %}
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
       {% else %}
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">MAKE ORDER</button></a>
@@ -59,13 +59,13 @@
             <table>
               <thead>
                 <tr>
-                  {% if user == "manager" %}
+                  {% if params["user"] == "manager" %}
                     <th>SKU</th>
                   {% endif %} 
                   <th>Name</th>
                   <th>Description</th>
                   <th>Price</th>
-                  {% if user == "manager" %}
+                  {% if params["user"] == "manager" %}
                     <th>EAN</th>
                     <th></th>
                   {% endif %} 
@@ -75,7 +75,7 @@
               <tbody>
                 {% for record in cursor %}
                 <tr>
-                  {% if user == "manager" %}
+                  {% if params["user"] == "manager" %}
                     <td>
                       {{ record[0] }}
                     </td>
@@ -95,19 +95,19 @@
                       {{ record[3] }}
                     </div>
                   </td>
-                  {% if user == "manager" %}
+                  {% if params["user"] == "manager" %}
                     <td>{{ record[4] }}</td>
                     <td>
                       <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
                     </td>
                   {% endif %}
                   <td>
-                    {% if user == "manager" %}
+                    {% if params["user"] == "manager" %}
                       <a href="./product/remove?product={{ record[0] }}" class="remove-text">
                         Remove
                       </a>
                     {% else %}
-                      <p class="edit-text">Add</p>
+                      <p class="edit-text">{{params["user"]}}</p>
                     {% endif %}
                   </td>
                 </tr>
