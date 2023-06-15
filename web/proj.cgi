@@ -94,7 +94,6 @@ def customer_login_post():
     cursor = None
     name = request.args.get("name")
     email = request.args.get("email")
-
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -112,7 +111,6 @@ def customer_login_post():
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
-        dbConn.commit()
         cursor.close()
         dbConn.close()
 
@@ -287,6 +285,10 @@ def order_details_get():
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
+    finally:
+        cursor1.close()
+        cursor2.close()
+        dbConn.close()
 
 
 @_app.route("/order/details", methods=["POST"])
@@ -320,6 +322,8 @@ def product_register_get():
 
 @_app.route("/product/register", methods=["POST"])
 def product_register_post():
+    dbConn = None
+    cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -329,7 +333,9 @@ def product_register_post():
         description = request.form["description"]
         price = request.form["price"]
         ean = request.form["ean"]
-        if sku == "" or name == "" or price == "" or ean == "":
+        if ean == "":
+            ean = None
+        if sku == "" or name == "" or price == "":
             return redirect(
                 url_for("product_register_get", user=request.args.get("user"))
             )
@@ -339,7 +345,7 @@ def product_register_post():
         cursor.execute(query, data)
         return render_template("success.html", url=url_for("homepage"))
     except Exception as e:
-        return render_template("error.html", error=e, params= "product", url=url_for("homepage"))
+        return render_template("error.html", error=e, params="product", url=url_for("homepage"))
     finally:
         dbConn.commit()
         cursor.close()
@@ -380,6 +386,8 @@ def product_edit_get():
 
 @_app.route("/product/edit", methods=["POST"])
 def product_edit_post():
+    dbConn = None
+    cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -433,34 +441,22 @@ def products_list():
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
-        if cursor:
-            cursor.close()
-        if dbConn:
-            dbConn.close()
-
-
-@_app.route("/supplier/register", methods=["GET"])
-def supplier_register_get():
-    dbConn = None
-    cursor = None
-    try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-        query = "SELECT * FROM product;"
-        cursor.execute(query)
-        return render_template(
-            "supplier_register.html", cursor=cursor, params=request.args
-        )
-    except Exception as e:
-        return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
         cursor.close()
         dbConn.close()
 
 
+@_app.route("/supplier/register", methods=["GET"])
+def supplier_register_get():
+    try:
+        return render_template("supplier_register.html", params=request.args)
+    except Exception as e:
+        return render_template("error.html", error=e, url=url_for("homepage"))
+
+
 @_app.route("/supplier/register", methods=["POST"])
 def supplier_register_post():
+    dbConn = None
+    cursor = None
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -469,10 +465,7 @@ def supplier_register_post():
         name = request.form["name"]
         address = request.form["address"]
         sku = request.form["sku"]
-        year = request.form["year"]
-        month = request.form["month"]
-        day = request.form["day"]
-        date = year + "-" + month + "-" + day
+        date = request.form["date"]
         if sku == "":
             return redirect(
                 url_for("supplier_register_get", user=request.args.get("user"))
@@ -483,7 +476,7 @@ def supplier_register_post():
         cursor.execute(query, data)
         return render_template("success.html", url=url_for("homepage"))
     except Exception as e:
-        return render_template("error.html", error=e, params= "supplier", url=url_for("homepage"))
+        return render_template("error.html", error=e, params="supplier", url=url_for("homepage"))
     finally:
         dbConn.commit()
         cursor.close()
