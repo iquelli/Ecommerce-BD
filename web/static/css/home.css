@@ -28,7 +28,6 @@
   justify-content: space-between;
 }
 
-
 .gif-image {
   border-radius: 100%;
   padding: 30px;
@@ -43,7 +42,7 @@
 
 .customer-view {
   background-color: #596296;
-  color: white
+  color: white;
 }
 
 .admin-view {

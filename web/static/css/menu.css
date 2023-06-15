@@ -10,7 +10,7 @@
 }
 
 .menu-link {
-  color: #bcc5f9e3;;
+  color: #bcc5f9e3;
 }
 
 .menu-link-selected {
@@ -40,7 +40,7 @@
 .menu-line {
   border-color: #596296;
   width: 100%;
-  border-width:2px;
+  border-width: 2px;
 }
 
 .remove-text {
@@ -70,7 +70,7 @@
   margin: 0 5px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: #596296;
   width: 80px;
   background-color: white;

@@ -1,9 +1,9 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #e7f9fe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #e7f9fe;
 }
 
 .message-wrap {
@@ -22,7 +22,7 @@ body {
   padding: 20px;
   text-align: center;
 }
-  
+
 .message-img {
   height: 150px;
   width: 150px;
