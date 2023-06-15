@@ -34,7 +34,8 @@
     {% else %}
         <p>ERRO: {{ error.pgerror, error.pgcode}}</p>
     {% endif %}
-    <a href="{{ url }}" class="interactive-text">&lt;- Go back</a>
+
+    <a href="{{ url }}"> <button class="go-back-button">Go back</button></a>
   </div>
   <footer class="footer-messages">
     <hr>
