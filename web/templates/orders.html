@@ -29,7 +29,7 @@
       <button class="action-button">+ NEW ORDER</button>
     </div>
     <hr class="menu-line">
-    {% if cursor.rowcount %}
+    {% if cursor %}
     <div class="container">
       <div class="table-container">
         <table>
@@ -65,7 +65,6 @@
                 <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
               </div>
           </form>
-
       </div>
       <div class="iframe-container">
         <iframe src="" name="order-details-iframe" width="100%" height="375"></iframe>

@@ -46,6 +46,7 @@
   border-width: 2px;
 }
 
+.edit-text,
 .remove-text {
   text-decoration: underline;
   color: #596296;
@@ -55,12 +56,44 @@
   float: right;
 }
 
+.edit-text:hover,
 .remove-text:hover {
   opacity: 70%;
 }
 
+.edit-text:active,
 .remove-text:active {
   opacity: 100%;
+}
+
+#curr-name,
+#curr-desc,
+#curr-price,
+#edit-button {
+  display: block;
+}
+
+#name,
+#description,
+#price,
+#curr-name,
+#curr-desc,
+#curr-price {
+  font-size: 20px;
+  text-align: left;
+}
+
+#name,
+#description,
+#price,
+#finish-button {
+  display: none;
+}
+
+#name,
+#description,
+#price {
+  border-width: 0.1px;
 }
 
 .show-wrapper {

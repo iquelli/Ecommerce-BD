@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <script src="../static/js/pagination.js"></script>
+  <script src="../static/js/popup.js"></script>
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/menu.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
@@ -37,6 +38,7 @@
       {% if cursor %}
       <form id="limitForm">
       <div class="table-container">
+        <form method="POST" action="/product/edit">
         <table>
           <thead>
             <tr>
@@ -46,25 +48,49 @@
               <th>Price</th>
               <th>EAN</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {% for record in cursor %}
-              <tr>
-                <td>{{ record[0] }}</td>
-                <td>{{ record[1] }}</td>
-                <td>{{ record[2] }} <a href="" class="remove-text">Edit</a></td>
-                <td>{{ record[3] }} <a href="" class="remove-text">Edit</a></td>
+            <tr>
+                <td>
+                  {{ record[0] }}
+                  <input type="hidden" name="product_id" value="{{ record[0] }}">
+                </td>
+                <td>
+                  <div id="curr-name">
+                    {{ record[1] }}
+                  </div>
+                    <input type="text" name="name" id="name" value="{{ record[1] }}">
+                </td>
+                <td>
+                  <div id="curr-desc">
+                    {{ record[2] }}
+                  </div>
+                    <input type="text" name="description" id="description" value="{{ record[2] }}">
+                </td>
+                <td>
+                  <div id="curr-price">
+                    {{ record[3] }}
+                  </div>
+                  <input type="text" name="price" id="price" value="{{ record[3] }}">
+                </td>
                 <td>{{ record[4] }}</td>
+                <td>
+                  <p type="submit" class="edit-text" id="finish-button">Finish</p>
+                  <p class="edit-text" id="edit-button" onclick=showPopUp(event)>Edit</p>
+                </td>
                 <td>
                   <a href="./product/remove?product={{ record[0] }}" class="remove-text">
                     Remove
                   </a>
                 </td>
               </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
 
         <form id="offsetForm" action="/products" method="get">
           <div class="show-wrapper">
@@ -82,11 +108,11 @@
       {% endif %}
     </div>
   </div>
-<footer class="footer-messages">
-  <hr>
-  Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
-</footer>
+  
+  <footer class="footer-messages">
+    <hr>
+    Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
+  </footer>
 </body>
-
 
 </html>

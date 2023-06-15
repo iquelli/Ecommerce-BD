@@ -86,6 +86,11 @@ td {
   font-size: 20px;
 }
 
+td input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* Alternating row colors */
 tbody tr:nth-child(even) {
   background-color: #e7f9fe;
