@@ -48,6 +48,8 @@
   color: #596296;
   transition: opacity 0.2ms;
   cursor: pointer;
+  font-size: 18px;
+  float: right;
 }
 
 .remove-text:hover {
