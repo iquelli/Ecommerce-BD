@@ -98,7 +98,7 @@
                 {% endif %}
                 <td>
                   {% if params["user"] == "manager" %}
-                  <a href="{{url_for('product_remove', product=record[0])}}" class="remove-text">
+                  <a href="{{url_for('product_remove', product=record[0])}}" class="remove-text"onclick="return confirm('Are you sure you want to remove this product?')" >
                     Remove
                   </a>
                   {% else %}

@@ -57,7 +57,7 @@
                     <td>{{record[3]}}</td>
                     <td>{{record[4]}}</td>
                     <td>
-                      <a href="./supplier/remove?supplier={{record[0]}}" class="remove-text">
+                      <a href="./supplier/remove?supplier={{record[0]}}" class="remove-text"onclick="return confirm('Are you sure you want to remove this supplier?')" >
                         Remove
                       </a>
                     </td>
