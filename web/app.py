@@ -55,7 +55,7 @@ def customer_register_post():
             conn.commit()
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, url=url_for("homepage"))
+        return render_template("error.html", error=e, url=url_for("homepage"), params=request.args, context="customer")
 
 
 @_app.route("/customer/login", methods=["GET"])
@@ -81,7 +81,7 @@ def customer_login_post():
             return redirect(url_for("customer_login_get"))
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, params=request.args)
+        return render_template("error.html", error=e, params=request.args, context="customer")
 
 
 @_app.route("/customer/remove")
@@ -256,7 +256,7 @@ def product_register_post():
             conn.commit()
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
-        return render_template("error.html", error=e, params="product")
+        return render_template("error.html", error=e,  params=request.args, context="product")
 
 
 @_app.route("/product/remove")
@@ -341,7 +341,7 @@ def supplier_register_post():
             conn.commit()
         return redirect(url_for("suppliers_list", user="manager"))
     except Exception as e:
-        return render_template("error.html", error=e, params="supplier")
+        return render_template("error.html", error=e,  params=request.args, context="supplier")
 
 
 @_app.route("/supplier/remove")
