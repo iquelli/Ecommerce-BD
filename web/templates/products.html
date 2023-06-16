@@ -107,7 +107,7 @@
                   <form id="offsetForm" action="/products" method="get">
                     <div class="price-wrapper">
                         <input type="number" name="{{record[0]}}" min="0" value="{{request.args.get(record[0], 0)}}" id="{{record[0]}}" 
-                          style="width:100px;"oninput="updateQty('{{record[0]}}', this)">
+                          style="width:100px;"oninput="updateQty('{{record[0]}}', this);">
                     </div>
                   {% endif %}
                 </td>
@@ -172,7 +172,7 @@
 
   <script>
     function validateInput(input) {
-      if (input.value < 0) {
+      if (input.value <= 0) {
         input.value = 0;
         return true;
       }
@@ -181,7 +181,7 @@
     function updateQty(id, input) {
       const urlParams = new URLSearchParams(window.location.search);
       if (validateInput(input)) {
-        urlParams.delete(id)
+        urlParams.delete(id);
       } else {
         urlParams.set(id, input.value);
       }
