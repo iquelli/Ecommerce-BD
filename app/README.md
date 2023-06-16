@@ -19,7 +19,7 @@ chmod 744 ./run.sh
 sudo ./run.sh
 ```
 
-The webserver (for the .cgi files) will be available at https://localhost:5051/.
+The webserver (for the .cgi files) will be available at https://localhost:5001/.
 
 Database credentials are
 

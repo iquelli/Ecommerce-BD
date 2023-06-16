@@ -152,10 +152,28 @@ Finalmente podemos remover tanto clientes, como fornecedores e produtos.
 
 \subsection*{Explicação do código}
 
-Apresentamos na pasta \texttt{app\/templates} todas as páginas html que em conjunto constroem o \textit{frontend}
+Na pasta \texttt{app} apresentamos um ficheiro \textbf{docker-compose.yml} que juntamente
+com o \textbf{Dockerfile} permitem correr a aplicação no endereço \textit{web} \textbf{http://127.0.0.1:5001}.
+Deste modo, basta na \textit{root} do diretório executar o comando \textbf{sudo docker-compose up -d}
+que vai executar não só a aplicação no endereço mencionado anteriormente, como também uma base de dados
+que é possível popular executando o ficheiro \textbf{run.sh} no terminal. Para parar os contentadores de \texttt{Docker}
+basta executar o comando \textbf{sudo docker-compose down}. Achámos que isto ajudaria com o processo
+de executar múltiplas vezes a aplicação.
+
+Apresentamos na pasta \texttt{app/templates} todas as páginas html que em conjunto constroem o \textit{frontend}
 do nosso projeto.
 
-De modo a simplificar a aplicação achámos importante estabelecer uma série de \texttt{triggers} no ficheiro \texttt{ICs.sql}
+Cada tipo de dado (\texttt{customer}, \texttt{supplier}, \texttt{order} e \texttt{product}) tem as suas respetivas páginas html de
+registo e de listagem. No caso dos produtos, que pode ser acedido utilizando quer o \texttt{customer view},
+quer a \texttt{manager view} procuramos diferenciar o tipo de utilizador, de modo a conseguir alterar o
+contéudo que cada um vê. No caso do \texttt{customer view}, a página de listagem de produtos tem a funcionalidade
+de fazer encomendas, enquanto que o \texttt{manager view} permite adicionar, remover e editar produtos.
+
+Pelo código, assim como na pasta js, temos alguns scripts que utlizamos de modo
+a conseguirmos implementar não só pop ups, como verificações de inputs de modo
+a mitigar o \texttt{error handling}.
+
+De modo a simplificar a aplicação achámos também importante estabelecer uma série de \texttt{triggers} no ficheiro \texttt{ICs.sql}
 que removem as dependências das relações que são eliminadas pelo utilizador no \textit{frontend}.
 
 \section*{Índices}
