@@ -253,7 +253,7 @@ def order_details_get():
         cursor1 = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor2 = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        query1 = "SELECT SKU, name, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
+        query1 = "SELECT SKU, name, qty, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
         cursor1.execute(query1, (order_no,))
         query2 = "SELECT SUM(price*qty) FROM product NATURAL JOIN contains WHERE order_no = %s;"
         cursor2.execute(query2, (order_no,))

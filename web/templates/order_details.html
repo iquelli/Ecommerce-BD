@@ -33,6 +33,7 @@
         <thead>
           <tr>
             <th>Product Name</th>
+            <th>Quantity</th>
             <th>Price</th>
           </tr>
         </thead>
@@ -40,7 +41,8 @@
           {% for record in cursor %}
           <tr>
             <td>{{record[1]}}</td>
-            <td>{{record[2]}} &euro;</td>
+            <td style="text-align:center;">{{record[2]}}</td>
+            <td>{{record[3]}} &euro;</td>
           </tr>
           {% endfor %}
         </tbody>
