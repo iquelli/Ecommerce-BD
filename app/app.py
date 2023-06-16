@@ -55,7 +55,13 @@ def customer_register_post():
             conn.commit()
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, url=url_for("homepage"), params=request.args, context="customer")
+        return render_template(
+            "error.html",
+            error=e,
+            url=url_for("homepage"),
+            params=request.args,
+            context="customer",
+        )
 
 
 @_app.route("/customer/login", methods=["GET"])
@@ -81,7 +87,9 @@ def customer_login_post():
             return redirect(url_for("customer_login_get"))
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, params=request.args, context="customer")
+        return render_template(
+            "error.html", error=e, params=request.args, context="customer"
+        )
 
 
 @_app.route("/customer/remove")
@@ -163,7 +171,7 @@ def orders_list():
                     [max] = cur.execute(query, (cust_no,)).fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
-            WHERE cust_no = %s GROUP BY order_no
+            WHERE cust_no = %s GROUP BY order_no ORDER BY date DESC
             OFFSET %s LIMIT %s;"""
         else:
             query = """SELECT COUNT(*) FROM orders
@@ -173,7 +181,7 @@ def orders_list():
                     [max] = cur.execute(query, (cust_no,)).fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
-            WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no
+            WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no ORDER BY date DESC
             OFFSET %s LIMIT %s;"""
         with pool.connection() as conn:
             with conn.cursor(row_factory=namedtuple_row) as cur:
@@ -195,7 +203,8 @@ def order_details_get():
     order_no = request.args.get("order")
     try:
         query1 = "SELECT SUM(price*qty) FROM product NATURAL JOIN contains WHERE order_no = %s;"
-        query2 = "SELECT SKU, name, qty, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
+        query2 = """SELECT SKU, name, qty, price*qty AS t FROM product NATURAL JOIN contains
+        WHERE order_no = %s ORDER BY t DESC;"""
         with pool.connection() as conn:
             cur = psycopg.ClientCursor(conn)
             [t_price] = cur.execute(query1 + query2, (order_no, order_no)).fetchone()
@@ -256,7 +265,9 @@ def product_register_post():
             conn.commit()
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
-        return render_template("error.html", error=e,  params=request.args, context="product")
+        return render_template(
+            "error.html", error=e, params=request.args, context="product"
+        )
 
 
 @_app.route("/product/remove")
@@ -341,7 +352,9 @@ def supplier_register_post():
             conn.commit()
         return redirect(url_for("suppliers_list", user="manager"))
     except Exception as e:
-        return render_template("error.html", error=e,  params=request.args, context="supplier")
+        return render_template(
+            "error.html", error=e, params=request.args, context="supplier"
+        )
 
 
 @_app.route("/supplier/remove")
@@ -366,7 +379,7 @@ def suppliers_list():
         with pool.connection() as conn:
             with conn.cursor(row_factory=namedtuple_row) as cur:
                 [max] = cur.execute(query).fetchone()
-        query = "SELECT * FROM supplier OFFSET %s LIMIT %s;"
+        query = "SELECT * FROM supplier ORDER BY name OFFSET %s LIMIT %s;"
         with pool.connection() as conn:
             with conn.cursor(row_factory=namedtuple_row) as cur:
                 cur.execute(query, (offset, 10))

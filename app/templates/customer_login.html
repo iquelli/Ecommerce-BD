@@ -25,28 +25,29 @@
         <div class="title-wrapper">
           <h2 class="page-title">Login</h2>
         </div>
-          <form action="" method="post" id="registration-form">
-            <div class="form">
-              <div class="form-entry">
-                <p>Customer Number *</p>
-                <input type="number" placeholder="Insert valid customer number" id="user" name="user" 
-                    maxlength="255" class="mandatory" min="0" oninput="validateInput(this)"/>
-              </div>
-              <button class="register-button"  id="register-button">Login</button>
+        <form action="" method="post" id="registration-form">
+          <div class="form">
+            <div class="form-entry">
+              <p>Customer Number *</p>
+              <input type="number" placeholder="Insert valid customer number" id="user" name="user" maxlength="255"
+                class="mandatory" min="0" oninput="validateInput(this)" />
             </div>
-            <p>Don't have an account?<a class="redirect-to-other" href="{{url_for('customer_register_get')}}">Register here</a></p>
-          </form>
+            <button class="register-button" id="register-button">Login</button>
+          </div>
+          <p>Don't have an account?<a class="redirect-to-other" href="{{url_for('customer_register_get')}}">Register
+              here</a></p>
+        </form>
       </div>
-  </div>
+    </div>
 </body>
 
 <script>
-    function validateInput(input) {
-        if (input.value < 0) {
-          input.value = 0;
-          return true;
-        }
-      }
+  function validateInput(input) {
+    if (input.value < 0) {
+      input.value = 0;
+      return true;
+    }
+  }
 </script>
 
 <footer class="footer-messages" style="position:fixed;">

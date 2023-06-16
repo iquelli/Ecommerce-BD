@@ -18,7 +18,7 @@
       <p style="color: #596296;">Manager</p>
     </a>
     <div>
-        <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
+      <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
   </div>
   <div class="menu">
@@ -30,57 +30,59 @@
   <div style="padding:2%">
     <div class="header">
       <h1>SUPPLIERS IN DATABASE</h1>
-      <a href="{{url_for('supplier_register_get')}}"class="nav-text"><button class="action-button">+ NEW SUPPLIER</button></a>
+      <a href="{{url_for('supplier_register_get')}}" class="nav-text"><button class="action-button">+ NEW
+          SUPPLIER</button></a>
     </div>
-    <hr class = "menu-line">
+    <hr class="menu-line">
     <div>
-        {% if cursor %}
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>TIN</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>SKU</th>
-                  <th>Date</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for record in cursor %}
-                  <tr>
-                    <td>{{record[0]}}</td>
-                    <td>{{record[1]}}</td>
-                    <td>{{record[2]}}</td>
-                    <td>{{record[3]}}</td>
-                    <td>{{record[4]}}</td>
-                    <td>
-                      <a href="{{url_for('supplier_remove', supplier=record[0])}}" class="remove-text"onclick="return confirm('Are you sure you want to remove this supplier?')" >
-                        Remove
-                      </a>
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+      {% if cursor %}
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>TIN</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>SKU</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for record in cursor %}
+            <tr>
+              <td>{{record[0]}}</td>
+              <td>{{record[1]}}</td>
+              <td>{{record[2]}}</td>
+              <td>{{record[3]}}</td>
+              <td>{{record[4]}}</td>
+              <td>
+                <a href="{{url_for('supplier_remove', supplier=record[0])}}" class="remove-text"
+                  onclick="return confirm('Are you sure you want to remove this supplier?')">
+                  Remove
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
 
-            <form id="offsetForm" action="/suppliers" method="get">
-              <div class="show-wrapper">
-                <input type="hidden" id="offset" name="offset" value="{{offset}}">
-                {% if offset != 0 %}
-                <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
-                {% endif %}
-                {% if offset != max %}
-                <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
-                {% endif %}
-                </div>
-            </form>
-
+        <form id="offsetForm" action="/suppliers" method="get">
+          <div class="show-wrapper">
+            <input type="hidden" id="offset" name="offset" value="{{offset}}">
+            {% if offset != 0 %}
+            <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+            {% endif %}
+            {% if offset != max %}
+            <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+            {% endif %}
           </div>
-        {% else %}
-            <p>There are no suppliers.</p>
-        {% endif %}
+        </form>
+
+      </div>
+      {% else %}
+      <p>There are no suppliers.</p>
+      {% endif %}
     </div>
   </div>
 

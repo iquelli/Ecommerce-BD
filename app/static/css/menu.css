@@ -104,9 +104,9 @@
 }
 
 .price-wrapper {
-    display: flex;
-    justify-content: left;
-    align-items: center;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 
 .show-wrapper button {
@@ -140,7 +140,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Translucent background */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Translucent background */
   display: none;
   justify-content: center;
   align-items: center;
@@ -188,7 +189,7 @@
   background-color: #596296;
 }
 
-#make-order{
+#make-order {
   cursor: auto;
   background-color: lightgray;
 }

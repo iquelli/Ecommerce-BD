@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
   <link rel="stylesheet" href="../static/css/general.css" />
@@ -7,31 +8,32 @@
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
   <title>Error | Técnico Shop</title>
 </head>
+
 <body>
   <div class="message-wrap">
     <img src="../static/images/error_image.png" alt="" class="message-img" />
     <h1 class="message">An error has occurred!</h1>
     <p>ERRO: {{error.pgerror}}</p>
     {% if context %}
-      {% if "product_pkey" in error.args[0] and context == "product" %}
-        <p>Product with the same SKU already in the database</p>
-      {% elif "product_ean_key" in error.args[0] %}
-        <p>Product with the same EAN already in the database</p>
-      {% elif "for type date" in error.args[0] %}
-        <p>Invalid date format: Should be like YYYY-MM-DD</p>
-      {% elif "supplier_sku_fkey" in error.args[0] and context == "supplier" %}
-        <p>No product with the given SKU in the database</p>
-      {% elif "supplier_pkey" in error.args[0] and context == "supplier" %}
-        <p>Supplier with the same TIN already in the database</p>
-      {% elif "customer_email_key" in error.args[0] and context == "customer" %}
-        <p>Customer with the same e-mail already in the database</p>
-      {% elif "e" in error.args[0] and context == "customer" %}
-      <p>E-mail is not in the correct format</p>
-      {% else %}
-        <p>ERRO: {{error.args[0]}}</p>
-      {% endif %}
+    {% if "product_pkey" in error.args[0] and context == "product" %}
+    <p>Product with the same SKU already in the database</p>
+    {% elif "product_ean_key" in error.args[0] %}
+    <p>Product with the same EAN already in the database</p>
+    {% elif "for type date" in error.args[0] %}
+    <p>Invalid date format: Should be like YYYY-MM-DD</p>
+    {% elif "supplier_sku_fkey" in error.args[0] and context == "supplier" %}
+    <p>No product with the given SKU in the database</p>
+    {% elif "supplier_pkey" in error.args[0] and context == "supplier" %}
+    <p>Supplier with the same TIN already in the database</p>
+    {% elif "customer_email_key" in error.args[0] and context == "customer" %}
+    <p>Customer with the same e-mail already in the database</p>
+    {% elif "e" in error.args[0] and context == "customer" %}
+    <p>E-mail is not in the correct format</p>
     {% else %}
-        <p>ERRO: {{error.args[0]}}</p>
+    <p>ERRO: {{error.args[0]}}</p>
+    {% endif %}
+    {% else %}
+    <p>ERRO: {{error.args[0]}}</p>
     {% endif %}
 
     <a href="{{url}}"> <button class="go-back-button">Go back</button></a>

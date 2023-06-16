@@ -31,7 +31,7 @@
     {% endif %}
   </div>
 
-    <div style="padding:2%">
+  <div style="padding:2%">
     <h1 style="color: #596296; font-size: 40px">Welcome!</h1>
     <div class="header">
       {% if payed %}
@@ -39,11 +39,12 @@
       {% else %}
       <h1>YOUR PENDING ORDERS</h1>
       {% endif %}
-      <a href="{{url_for('products_list', user=user)}}"class="nav-text"><button class="action-button">+ PLACE ORDER</button></a>
+      <a href="{{url_for('products_list', user=user)}}" class="nav-text"><button class="action-button">+ PLACE
+          ORDER</button></a>
     </div>
     <hr class="menu-line">
     <div>
-    {% if cursor.rowcount %}
+      {% if cursor.rowcount %}
       <div class="table-container">
         <table>
           <thead>
@@ -62,11 +63,14 @@
               <td>{{record[2]}} &euro;</td>
               {% if payed %}
               <td>
-                <a style="font-size: 20px;" href="{{url_for('order_details_get', user=user, order=record[0], payed=True)}}" class="remove-text">See Details</a>
+                <a style="font-size: 20px;"
+                  href="{{url_for('order_details_get', user=user, order=record[0], payed=True)}}"
+                  class="remove-text">See Details</a>
               </td>
               {% else %}
               <td>
-                <a style="font-size: 20px;" href="{{url_for('order_details_get', user=user, order=record[0])}}" class="remove-text">Check Out</a>
+                <a style="font-size: 20px;" href="{{url_for('order_details_get', user=user, order=record[0])}}"
+                  class="remove-text">Check Out</a>
               </td>
               {% endif %}
             </tr>
@@ -81,14 +85,14 @@
             <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
             {% endif %}
             {% if offset != max %}
-              <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+            <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
             {% endif %}
-            </div>
+          </div>
         </form>
       </div>
-    {% else %}
-    <p>There are no orders.</p>
-    {% endif %}
+      {% else %}
+      <p>There are no orders.</p>
+      {% endif %}
     </div>
   </div>
 </body>

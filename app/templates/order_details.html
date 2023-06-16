@@ -57,11 +57,12 @@
       <a href="{{url_for('orders_list', user=user)}}" class="nav-text">
         <button class="action-button" style="width:150px;">Back</button></a>
       {% if not payed %}
-        <form action="" method="post">
-          <button class="action-button" style="width:150px;color:#596296;background-color:white;border-color:#596296;border:solid;">
-            Pay
-          </button>
-        </form>
+      <form action="" method="post">
+        <button class="action-button"
+          style="width:150px;color:#596296;background-color:white;border-color:#596296;border:solid;">
+          Pay
+        </button>
+      </form>
       {% endif %}
     </div>
   </div>

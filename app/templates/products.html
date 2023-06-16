@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
   <script src="../static/js/pagination.js"></script>
@@ -9,9 +10,9 @@
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
 
   {% if user == "manager" %}
-    <title> Manager Menu | Técnico Shop</title>
+  <title> Manager Menu | Técnico Shop</title>
   {% else %}
-    <title> Customer Order | Técnico Shop</title>
+  <title> Customer Order | Técnico Shop</title>
   {% endif %}
 
 </head>
@@ -22,9 +23,9 @@
       <img src="../static/images/favicon.png" class="logo">
       <p><strong>Técnico Shop</strong></p>
       {% if user == "manager" %}
-        <p style="color: #596296;">Manager</p>
+      <p style="color: #596296;">Manager</p>
       {% else %}
-        <p style="color: #596296;">Customer</p>
+      <p style="color: #596296;">Customer</p>
       {% endif %}
     </a>
     <div>
@@ -33,22 +34,23 @@
   </div>
 
   {% if user == "manager" %}
-    <div class="menu">
-      <a href="{{url_for('customers_list', user='manager')}}" class="menu-link">Customers</a>
-      <a href="{{url_for('suppliers_list', user='manager')}}" class="menu-link">Suppliers</a>
-      <a href="{{url_for('products_list', user='manager')}}" class="menu-link-selected">Products</a>
-    </div>
+  <div class="menu">
+    <a href="{{url_for('customers_list', user='manager')}}" class="menu-link">Customers</a>
+    <a href="{{url_for('suppliers_list', user='manager')}}" class="menu-link">Suppliers</a>
+    <a href="{{url_for('products_list', user='manager')}}" class="menu-link-selected">Products</a>
+  </div>
   {% endif %}
 
   <div style="padding:2%">
     <div class="header">
       <h1>PRODUCTS IN DATABASE</h1>
       {% if user == "manager" %}
-        <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
+      <a href="{{url_for('product_register_get')}}" class="nav-text"><button class="action-button">+ NEW
+          PRODUCT</button></a>
       {% else %}
-        <a href="{{ url_for('order_register', **request.args) }}" class="nav-text">
-          <button class="action-button" id="make-order" disabled>FINISH ORDER</button>
-        </a>
+      <a href="{{ url_for('order_register', **request.args) }}" class="nav-text">
+        <button class="action-button" id="make-order" disabled>FINISH ORDER</button>
+      </a>
       {% endif %}
     </div>
     <hr class="menu-line">
@@ -95,20 +97,23 @@
                 {% if user == "manager" %}
                 <td>{{ record[4] }}</td>
                 <td>
-                  <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
+                  <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">
+                    Edit</p>
                 </td>
                 {% endif %}
                 <td>
                   {% if user == "manager" %}
-                  <a href="{{url_for('product_remove', product=record[0])}}" class="remove-text"onclick="return confirm('Are you sure you want to remove this product?')" >
+                  <a href="{{url_for('product_remove', product=record[0])}}" class="remove-text"
+                    onclick="return confirm('Are you sure you want to remove this product?')">
                     Remove
                   </a>
                   {% else %}
-                    <div class="price-wrapper">
-                      <input type="number" name="{{record[0]}}" min="0" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" 
-                      style="width:100px;" onchange="updateQty('{{ record[0] }}', this.value)" oninput="validateInput(this)">
-                      <form id="offsetForm" action="/products" method="get">
-                    </div>
+                  <div class="price-wrapper">
+                    <input type="number" name="{{record[0]}}" min="0" value="{{ request.args.get(record[0], 0) }}"
+                      id="{{ record[0] }}" style="width:100px;" onchange="updateQty('{{ record[0] }}', this.value)"
+                      oninput="validateInput(this)">
+                    <form id="offsetForm" action="/products" method="get">
+                  </div>
                   {% endif %}
                 </td>
                 {% if user != "manager" %}
@@ -116,29 +121,29 @@
                   <p type="button" onclick="removeFromOrder('{{ record[0] }}')" style="background: none;
                     border: none;" class="remove-text">Remove</p>
                 </td>
-                  </form>
-                {% endif %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
       </form>
-      <form id="offsetForm" action="/products" method="get">
-        <div class="show-wrapper">
-          <input type="hidden" id="offset" name="offset" value="{{offset}}">
-          {% if offset != 0 %}
-          <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
-          {% endif %}
-          {% if offset != max %}
-          <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
-          {% endif %}
-        </div>
-      </form>
-      {% else %}
-      <p>There are no products.</p>
       {% endif %}
+      </tr>
+      {% endfor %}
+      </tbody>
+      </table>
     </div>
+    </form>
+    <form id="offsetForm" action="/products" method="get">
+      <div class="show-wrapper">
+        <input type="hidden" id="offset" name="offset" value="{{offset}}">
+        {% if offset != 0 %}
+        <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+        {% endif %}
+        {% if offset != max %}
+        <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+        {% endif %}
+      </div>
+    </form>
+    {% else %}
+    <p>There are no products.</p>
+    {% endif %}
+  </div>
   </div>
 
   <!-- Popup form and background -->
@@ -171,10 +176,10 @@
   </footer>
 
   <script>
-      function updateQty(id, value) {
+    function updateQty(id, value) {
       const urlParams = new URLSearchParams(window.location.search);
       const currentQty = parseInt(urlParams.get(id)) || 0;
-      const updatedQty = value > currentQty ? value : currentQty - 1; 
+      const updatedQty = value > currentQty ? value : currentQty - 1;
       if (updatedQty <= 0) {
         urlParams.delete(id);
       } else {
@@ -205,4 +210,5 @@
     checkArguments();
   </script>
 </body>
+
 </html>
