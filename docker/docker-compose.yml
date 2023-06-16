@@ -1,16 +1,24 @@
-version: '3.9'
+version: '3'
+
+volumes:
+  pgdata: {}
 
 services:
-  db:
-    image: postgres:14
+  postgres:
+    image: postgres:15.3
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data:Z
+      - ./docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+      - ./data:/tmp/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
-    volumes:
-      - ./db-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - "5432:5432"
+    networks:
+      - web-network
   pgadmin:
     image: dpage/pgadmin4:6
     environment:
@@ -20,10 +28,21 @@ services:
       - 5050:80
   web:
     build:
-      context: .
-      dockerfile: Dockerfile.httpd
+      context: ../web
+      dockerfile: ../docker/Dockerfile
     volumes:
-      - ../web:/usr/local/apache2/htdocs:ro
-      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - ../web:/web
+    depends_on:
+      - postgres
+    environment:
+      FLASK_WEB: web
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
     ports:
-      - 5051:80
+      - "5051:5051"
+    networks:
+      - web-network
+
+networks:
+  web-network:
+    driver: bridge

@@ -1,33 +1,15 @@
 #!/usr/bin/python3
 
-#
-# 		File: proj.cgi
-# 		Authors:
-# 		        - Gonçalo Bárias (ist1103124)
-# 		        - Raquel Braunschweig (ist1102624)
-#               - Vasco Paisana (ist1102533)
-# 		Group: 2
-# 		Description: Used to create the web app prototype.
-
-from wsgiref.handlers import CGIHandler
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 import math
-import psycopg2
-import psycopg2.extras
+import psycopg
+from psycopg_pool import ConnectionPool
 
-# DBMS configs
-DB_HOST = "db"
-DB_DATABASE = "postgres"
-DB_USER = "postgres"
-DB_PASSWORD = "postgres"
-DB_CONNECTION_STRING = "host=%s dbname=%s user=%s password=%s" % (
-    DB_HOST,
-    DB_DATABASE,
-    DB_USER,
-    DB_PASSWORD,
-)
-
+# postgres://{user}:{password}@{hostname}:{port}/{database-name}
+# the pool starts connecting immediately.
+DATABASE_URL = "postgres://db:db@postgres/db"
+pool = ConnectionPool(conninfo=DATABASE_URL)
 _app = Flask(__name__)
 
 
@@ -54,8 +36,8 @@ def customer_register_post():
     dbConn = None
     cursor = None
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query_next_cust_no = "SELECT MAX(cust_no) + 1 FROM customer;"
         cursor.execute(query_next_cust_no)
@@ -73,7 +55,7 @@ def customer_register_post():
         cursor.execute(query, (cust_no, name, email, phone, address))
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template("error.html", error=e, params="customer")
+        return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
         dbConn.commit()
         cursor.close()
@@ -93,8 +75,8 @@ def customer_login_post():
     dbConn = None
     cursor = None
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         cust_no = request.form["user"]
         if cust_no == "":
@@ -119,8 +101,8 @@ def customer_remove():
     cursor = None
     cust_no = request.args.get("user")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "DELETE FROM customer WHERE cust_no = %s;"
         cursor.execute(query, (cust_no,))
@@ -140,8 +122,8 @@ def customers_list():
     offset = int(request.args.get("offset", 0))
 
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "SELECT COUNT(*) FROM customer;"
         cursor.execute(query)
@@ -167,8 +149,8 @@ def order_register():
     cursor = None
     cust_no = request.args.get("user")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query_next_order_no = "SELECT MAX(order_no) + 1 FROM orders;"
         cursor.execute(query_next_order_no)
@@ -205,8 +187,8 @@ def orders_list():
     cust_no = request.args.get("user")
     payed = request.args.get("payed")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         if payed:
             query = """SELECT COUNT(*) FROM orders
@@ -249,9 +231,9 @@ def order_details_get():
     cursor2 = None
     order_no = request.args.get("order")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor1 = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor2 = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor1 = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
+        cursor2 = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query1 = "SELECT SKU, name, qty, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
         cursor1.execute(query1, (order_no,))
@@ -281,8 +263,8 @@ def order_details_post():
     cust_no = request.args.get("user")
     order_no = request.args.get("order")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "INSERT INTO pay(order_no, cust_no) VALUES (%s, %s)"
         cursor.execute(query, (order_no, cust_no))
@@ -310,8 +292,8 @@ def product_register_post():
     dbConn = None
     cursor = None
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         sku = request.form["sku"]
         name = request.form["name"]
@@ -340,8 +322,8 @@ def product_remove():
     cursor = None
     sku = request.args.get("product")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "DELETE FROM product WHERE SKU = %s;"
         cursor.execute(query, (sku,))
@@ -359,8 +341,8 @@ def product_edit():
     dbConn = None
     cursor = None
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         sku = request.form["popup-sku"]
         description = request.form["popup-description"]
@@ -386,8 +368,8 @@ def products_list():
     offset = int(request.args.get("offset", 0))
 
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "SELECT COUNT(*) FROM product;"
         cursor.execute(query)
@@ -421,8 +403,8 @@ def supplier_register_post():
     dbConn = None
     cursor = None
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         tin = request.form["tin"]
         name = request.form["name"]
@@ -449,8 +431,8 @@ def supplier_remove():
     cursor = None
     tin = request.args.get("supplier")
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "DELETE FROM supplier WHERE TIN = %s;"
         cursor.execute(query, (tin,))
@@ -469,8 +451,8 @@ def suppliers_list():
     cursor = None
     offset = int(request.args.get("offset", 0))
     try:
-        dbConn = psycopg2.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        dbConn = psycopg.connect(DB_CONNECTION_STRING)
+        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
 
         query = "SELECT COUNT(*) FROM supplier;"
         cursor.execute(query)
@@ -491,4 +473,5 @@ def suppliers_list():
         dbConn.close()
 
 
-CGIHandler().run(_app)
+if __name__ == "__main__":
+    _app.run()

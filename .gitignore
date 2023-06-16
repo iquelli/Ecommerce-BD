@@ -132,7 +132,8 @@ dmypy.json
 .pyre/
 
 # Docker
-docker/db-data/
+docker/data/
+docker/docker-entrypoint-initdb.d/
 
 # LaTeX
 *.aux
