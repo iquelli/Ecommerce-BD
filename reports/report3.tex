@@ -12,6 +12,7 @@
 \usepackage{svg}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{indentfirst}
 
 \graphicspath{ {./} }
 \hypersetup{
@@ -123,15 +124,39 @@
     \large
     \begin{minipage}{0.8\textwidth}
       \begin{itemize}
-        \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - 36h
-        \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - 36h
-        \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - 36h
+        \item[] \textbf{Gonçalo Bárias} (103124) - 33.3$\overline{3}$\% - 50h
+        \item[] \textbf{Raquel Braunschweig} (102624) - 33.3$\overline{3}$\% - 50h
+        \item[] \textbf{Vasco Paisana} (102533) - 33.3$\overline{3}$\% - 50h
       \end{itemize}
     \end{minipage}
   \end{center}
 \end{titlepage}
 
 \section*{Desenvolvimento da Aplicação}
+
+\subsection*{Explicação da Aplicação}
+
+No desenvolvimento da nossa aplicação \textit{web} procurámos para além do que nos foi solicitado criar uma \textbf{imagem que fosse apelativa}, desenvolver
+\textbf{novas funcionalidades} e ter como preocupação um \textit{runtime} rápido, dando assim importância ao uso de \textbf{lógica de paginação} para as listas que apresentamos.
+
+Na \textbf{página inicial}, podemos encontrar 2 opções: \texttt{customer view} e \texttt{manager view}.
+Clicando na opção \texttt{customer view} é possível fazer um novo registo ou, caso o cliente já esteja registado, o login.
+Nesta opção o cliente poderá fazer encomendas, ver as encomendas que estão pagas e as que estão por regularizar.
+Poderá ainda verificar os detalhes de cada encomenda e efetuar pagamentos.
+
+Em \texttt{manager view} temos três campos: \texttt{customers}, \texttt{suppliers} e \texttt{products}.
+No \texttt{customers} podemos observar uma lista com todos os clientes.
+No \texttt{suppliers} é-nos dada a informação sobre os fornecedores e a possibilidade de registar novos.
+No \texttt{products} temos a informação sobre os produtos, podendo criar novos e alterar dados dos existentes.
+Finalmente podemos remover tanto clientes, como fornecedores e produtos.
+
+\subsection*{Explicação do código}
+
+Apresentamos na pasta \texttt{app\/templates} todas as páginas html que em conjunto constroem o \textit{frontend}
+do nosso projeto.
+
+De modo a simplificar a aplicação achámos importante estabelecer uma série de \texttt{triggers} no ficheiro \texttt{ICs.sql}
+que removem as dependências das relações que são eliminadas pelo utilizador no \textit{frontend}.
 
 \section*{Índices}
 
