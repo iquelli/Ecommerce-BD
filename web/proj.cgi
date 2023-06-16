@@ -100,11 +100,17 @@ def customer_login_post():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         cust_no = request.form["user"]
-        email = request.form["email"]
-        if cust_no == "" or email == "":
+        if cust_no == "":
+            return redirect(url_for("customer_login_get"))
+        
+        query = "SELECT * FROM customer WHERE cust_no = %s;"
+        cursor.execute(query, (cust_no,))
+        customer = cursor.fetchone()
+        if customer is not None:
+            return redirect(url_for("orders_list", user=cust_no))
+        else:
             return redirect(url_for("customer_login_get"))
 
-        return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
