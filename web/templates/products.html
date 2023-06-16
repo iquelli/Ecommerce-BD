@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8" />
   <script src="../static/js/pagination.js"></script>
@@ -48,7 +47,7 @@
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
       {% else %}
         <a href="{{url_for('order_register')}}"class="nav-text"><button class="action-button">FINISH ORDER</button></a>
-      {% endif %}
+      {% endif %} 
     </div>
     <hr class="menu-line">
     <div>
@@ -84,10 +83,10 @@
                   {{ record[1] }}
                 </td>
                 <td>
-                  {{ record[2] }}
+                  <p id="curr-desc-{{ record[0] }}">{{ record[2] }}</p>
                 </td>
                 <td>
-                  {{ record[3] }}
+                  <p id="curr-price-{{ record[0] }}">{{ record[3] }}</p>
                 </td>
                 {% if params["user"] == "manager" %}
                 <td>{{ record[4] }}</td>
@@ -105,9 +104,7 @@
                     <div class="show-wrapper">
                       <input type="number" name="{{record[0]}}" min="1" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" onchange="updateQty('{{ record[0] }}', this.value)">
                       <button type="button" onclick="removeFromOrder('{{ record[0] }}')">Remove</button>
-
                     </div>
-
                   </form>
                   {% endif %}
                 </td>
@@ -117,19 +114,19 @@
           </table>
         </div>
       </form>
-
-
-          <form id="offsetForm" action="/products" method="get">
-            <div class="show-wrapper">
-              <input type="hidden" id="offset" name="offset" value="{{offset}}">
-              {% if offset != 0 %}
-              <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
-              {% endif %}
-              {% if offset != max %}
-              <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
-              {% endif %}
-            </div>
-          </form>
+      
+      <form id="offsetForm" action="/products" method="get">
+        <div class="show-wrapper">
+          <input type="hidden" id="offset" name="offset" value="{{offset}}">
+          {% if offset != 0 %}
+          <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
+          {% endif %}
+          {% if offset != max %}
+          <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
+          {% endif %}
+        </div>
+      </form>
+      
       {% else %}
       <p>There are no products.</p>
       {% endif %}
@@ -160,23 +157,26 @@
 
   <footer class="footer-messages">
     <hr>
-    Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
+    Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624), and Vasco Paisana (102533) @ IST
   </footer>
 
   <script>
     function updateQty(id, value) {
       const urlParams = new URLSearchParams(window.location.search);
       const currentQty = parseInt(urlParams.get(id)) || 0;
+    
       const updatedQty = value > currentQty ? value : currentQty - 1;
+    
       urlParams.set(id, updatedQty);
       window.location.search = urlParams.toString();
     }
+    
     function removeFromOrder(id) {
       const urlParams = new URLSearchParams(window.location.search);
       urlParams.delete(id);
       window.location.search = urlParams.toString();
     }
+    
   </script>
 </body>
-
 </html>
