@@ -88,7 +88,7 @@
             {% if offset != 0 %}
             <button type="button" onclick="decrementOffset()"><strong>&#9664;</strong></button>
             {% endif %}
-            {% if cursor.rowcount == 10 %}
+            {% if offset != max %}
               <button type="button" onclick="incrementOffset()"><strong>&#9654;</strong></button>
             {% endif %}
             </div>

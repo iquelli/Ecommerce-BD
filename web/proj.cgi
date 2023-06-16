@@ -12,6 +12,7 @@
 from wsgiref.handlers import CGIHandler
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
+import math
 import psycopg2
 import psycopg2.extras
 
@@ -141,10 +142,17 @@ def customers_list():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
+        query = "SELECT COUNT(*) FROM customer;"
+        cursor.execute(query)
+        [max] = cursor.fetchone()
         query = "SELECT * FROM customer ORDER BY name OFFSET %s LIMIT %s;"
         cursor.execute(query, (offset, 10))
         return render_template(
-            "customers.html", cursor=cursor, offset=offset, params=request.args
+            "customers.html",
+            cursor=cursor,
+            offset=offset,
+            max=math.ceil(max / 10 - 1) * 10,
+            params=request.args,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -209,18 +217,32 @@ def orders_list():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         if payed:
+            query = """SELECT COUNT(*) FROM orders
+            NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
+            WHERE cust_no = %s;"""
+            cursor.execute(query, (cust_no))
+            [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
             WHERE cust_no = %s GROUP BY order_no
             OFFSET %s LIMIT %s;"""
         else:
+            query = """SELECT COUNT(*) FROM orders
+            LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
+            WHERE orders.cust_no = %s AND pay.order_no IS NULL;"""
+            cursor.execute(query, (cust_no))
+            [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
             WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no
             OFFSET %s LIMIT %s;"""
         cursor.execute(query, (cust_no, offset, 10))
         return render_template(
-            "orders.html", cursor=cursor, offset=offset, params=request.args
+            "orders.html",
+            cursor=cursor,
+            offset=offset,
+            max=math.ceil(max / 10 - 1) * 10,
+            params=request.args,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -289,7 +311,10 @@ def order_details_get():
         [t_price] = cursor2.fetchone()
 
         return render_template(
-            "order_details.html", cursor=cursor1, t_price=t_price, params=request.args
+            "order_details.html",
+            cursor=cursor1,
+            t_price=t_price,
+            params=request.args,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -399,7 +424,7 @@ def product_edit():
         sku = request.form["popup-sku"]
         description = request.form["popup-description"]
         price = request.form["popup-price"]
-        if sku == "" or price == "" :
+        if sku == "" or price == "":
             return redirect(url_for("products_list", user=request.args.get("user")))
 
         query = "UPDATE product SET description = %s, price = %s WHERE SKU = %s"
@@ -426,15 +451,26 @@ def products_list():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         if order_no:
+            query = """SELECT COUNT(*) FROM product LEFT JOIN contains USING (SKU)
+            WHERE order_no != %s;"""
+            cursor.execute(query, (order_no))
+            [max] = cursor.fetchone()
             query = """
             SELECT * FROM product LEFT JOIN contains USING (SKU)
             WHERE order_no != %s ORDER BY price OFFSET %s LIMIT %s;"""
             cursor.execute(query, (order_no, offset, 10))
         else:
+            query = "SELECT COUNT(*) FROM product;"
+            cursor.execute(query, (order_no))
+            [max] = cursor.fetchone()
             query = "SELECT * FROM product ORDER BY name OFFSET %s LIMIT %s;"
             cursor.execute(query, (offset, 10))
         return render_template(
-            "products.html", cursor=cursor, offset=offset, params=request.args
+            "products.html",
+            cursor=cursor,
+            offset=offset,
+            max=math.ceil(max / 10 - 1) * 10,
+            params=request.args,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -512,10 +548,17 @@ def suppliers_list():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
+        query = "SELECT COUNT(*) FROM supplier;"
+        cursor.execute(query)
+        [max] = cursor.fetchone()
         query = "SELECT * FROM supplier OFFSET %s LIMIT %s;"
         cursor.execute(query, (offset, 10))
         return render_template(
-            "suppliers.html", cursor=cursor, offset=offset, params=request.args
+            "suppliers.html",
+            cursor=cursor,
+            offset=offset,
+            max=math.ceil(max / 10 - 1) * 10,
+            params=request.args,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
