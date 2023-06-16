@@ -104,10 +104,10 @@
                     Remove
                   </a>
                   {% else %}
-                  <form id="offsetForm" action="/products" method="get">
                     <div class="price-wrapper">
-                        <input type="number" name="{{record[0]}}" min="0" value="{{request.args.get(record[0], 0)}}" id="{{record[0]}}"
-                          style="width:100px;"oninput="updateQty('{{record[0]}}', this);">
+                      <input type="number" name="{{record[0]}}" min="0" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" 
+                      style="width:100px;" onchange="updateQty('{{ record[0] }}', this.value)" oninput="validateInput(this)">
+                      <form id="offsetForm" action="/products" method="get">
                     </div>
                   {% endif %}
                 </td>
@@ -171,16 +171,17 @@
   </footer>
 
   <script>
-    function updateQty(id, input) {
+      function updateQty(id, value) {
       const urlParams = new URLSearchParams(window.location.search);
-      if (validateInput(input)) {
+      const currentQty = parseInt(urlParams.get(id)) || 0;
+      const updatedQty = value > currentQty ? value : currentQty - 1; 
+      if (updatedQty <= 0) {
         urlParams.delete(id);
       } else {
-        urlParams.set(id, input.value);
+        urlParams.set(id, updatedQty);
       }
       window.location.search = urlParams.toString();
     }
-
     function removeFromOrder(id) {
       const urlParams = new URLSearchParams(window.location.search);
       urlParams.delete(id);
