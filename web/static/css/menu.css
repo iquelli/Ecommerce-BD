@@ -100,7 +100,13 @@
 .show-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
+}
+
+.price-wrapper {
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
 
 .show-wrapper button {

@@ -69,7 +69,9 @@
                 <th>EAN</th>
                 <th></th>
                 {% endif %}
+                {% if user != "manager" %}
                 <th>Quantity</th> <!-- New column for displaying quantity -->
+                {% endif %}
                 <th></th>
               </tr>
             </thead>
@@ -103,15 +105,19 @@
                   </a>
                   {% else %}
                   <form id="offsetForm" action="/products" method="get">
-                    <div class="show-wrapper">
-                      <input type="number" name="{{record[0]}}" min="0" value="{{request.args.get(record[0], 0)}}" id="{{record[0]}}"
-                        oninput="updateQty('{{record[0]}}', this)">
-                      <button type="button" onclick="removeFromOrder('{{ record[0] }}')" style="background: none;
-                        border: none;">Remove</button>
+                    <div class="price-wrapper">
+                        <input type="number" name="{{record[0]}}" min="0" value="{{request.args.get(record[0], 0)}}" id="{{record[0]}}" 
+                          style="width:100px;"oninput="updateQty('{{record[0]}}', this)">
                     </div>
-                  </form>
                   {% endif %}
                 </td>
+                {% if user != "manager" %}
+                <td>
+                  <p type="button" onclick="removeFromOrder('{{ record[0] }}')" style="background: none;
+                    border: none;" class="remove-text">Remove</p>
+                </td>  
+                  </form>
+                {% endif %}
               </tr>
               {% endfor %}
             </tbody>
