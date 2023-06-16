@@ -47,72 +47,77 @@
       {% if params["user"] == "manager" %}
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
       {% else %}
-        <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ MAKE ORDER</button></a>
-      {% endif %}
+        <a href="{{url_for('order_register')}}"class="nav-text"><button class="action-button">FINISH ORDER</button></a>
+      {% endif %} 
     </div>
     <hr class="menu-line">
     <div>
       {% if cursor %}
       <form id="limitForm">
         <div class="table-container">
-            <table>
-              <thead>
-                <tr>
+          <table>
+            <thead>
+              <tr>
+                {% if params["user"] == "manager" %}
+                <th>SKU</th>
+                {% endif %}
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                {% if params["user"] == "manager" %}
+                <th>EAN</th>
+                <th></th>
+                {% endif %}
+                <th>Quantity</th> <!-- New column for displaying quantity -->
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for record in cursor %}
+              <tr>
+                {% if params["user"] == "manager" %}
+                <td>
+                  {{ record[0] }}
+                </td>
+                {% endif %}
+                <td>
+                  {{ record[1] }}
+                </td>
+                <td>
+                  {{ record[2] }}
+                </td>
+                <td>
+                  {{ record[3] }}
+                </td>
+                {% if params["user"] == "manager" %}
+                <td>{{ record[4] }}</td>
+                <td>
+                  <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
+                </td>
+                {% endif %}
+                <td>
                   {% if params["user"] == "manager" %}
-                    <th>SKU</th>
-                  {% endif %}
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  {% if params["user"] == "manager" %}
-                    <th>EAN</th>
-                    <th></th>
-                  {% endif %}
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for record in cursor %}
-                <tr>
-                  {% if params["user"] == "manager" %}
-                    <td>
-                      {{ record[0] }}
-                    </td>
-                  {% endif %}
-                  <td>
-                    <div id="curr-name">
-                      <p style="font-size: 20px;">{{ record[1] }}</p>
+                  <a href="./product/remove?product={{ record[0] }}" class="remove-text">
+                    Remove
+                  </a>
+                  {% else %}
+                  <form id="offsetForm" action="/products" method="get">
+                    <div class="show-wrapper">
+                      <input type="number" name="{{record[0]}}" min="1" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" onchange="updateQty('{{ record[0] }}', this.value)">
+                      <button type="button" onclick="removeFromOrder('{{ record[0] }}')">Remove</button>
+
                     </div>
-                  </td>
-                  <td>
-                    <div id="curr-desc-{{ record[0] }}">
-                      <p style="font-size: 20px;">{{ record[2] }}</p>
-                    </div>
-                  </td>
-                  <td>
-                    <div id="curr-price-{{ record[0] }}">
-                      <p style="font-size: 20px;">{{ record[3] }}</p>
-                    </div>
-                  </td>
-                  {% if params["user"] == "manager" %}
-                    <td>{{ record[4] }}</td>
-                    <td style="font-size: 20px;">
-                      <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
-                    </td>
+                    
+                  </form>
                   {% endif %}
-                  <td>
-                    {% if params["user"] == "manager" %}
-                      <a href="{{url_for('product_remove', product=record[0])}}" class="remove-text">
-                        Remove
-                      </a>
-                    {% else %}
-                      <p class="edit-text">{{params["user"]}}</p>
-                    {% endif %}
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </form>
+      
 
           <form id="offsetForm" action="/products" method="get">
             <div class="show-wrapper">
@@ -125,8 +130,6 @@
               {% endif %}
             </div>
           </form>
-
-        </div>
       {% else %}
       <p>There are no products.</p>
       {% endif %}
@@ -160,6 +163,38 @@
     Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
   </footer>
 
+  <script>
+    function updateQty(id, value) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentQty = parseInt(urlParams.get(id)) || 0;
+
+  const updatedQty = value > currentQty ? value : currentQty - 1;
+
+  urlParams.set(id, updatedQty);
+  window.location.search = urlParams.toString();
+}
+
+
+function removeFromOrder(id) {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.delete(id);
+      window.location.search = urlParams.toString();
+    }
+
+    // JavaScript function to show the popup form and pass the record ID
+    function showPopUp(event, productId) {
+      event.preventDefault();
+      document.getElementById("popup-description").value = document.getElementById("curr-desc-" + productId).innerText;
+      document.getElementById("popup-price").value = document.getElementById("curr-price-" + productId).innerText;
+      document.getElementById("popup-sku").value = productId;
+      document.getElementById("popupBackground").style.display = "flex";
+    }
+
+    // JavaScript function to hide the popup form
+    function hidePopUp() {
+      document.getElementById("popupBackground").style.display = "none";
+    }
+  </script>
 </body>
 
 </html>
