@@ -379,7 +379,7 @@ def product_remove():
         else:
             query = "DELETE FROM product WHERE SKU = %s;"
             cursor.execute(query, (sku,))
-        return redirect(url_for("homepage"))
+        return redirect(url_for("products_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -399,26 +399,19 @@ def product_edit():
         sku = request.form["popup-sku"]
         description = request.form["popup-description"]
         price = request.form["popup-price"]
-        if sku == ""  or price == "" :
+        if sku == "" or price == "" :
             return redirect(url_for("products_list", user=request.args.get("user")))
 
-        query = """
-        UPDATE product
-        SET description = %s, price = %s
-        WHERE SKU = %s"""
+        query = "UPDATE product SET description = %s, price = %s WHERE SKU = %s"
         data = (description, price, sku)
         cursor.execute(query, data)
-        dbConn.commit()
-        
-        return redirect(url_for("products_list"))
+        return redirect(url_for("products_list", user=request.args.get("user")))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
-        if cursor:
-            cursor.close()
-        if dbConn:
-            dbConn.close()
-
+        dbConn.commit()
+        cursor.close()
+        dbConn.close()
 
 
 @_app.route("/products")
@@ -438,7 +431,6 @@ def products_list():
             WHERE order_no != %s ORDER BY price OFFSET %s LIMIT %s;"""
             cursor.execute(query, (order_no, offset, 10))
         else:
-            query = "SELECT * FROM product ORDER BY name;"
             query = "SELECT * FROM product ORDER BY name OFFSET %s LIMIT %s;"
             cursor.execute(query, (offset, 10))
         return render_template(

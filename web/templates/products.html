@@ -26,7 +26,7 @@
         <p style="color: #596296;">Manager</p>
       {% else %}
         <p style="color: #596296;">Client</p>
-      {% endif %}  
+      {% endif %}
     </a>
     <div>
       <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
@@ -47,28 +47,27 @@
       {% if params["user"] == "manager" %}
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
       {% else %}
-        <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">MAKE ORDER</button></a>
-      {% endif %} 
+        <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ MAKE ORDER</button></a>
+      {% endif %}
     </div>
     <hr class="menu-line">
     <div>
       {% if cursor %}
       <form id="limitForm">
         <div class="table-container">
-          <form method="POST" action="/product/edit">
             <table>
               <thead>
                 <tr>
                   {% if params["user"] == "manager" %}
                     <th>SKU</th>
-                  {% endif %} 
+                  {% endif %}
                   <th>Name</th>
                   <th>Description</th>
                   <th>Price</th>
                   {% if params["user"] == "manager" %}
                     <th>EAN</th>
                     <th></th>
-                  {% endif %} 
+                  {% endif %}
                   <th></th>
                 </tr>
               </thead>
@@ -103,7 +102,7 @@
                   {% endif %}
                   <td>
                     {% if params["user"] == "manager" %}
-                      <a href="./product/remove?product={{ record[0] }}" class="remove-text">
+                      <a href="{{url_for('product_remove', product=record[0])}}" class="remove-text">
                         Remove
                       </a>
                     {% else %}
@@ -114,7 +113,6 @@
                 {% endfor %}
               </tbody>
             </table>
-          </form>
 
           <form id="offsetForm" action="/products" method="get">
             <div class="show-wrapper">
@@ -137,7 +135,7 @@
   <div id="popupBackground" class="popup-background">
     <div class="popup-form">
       <h2 style="margin-bottom: 10px;">Edit Product</h2>
-      <form action="{{url_for('product_edit')}}" method="POST" class="pop-form">
+      <form action="{{url_for('product_edit', user=params['user'])}}" method="post" class="pop-form">
         <input type="hidden" id="popup-sku" name="popup-sku" value="">
         <div>
           <label for="popup-description">Description:</label><br>
@@ -160,21 +158,6 @@
     Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
   </footer>
 
-  <script>
-    // JavaScript function to show the popup form and pass the record ID
-    function showPopUp(event, productId) {
-      event.preventDefault();
-      document.getElementById("popup-description").value = document.getElementById("curr-desc-" + productId).innerText;
-      document.getElementById("popup-price").value = document.getElementById("curr-price-" + productId).innerText;
-      document.getElementById("popup-sku").value = productId;
-      document.getElementById("popupBackground").style.display = "flex";
-    }
-
-    // JavaScript function to hide the popup form
-    function hidePopUp() {
-      document.getElementById("popupBackground").style.display = "none";
-    }
-  </script>
 </body>
 
 </html>
