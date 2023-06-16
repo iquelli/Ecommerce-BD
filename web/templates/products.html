@@ -82,22 +82,22 @@
                   {% endif %}
                   <td>
                     <div id="curr-name">
-                      {{ record[1] }}
+                      <p style="font-size: 20px;">{{ record[1] }}</p>
                     </div>
                   </td>
                   <td>
                     <div id="curr-desc-{{ record[0] }}">
-                      {{ record[2] }}
+                      <p style="font-size: 20px;">{{ record[2] }}</p>
                     </div>
                   </td>
                   <td>
                     <div id="curr-price-{{ record[0] }}">
-                      {{ record[3] }}
+                      <p style="font-size: 20px;">{{ record[3] }}</p>
                     </div>
                   </td>
                   {% if params["user"] == "manager" %}
                     <td>{{ record[4] }}</td>
-                    <td>
+                    <td style="font-size: 20px;">
                       <p class="edit-text" id="edit-button-{{ record[0] }}" onclick="showPopUp(event, '{{ record[0] }}')">Edit</p>
                     </td>
                   {% endif %}
@@ -136,14 +136,20 @@
   <!-- Popup form and background -->
   <div id="popupBackground" class="popup-background">
     <div class="popup-form">
-      <h2>Edit Product</h2>
-      <form action="{{url_for('product_edit')}}" method="POST">
+      <h2 style="margin-bottom: 10px;">Edit Product</h2>
+      <form action="{{url_for('product_edit')}}" method="POST" class="pop-form">
         <input type="hidden" id="popup-sku" name="popup-sku" value="">
-        <label for="popup-description">Description:</label><br>
-        <input type="text" id="popup-description" name="popup-description"><br>
-        <label for="popup-price">Price:</label><br>
-        <input type="text" id="popup-price" name="popup-price"><br><br>
-        <button type="submit">Save</button>
+        <div>
+          <label for="popup-description">Description:</label><br>
+          <textarea type="text" name="popup-description" id="popup-description" maxlength="255" style="height: 120px;width: 450px;font-size: 20px;padding:5px;"></textarea>
+        </div>
+        <div>
+          <label for="popup-price">Price:</label><br>
+          <input type="text" id="popup-price" name="popup-price"><br><br>
+        </div>
+        <div>
+          <button type="submit">Save</button>
+        </div>
       </form>
       <button onclick="hidePopUp()">Cancel</button>
     </div>
