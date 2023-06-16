@@ -85,10 +85,10 @@
                   {{ record[1] }}
                 </td>
                 <td>
-                  <p id="curr-desc-{{ record[0] }}">{{ record[2] }}</p>
+                  <p id="curr-desc-{{ record[0] }}" style="font-size: 20px;">{{ record[2] }}</p>
                 </td>
                 <td>
-                  <p id="curr-price-{{ record[0] }}">{{ record[3] }}</p>
+                  <p id="curr-price-{{ record[0] }}" style="font-size: 20px;">{{ record[3] }}</p>
                 </td>
                 {% if params["user"] == "manager" %}
                 <td>{{ record[4] }}</td>
@@ -104,7 +104,7 @@
                   {% else %}
                   <form id="offsetForm" action="/products" method="get">
                     <div class="show-wrapper">
-                      <input type="number" name="{{record[0]}}" min="1" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" onchange="updateQty('{{ record[0] }}', this.value)">
+                      <input type="number" name="{{record[0]}}" min="0" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" onchange="updateQty('{{ record[0] }}', this.value)">
                       <button type="button" onclick="removeFromOrder('{{ record[0] }}')">Remove</button>
                     </div>
                   </form>
