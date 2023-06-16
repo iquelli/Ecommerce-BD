@@ -179,7 +179,7 @@ def order_register():
         data = (order_no, cust_no, datetime.today().strftime("%Y-%m-%d"))
         num_products = 0
         for key in request.args.keys():
-            if key == "user" or key == "offset" or request.args.get(key) == 0:
+            if key == "user" or key == "offset":
                 continue
             data += (order_no, key, request.args.get(key))
             num_products += 1

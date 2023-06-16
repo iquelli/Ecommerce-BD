@@ -104,8 +104,8 @@
                   {% else %}
                   <form id="offsetForm" action="/products" method="get">
                     <div class="show-wrapper">
-                      <input type="number" name="{{record[0]}}" min="0" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" 
-                        onchange="updateQty('{{ record[0] }}', this.value)" oninput="validateInput(this)">
+                      <input type="number" name="{{record[0]}}" min="0" value="{{request.args.get(record[0], 0)}}" id="{{record[0]}}"
+                        oninput="updateQty('{{record[0]}}', this)">
                       <button type="button" onclick="removeFromOrder('{{ record[0] }}')" style="background: none;
                         border: none;">Remove</button>
                     </div>
@@ -143,7 +143,7 @@
         <input type="hidden" id="popup-sku" name="popup-sku" value="">
         <div>
           <label for="popup-description">Description:</label><br>
-          <textarea type="text" name="popup-description" id="popup-description" maxlength="255" 
+          <textarea type="text" name="popup-description" id="popup-description" maxlength="255"
             style="min-height:120px;max-height:120px;max-width:450px;min-width:450px;font-size: 20px;padding:5px;">
           </textarea>
         </div>
@@ -165,48 +165,44 @@
   </footer>
 
   <script>
-
     function validateInput(input) {
-      if (input.value < 0) {
+      if (input.value <= 0) {
         input.value = 0;
+        return true;
       }
     }
 
-    function updateQty(id, value) {
+    function updateQty(id, input) {
       const urlParams = new URLSearchParams(window.location.search);
-      const currentQty = parseInt(urlParams.get(id)) || 0;
-      const updatedQty = value > currentQty ? value : currentQty - 1; 
-      if (updatedQty <= 0) {
-        urlParams.delete(id);
+      if (validateInput(input)) {
+        urlParams.delete(id)
       } else {
-        urlParams.set(id, updatedQty);
+        urlParams.set(id, input.value);
       }
-
       window.location.search = urlParams.toString();
     }
+
     function removeFromOrder(id) {
       const urlParams = new URLSearchParams(window.location.search);
       urlParams.delete(id);
       window.location.search = urlParams.toString();
     }
 
-      function checkArguments() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const params = [...urlParams.entries()];
-    
-        const hasArgumentWithValue = params.some(([key, value]) => key !== 'user' && parseInt(value, 10) > 0);
-        const makeOrderButton = document.getElementById("make-order");
-    
-        if (hasArgumentWithValue) {
-          makeOrderButton.disabled = false;
-          makeOrderButton.classList.add("enabled");
-        } else {
-          makeOrderButton.disabled = true;
-          makeOrderButton.classList.remove("enabled");
-        }
+    function checkArguments() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const params = [...urlParams.entries()];
+      const hasArgumentWithValue = params.some(([key, value]) => key !== 'user' && parseInt(value, 10) > 0);
+      const makeOrderButton = document.getElementById("make-order");
+
+      if (hasArgumentWithValue) {
+        makeOrderButton.disabled = false;
+        makeOrderButton.classList.add("enabled");
+      } else {
+        makeOrderButton.disabled = true;
+        makeOrderButton.classList.remove("enabled");
       }
-    
-      checkArguments();
+    }
+    checkArguments();
   </script>
 </body>
 </html>
