@@ -37,6 +37,8 @@
   font-size: 25px;
   border-radius: 10px;
   margin: 0px;
+  color: white;
+  background-color: #596296;
 }
 
 .menu-line {
@@ -180,8 +182,9 @@
   background-color: #596296;
 }
 
-#make-order.disabled{
+#make-order{
   cursor: auto;
+  background-color: lightgray;
 }
 
 #make-order.enabled {
