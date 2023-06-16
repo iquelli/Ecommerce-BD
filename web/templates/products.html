@@ -149,7 +149,7 @@
         </div>
         <div>
           <label for="popup-price">Price:</label><br>
-          <input type="text" id="popup-price" name="popup-price" oninput="validateInput(this)"><br><br>
+          <input type="number" id="popup-price" name="popup-price" oninput="validateInput(this)"><br><br>
         </div>
         <div>
           <button type="submit">Save</button>
@@ -166,7 +166,7 @@
 
   <script>
     function validateInput(input) {
-      if (input.value <= 0) {
+      if (input.value < 0) {
         input.value = 0;
         return true;
       }

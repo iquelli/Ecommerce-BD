@@ -29,7 +29,8 @@
             <div class="form">
               <div class="form-entry">
                 <p>Customer Number *</p>
-                <input type="text" placeholder="Insert valid customer number" id="user" name="user" maxlength="255" class="mandatory" />
+                <input type="number" placeholder="Insert valid customer number" id="user" name="user" 
+                    maxlength="255" class="mandatory" min="0" oninput="validateInput(this)"/>
               </div>
               <button class="register-button"  id="register-button">Login</button>
             </div>
@@ -38,6 +39,15 @@
       </div>
   </div>
 </body>
+
+<script>
+    function validateInput(input) {
+        if (input.value < 0) {
+          input.value = 0;
+          return true;
+        }
+      }
+</script>
 
 <footer class="footer-messages" style="position:fixed;">
   <hr>
