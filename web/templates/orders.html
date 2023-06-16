@@ -39,7 +39,7 @@
       {% else %}
       <h1>YOUR PENDING ORDERS</h1>
       {% endif %}
-      <a href="{{url_for('products_list', user=params.get('user'))}}"class="nav-text"><button class="action-button">+ NEW ORDER</button></a>
+      <a href="{{url_for('products_list', user=params.get('user'))}}"class="nav-text"><button class="action-button">+ PLACE ORDER</button></a>
     </div>
     <hr class="menu-line">
     <div>
@@ -51,12 +51,7 @@
               <th>Order Number</th>
               <th>Date</th>
               <th>Total Price</th>
-              {% if params.get("payed") %}
               <th></th>
-              {% else %}
-              <th></th>
-              <th></th>
-              {% endif %}
             </tr>
           </thead>
           <tbody>
@@ -70,9 +65,6 @@
                 <a style="font-size: 20px;" href="{{url_for('order_details_get', user=params.get('user'), order=record[0], payed=True)}}" class="remove-text">See Details</a>
               </td>
               {% else %}
-              <td>
-                <a style="font-size: 20px;" href="{{url_for('order_edit_get', user=params.get('user'), order=record[0])}}" class="remove-text">Edit</a>
-              </td>
               <td>
                 <a style="font-size: 20px;" href="{{url_for('order_details_get', user=params.get('user'), order=record[0])}}" class="remove-text">Check Out</a>
               </td>
