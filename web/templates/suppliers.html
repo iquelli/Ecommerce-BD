@@ -20,7 +20,6 @@
     <div>
         <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
-    </div>
   </div>
   <div class="menu">
     <a href="{{url_for('customers_list', user='manager')}}" class="menu-link">Customers</a>
@@ -57,7 +56,7 @@
                     <td>{{record[3]}}</td>
                     <td>{{record[4]}}</td>
                     <td>
-                      <a href="./supplier/remove?supplier={{record[0]}}" class="remove-text"onclick="return confirm('Are you sure you want to remove this supplier?')" >
+                      <a href="{{url_for('supplier_remove', supplier=record[0])}}" class="remove-text"onclick="return confirm('Are you sure you want to remove this supplier?')" >
                         Remove
                       </a>
                     </td>

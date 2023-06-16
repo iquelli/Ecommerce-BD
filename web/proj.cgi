@@ -69,14 +69,11 @@ def customer_register_post():
         if name == "" or email == "":
             return redirect(url_for("customer_register_get"))
 
-        data = (cust_no, name, email, phone, address)
         query = "INSERT INTO customer(cust_no, name, email, phone, address) VALUES (%s, %s, %s, %s, %s);"
-        cursor.execute(query, data)
+        cursor.execute(query, (cust_no, name, email, phone, address))
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
-        return render_template(
-            "error.html", error=e, params="customer", url=url_for("homepage")
-        )
+        return render_template("error.html", error=e, params="customer")
     finally:
         dbConn.commit()
         cursor.close()
@@ -106,11 +103,9 @@ def customer_login_post():
         query = "SELECT * FROM customer WHERE cust_no = %s;"
         cursor.execute(query, (cust_no,))
         customer = cursor.fetchone()
-        if customer is not None:
-            return redirect(url_for("orders_list", user=cust_no))
-        else:
+        if customer is None:
             return redirect(url_for("customer_login_get"))
-
+        return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
     finally:
@@ -158,7 +153,6 @@ def customers_list():
             cursor=cursor,
             offset=offset,
             max=math.ceil(max / 10 - 1) * 10,
-            params=request.args,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -185,7 +179,7 @@ def order_register():
         data = (order_no, cust_no, datetime.today().strftime("%Y-%m-%d"))
         num_products = 0
         for key in request.args.keys():
-            if key == "user" or key == "offset":
+            if key == "user" or key == "offset" or request.args.get(key) == 0:
                 continue
             data += (order_no, key, request.args.get(key))
             num_products += 1
@@ -215,9 +209,8 @@ def orders_list():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         if payed:
-            query = (
-                """SELECT COUNT(*) FROM orders NATURAL JOIN pay WHERE cust_no = %s;"""
-            )
+            query = """SELECT COUNT(*) FROM orders
+            NATURAL JOIN pay WHERE cust_no = %s;"""
             cursor.execute(query, (cust_no,))
             [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
@@ -233,20 +226,14 @@ def orders_list():
             LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
             WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no
             OFFSET %s LIMIT %s;"""
-        cursor.execute(
-            query,
-            (
-                cust_no,
-                offset,
-                10,
-            ),
-        )
+        cursor.execute(query, (cust_no, offset, 10))
         return render_template(
             "orders.html",
             cursor=cursor,
             offset=offset,
             max=math.ceil(max / 10 - 1) * 10,
-            params=request.args,
+            user=cust_no,
+            payed=payed,
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -276,7 +263,8 @@ def order_details_get():
             "order_details.html",
             cursor=cursor1,
             t_price=t_price,
-            params=request.args,
+            user=request.args.get("user"),
+            payed=request.args.get("payed"),
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -312,7 +300,7 @@ def order_details_post():
 @_app.route("/product/register", methods=["GET"])
 def product_register_get():
     try:
-        return render_template("product_register.html", params=request.args)
+        return render_template("product_register.html")
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
 
@@ -333,18 +321,13 @@ def product_register_post():
         if ean == "":
             ean = None
         if sku == "" or name == "" or price == "":
-            return redirect(
-                url_for("product_register_get", user=request.args.get("user"))
-            )
+            return redirect(url_for("product_register_get", user="manager"))
 
         query = "INSERT INTO product(SKU, name, description, price, ean) VALUES (%s, %s, %s, %s, %s);"
-        data = (sku, name, description, price, ean)
-        cursor.execute(query, data)
+        cursor.execute(query, (sku, name, description, price, ean))
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
-        return render_template(
-            "error.html", error=e, params="product", url=url_for("homepage")
-        )
+        return render_template("error.html", error=e, params="product")
     finally:
         dbConn.commit()
         cursor.close()
@@ -360,12 +343,8 @@ def product_remove():
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        if request.args.get("order"):
-            query = "DELETE FROM contains WHERE SKU = %s AND order_no = %s;"
-            cursor.execute(query, (sku, request.args.get("order")))
-        else:
-            query = "DELETE FROM product WHERE SKU = %s;"
-            cursor.execute(query, (sku,))
+        query = "DELETE FROM product WHERE SKU = %s;"
+        cursor.execute(query, (sku,))
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -387,12 +366,11 @@ def product_edit():
         description = request.form["popup-description"]
         price = request.form["popup-price"]
         if sku == "" or price == "":
-            return redirect(url_for("products_list", user=request.args.get("user")))
+            return redirect(url_for("products_list", user="manager"))
 
         query = "UPDATE product SET description = %s, price = %s WHERE SKU = %s"
-        data = (description, price, sku)
-        cursor.execute(query, data)
-        return redirect(url_for("products_list", user=request.args.get("user")))
+        cursor.execute(query, (description, price, sku))
+        return redirect(url_for("products_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
     finally:
@@ -405,34 +383,23 @@ def product_edit():
 def products_list():
     dbConn = None
     cursor = None
-    order_no = request.args.get("order")
     offset = int(request.args.get("offset", 0))
 
     try:
         dbConn = psycopg2.connect(DB_CONNECTION_STRING)
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-        if order_no:
-            query = """SELECT COUNT(*) FROM product LEFT JOIN contains USING (SKU)
-            WHERE order_no != %s;"""
-            cursor.execute(query, (order_no,))
-            [max] = cursor.fetchone()
-            query = """
-            SELECT * FROM product LEFT JOIN contains USING (SKU)
-            WHERE order_no != %s ORDER BY price OFFSET %s LIMIT %s;"""
-            cursor.execute(query, (order_no, offset, 10))
-        else:
-            query = "SELECT COUNT(*) FROM product;"
-            cursor.execute(query, (order_no,))
-            [max] = cursor.fetchone()
-            query = "SELECT * FROM product ORDER BY name OFFSET %s LIMIT %s;"
-            cursor.execute(query, (offset, 10))
+        query = "SELECT COUNT(*) FROM product;"
+        cursor.execute(query)
+        [max] = cursor.fetchone()
+        query = "SELECT * FROM product ORDER BY name OFFSET %s LIMIT %s;"
+        cursor.execute(query, (offset, 10))
         return render_template(
             "products.html",
             cursor=cursor,
             offset=offset,
             max=math.ceil(max / 10 - 1) * 10,
-            params=request.args,
+            user=request.args.get("user"),
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
@@ -444,7 +411,7 @@ def products_list():
 @_app.route("/supplier/register", methods=["GET"])
 def supplier_register_get():
     try:
-        return render_template("supplier_register.html", params=request.args)
+        return render_template("supplier_register.html")
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
 
@@ -463,18 +430,13 @@ def supplier_register_post():
         sku = request.form["sku"]
         date = request.form["date"]
         if sku == "":
-            return redirect(
-                url_for("supplier_register_get", user=request.args.get("user"))
-            )
+            return redirect(url_for("supplier_register_get", user="manager"))
 
-        data = (tin, name, address, sku, date)
         query = "INSERT INTO supplier(TIN, name, address, SKU, date) VALUES (%s, %s, %s, %s, %s);"
-        cursor.execute(query, data)
+        cursor.execute(query, (tin, name, address, sku, date))
         return redirect(url_for("suppliers_list", user="manager"))
     except Exception as e:
-        return render_template(
-            "error.html", error=e, params="supplier", url=url_for("homepage")
-        )
+        return render_template("error.html", error=e, params="supplier")
     finally:
         dbConn.commit()
         cursor.close()

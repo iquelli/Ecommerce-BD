@@ -12,11 +12,11 @@
 
 <body>
   <div class="nav-bar">
-    <div class="right-side-nav">
+    <a href="{{url_for('homepage')}}" class="right-side-nav">
       <img src="../static/images/favicon.png" class="logo">
       <p><strong>Técnico Shop</strong></p>
       <p style="color: #596296;">Manager</p>
-    </div>
+    </a>
     <a href="{{url_for('suppliers_list', user='manager')}}" class="nav-text">Go back</a>
   </div>
   <div>

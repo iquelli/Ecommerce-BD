@@ -12,11 +12,11 @@
 
 <body>
     <div class="nav-bar">
-        <div class="right-side-nav">
-            <img src="../static/images/favicon.png" class="logo">
-            <p><strong>Técnico Shop</strong></p>
-            <p style="color: #596296;">Manager</p>
-        </div>
+        <a href="{{url_for('homepage')}}" class="right-side-nav">
+          <img src="../static/images/favicon.png" class="logo">
+          <p><strong>Técnico Shop</strong></p>
+          <p style="color: #596296;">Manager</p>
+        </a>
         <a href="{{url_for('products_list', user='manager')}}" class="nav-text">Go back</a>
     </div>
     <div>
@@ -42,7 +42,7 @@
                     <div class="form-entry">
                         <p>Price *</p>
                         <input type="text" placeholder="Price" id="price" name="price" maxlength="255"
-                            class="mandatory" min="0"/>
+                            class="mandatory" min="0" />
                     </div>
 
                     <div class="form-entry">
@@ -57,7 +57,7 @@
                     </div>
                     <button class="register-button" id="register-button"> Register </button>
               </div>
-            </form> 
+            </form>
          </div>
       </div>
 </body>

@@ -12,11 +12,11 @@
 
 <body>
   <div class="nav-bar" style="background-color: #bcc5f9e3;">
-    <div class="right-side-nav">
+    <a href="{{url_for('homepage')}}" class="right-side-nav">
       <img src="../static/images/favicon.png" class="logo">
       <p><strong>Técnico Shop</strong></p>
       <p style="color: #596296;">Customer</p>
-    </div>
+    </a>
     <div>
       <a href="{{url_for('homepage')}}" class="nav-text">Logout</a>
     </div>
@@ -52,9 +52,9 @@
     </div>
 
     <div style="display: flex; justify-content: center;">
-      <a href="{{url_for('orders_list', user=params.get('user'))}}" class="nav-text">
+      <a href="{{url_for('orders_list', user=user)}}" class="nav-text">
         <button class="action-button" style="width:150px;">Back</button></a>
-      {% if not params.get('payed') %}
+      {% if not payed %}
         <form action="" method="post">
           <button class="action-button" style="width:150px;color:#596296;background-color:white;border-color:#596296;border:solid;">
             Pay
