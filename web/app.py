@@ -5,10 +5,11 @@ from datetime import datetime
 import math
 import psycopg
 from psycopg_pool import ConnectionPool
+from psycopg.rows import namedtuple_row
 
 # postgres://{user}:{password}@{hostname}:{port}/{database-name}
 # the pool starts connecting immediately.
-DATABASE_URL = "postgres://db:db@postgres/db"
+DATABASE_URL = "postgres://postgres:postgres@db/postgres"
 pool = ConnectionPool(conninfo=DATABASE_URL)
 _app = Flask(__name__)
 
@@ -33,15 +34,11 @@ def customer_register_get():
 
 @_app.route("/customer/register", methods=["POST"])
 def customer_register_post():
-    dbConn = None
-    cursor = None
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query_next_cust_no = "SELECT MAX(cust_no) + 1 FROM customer;"
-        cursor.execute(query_next_cust_no)
-        [cust_no] = cursor.fetchone()
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                [cust_no] = cur.execute(query_next_cust_no).fetchone()
         if cust_no is None:
             cust_no = "0"
         name = request.form["name"]
@@ -52,14 +49,13 @@ def customer_register_post():
             return redirect(url_for("customer_register_get"))
 
         query = "INSERT INTO customer(cust_no, name, email, phone, address) VALUES (%s, %s, %s, %s, %s);"
-        cursor.execute(query, (cust_no, name, email, phone, address))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (cust_no, name, email, phone, address))
+            conn.commit()
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/customer/login", methods=["GET"])
@@ -471,7 +467,3 @@ def suppliers_list():
     finally:
         cursor.close()
         dbConn.close()
-
-
-if __name__ == "__main__":
-    _app.run()
