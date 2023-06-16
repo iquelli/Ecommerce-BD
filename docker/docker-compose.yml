@@ -4,7 +4,7 @@ volumes:
   pgdata: {}
 
 services:
-  postgres:
+  db:
     image: postgres:15.3
     restart: always
     volumes:
@@ -19,6 +19,7 @@ services:
       - "5432:5432"
     networks:
       - web-network
+
   pgadmin:
     image: dpage/pgadmin4:6
     environment:
@@ -26,6 +27,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: postgres
     ports:
       - 5050:80
+
   web:
     build:
       context: ../web
@@ -33,7 +35,7 @@ services:
     volumes:
       - ../web:/web
     depends_on:
-      - postgres
+      - db
     environment:
       FLASK_WEB: web
       FLASK_ENV: development
