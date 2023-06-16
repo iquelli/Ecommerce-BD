@@ -48,7 +48,7 @@
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
       {% else %}
         <a href="{{url_for('order_register')}}"class="nav-text"><button class="action-button">FINISH ORDER</button></a>
-      {% endif %} 
+      {% endif %}
     </div>
     <hr class="menu-line">
     <div>
@@ -107,7 +107,7 @@
                       <button type="button" onclick="removeFromOrder('{{ record[0] }}')">Remove</button>
 
                     </div>
-                    
+
                   </form>
                   {% endif %}
                 </td>
@@ -117,7 +117,7 @@
           </table>
         </div>
       </form>
-      
+
 
           <form id="offsetForm" action="/products" method="get">
             <div class="show-wrapper">
@@ -165,34 +165,16 @@
 
   <script>
     function updateQty(id, value) {
-  const urlParams = new URLSearchParams(window.location.search);
-  const currentQty = parseInt(urlParams.get(id)) || 0;
-
-  const updatedQty = value > currentQty ? value : currentQty - 1;
-
-  urlParams.set(id, updatedQty);
-  window.location.search = urlParams.toString();
-}
-
-
-function removeFromOrder(id) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentQty = parseInt(urlParams.get(id)) || 0;
+      const updatedQty = value > currentQty ? value : currentQty - 1;
+      urlParams.set(id, updatedQty);
+      window.location.search = urlParams.toString();
+    }
+    function removeFromOrder(id) {
       const urlParams = new URLSearchParams(window.location.search);
       urlParams.delete(id);
       window.location.search = urlParams.toString();
-    }
-
-    // JavaScript function to show the popup form and pass the record ID
-    function showPopUp(event, productId) {
-      event.preventDefault();
-      document.getElementById("popup-description").value = document.getElementById("curr-desc-" + productId).innerText;
-      document.getElementById("popup-price").value = document.getElementById("curr-price-" + productId).innerText;
-      document.getElementById("popup-sku").value = productId;
-      document.getElementById("popupBackground").style.display = "flex";
-    }
-
-    // JavaScript function to hide the popup form
-    function hidePopUp() {
-      document.getElementById("popupBackground").style.display = "none";
     }
   </script>
 </body>

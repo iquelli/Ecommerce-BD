@@ -161,7 +161,7 @@ def customers_list():
         dbConn.close()
 
 
-@_app.route("/products", methods=["POST"])
+@_app.route("/products")
 def order_register():
     dbConn = None
     cursor = None
@@ -173,8 +173,8 @@ def order_register():
 
         if order_no:
             data, num_products = (), len(request.form)
-            for sku in request.form.keys():
-                data += (order_no, sku, request.form[sku])
+            for sku in request.args.keys():
+                data += (order_no, sku, request.args.get(sku))
             query = f"""
             INSERT INTO contains(order_no, SKU, qty) VALUES
             {",".join("(%s, %s, %s)" for _ in range(num_products))};"""
@@ -217,9 +217,7 @@ def orders_list():
         cursor = dbConn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
         if payed:
-            query = """SELECT COUNT(*) FROM orders
-            NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
-            WHERE cust_no = %s;"""
+            query = """SELECT COUNT(*) FROM orders NATURAL JOIN pay WHERE cust_no = %s;"""
             cursor.execute(query, (cust_no,))
             [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
@@ -228,8 +226,7 @@ def orders_list():
             OFFSET %s LIMIT %s;"""
         else:
             query = """SELECT COUNT(*) FROM orders
-            LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
-            WHERE orders.cust_no = %s AND pay.order_no IS NULL;"""
+            LEFT JOIN pay USING (order_no) WHERE orders.cust_no = %s AND pay.order_no IS NULL;"""
             cursor.execute(query, (cust_no,))
             [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
@@ -453,7 +450,7 @@ def products_list():
         if order_no:
             query = """SELECT COUNT(*) FROM product LEFT JOIN contains USING (SKU)
             WHERE order_no != %s;"""
-            cursor.execute(query, (order_no))
+            cursor.execute(query, (order_no,))
             [max] = cursor.fetchone()
             query = """
             SELECT * FROM product LEFT JOIN contains USING (SKU)
@@ -461,7 +458,7 @@ def products_list():
             cursor.execute(query, (order_no, offset, 10))
         else:
             query = "SELECT COUNT(*) FROM product;"
-            cursor.execute(query, (order_no))
+            cursor.execute(query, (order_no,))
             [max] = cursor.fetchone()
             query = "SELECT * FROM product ORDER BY name OFFSET %s LIMIT %s;"
             cursor.execute(query, (offset, 10))
