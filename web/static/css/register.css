@@ -44,8 +44,6 @@
 
 #register-button {
   cursor: auto;
-  transition: none;
-  box-shadow: none;
 }
 
 #register-button.enabled {

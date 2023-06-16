@@ -47,7 +47,7 @@
         <a href="{{url_for('product_register_get')}}"class="nav-text"><button class="action-button">+ NEW PRODUCT</button></a>
       {% else %}
         <a href="{{ url_for('order_register', **request.args) }}" class="nav-text">
-          <button class="action-button">FINISH ORDER</button>
+          <button class="action-button" id="make-order" disabled>FINISH ORDER</button>
         </a>
       {% endif %}
     </div>
@@ -105,7 +105,8 @@
                   <form id="offsetForm" action="/products" method="get">
                     <div class="show-wrapper">
                       <input type="number" name="{{record[0]}}" min="0" value="{{ request.args.get(record[0], 0) }}" id="{{ record[0] }}" onchange="updateQty('{{ record[0] }}', this.value)">
-                      <button type="button" onclick="removeFromOrder('{{ record[0] }}')">Remove</button>
+                      <button type="button" onclick="removeFromOrder('{{ record[0] }}')" style="background: none;
+                        border: none;">Remove</button>
                     </div>
                   </form>
                   {% endif %}
@@ -164,15 +165,34 @@
     function updateQty(id, value) {
       const urlParams = new URLSearchParams(window.location.search);
       const currentQty = parseInt(urlParams.get(id)) || 0;
-      const updatedQty = value > currentQty ? value : currentQty - 1;
+      const updatedQty = value > currentQty ? value : currentQty - 1; 
       urlParams.set(id, updatedQty);
       window.location.search = urlParams.toString();
+
     }
     function removeFromOrder(id) {
       const urlParams = new URLSearchParams(window.location.search);
       urlParams.delete(id);
       window.location.search = urlParams.toString();
     }
+
+      function checkArguments() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const params = [...urlParams.entries()];
+    
+        const hasArgumentWithValue = params.some(([key, value]) => key !== 'user' && parseInt(value, 10) > 0);
+        const makeOrderButton = document.getElementById("make-order");
+    
+        if (hasArgumentWithValue) {
+          makeOrderButton.disabled = false;
+          makeOrderButton.classList.add("enabled");
+        } else {
+          makeOrderButton.disabled = true;
+          makeOrderButton.classList.remove("enabled");
+        }
+      }
+    
+      checkArguments();
   </script>
 </body>
 </html>

@@ -36,8 +36,6 @@
   height: 50px;
   font-size: 25px;
   border-radius: 10px;
-  background-color: #596296;
-  color: white;
   margin: 0px;
 }
 
@@ -180,4 +178,14 @@
 
 .popup-form button:hover {
   background-color: #596296;
+}
+
+#make-order.disabled{
+  cursor: auto;
+}
+
+#make-order.enabled {
+  color: white !important;
+  background-color: #596296 !important;
+  cursor: pointer;
 }
