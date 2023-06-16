@@ -42,7 +42,7 @@
                     <div class="form-entry">
                         <p>Price *</p>
                         <input type="number" placeholder="Price" id="price" name="price" maxlength="255"
-                            class="mandatory" min="0"/>
+                            class="mandatory" min="0"  oninput="validateInput(this)"/>
                     </div>
 
                     <div class="form-entry">
@@ -61,6 +61,14 @@
          </div>
       </div>
 </body>
+
+<script>
+    function validateInput(input) {
+        if (input.value < 0) {
+          input.value = 0;
+        }
+      }
+</script>
 
 <footer class="footer-messages">
     <hr>
