@@ -20,24 +20,16 @@ services:
     networks:
       - web-network
 
-  pgadmin:
-    image: dpage/pgadmin4:6
-    environment:
-      PGADMIN_DEFAULT_EMAIL: postgres@example.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
-    ports:
-      - 5050:80
-
   web:
     build:
-      context: ../web
-      dockerfile: ../docker/Dockerfile
+      context: ./
+      dockerfile: Dockerfile
     volumes:
-      - ../web:/web
+      - ./:/web
     depends_on:
       - db
     environment:
-      FLASK_WEB: web
+      FLASK_APP: app
       FLASK_ENV: development
       FLASK_DEBUG: 1
     ports:

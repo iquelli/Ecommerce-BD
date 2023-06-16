@@ -1,4 +1,4 @@
-# Using Docker containers
+# Use Docker
 
 Start the containers with
 
@@ -19,11 +19,6 @@ chmod 744 ./run.sh
 sudo ./run.sh
 ```
 
-**pgadmin4** will be available at https://localhost:5050, with the following credentials:
-
-- Username: `postgres@example.com`
-- Password: `postgres`
-
 The webserver (for the .cgi files) will be available at https://localhost:5051/.
 
 Database credentials are
@@ -38,4 +33,4 @@ To use the postgres console through the docker console, run
 sudo docker-compose exec db psql postgres postgres
 ```
 
-Data for the database is stored at `/docker/db-data`, which can be deleted to reset the database.
+Data for the database is stored at `./data`, which can be deleted to reset the database.

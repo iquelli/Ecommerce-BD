@@ -1,4 +1,8 @@
+# Copyright (c) Flavio Martins <flavio.f.martins@tecnico.ulisboa.pt>
+# Distributed under the terms of the Modified BSD License.
 FROM python:3.10.11-slim-bullseye
+
+LABEL maintainer="Flavio Martins <flavio.f.martins@tecnico.ulisboa.pt>"
 
 # Fix: https://github.com/hadolint/hadolint/wiki/DL4006
 # Fix: https://github.com/koalaman/shellcheck/wiki/SC3014
@@ -16,11 +20,11 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Turns off buffering for easier container logging
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /proj
+WORKDIR /code
 
-COPY ./requirements.txt /proj/requirements.txt
+COPY ./requirements.txt /code/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /proj/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 WORKDIR /web
 
