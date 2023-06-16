@@ -2,63 +2,69 @@
 <html>
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="../static/css/general.css" />
-  <link rel="stylesheet" href="../static/css/register.css" />
-  <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
-  <title>Product Register | Técnico Shop</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="../static/css/general.css" />
+    <link rel="stylesheet" href="../static/css/register.css" />
+    <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
+    <script src="../static/js/registercheck.js"></script>
+    <title>Product Register | Técnico Shop</title>
 </head>
 
 <body>
-  <div class="nav-bar">
-    <div class="right-side-nav">
-      <img src="../static/images/favicon.png" class="logo">
-      <p><strong>Técnico Shop</strong></p>
-      <p style="color: #596296;">Manager</p>
-    </div>
-    <a href="{{url_for('products_list')}}" class="nav-text">Go back</a>
-  </div>
-  <div>
-    <div class="forms">
-      <div class="register-form">
-        <div class="title-wrapper">
-          <h2 class="page-title">Register</h2>
+    <div class="nav-bar">
+        <div class="right-side-nav">
+            <img src="../static/images/favicon.png" class="logo">
+            <p><strong>Técnico Shop</strong></p>
+            <p style="color: #596296;">Manager</p>
         </div>
-          <form action="" method="post">
-            <div class="form">
-              <div class="form-entry">
-                <p>SKU</p>
-                <input type="text" placeholder="SKU" id="sku" name="sku" maxlength="255"/>
-              </div>
+        <a href="{{url_for('products_list', user='manager')}}" class="nav-text">Go back</a>
+    </div>
+    <div>
+        <div class="forms">
+            <div class="register-form">
+                <div class="title-wrapper">
+                    <h2 class="page-title">Register</h2>
+                </div>
+                <form action="" method="post" id="registration-form">
+                    <div class="form">
+                        <div class="form-entry">
+                            <p>SKU *</p>
+                            <input type="text" placeholder="SKU" id="sku" name="sku" maxlength="255"
+                                class="mandatory" />
+                        </div>
 
-              <div class="form-entry">
-                <p>Name</p>
-                <input type="text" placeholder="Name" id="nane" name="name" maxlength="255"/>
-              </div>
+                        <div class="form-entry">
+                            <p>Name *</p>
+                            <input type="text" placeholder="Name" id="nane" name="name" maxlength="255"
+                                class="mandatory" />
+                        </div>
 
-              <div class="form-entry">
-                <p>Price</p>
-                <input type="text" placeholder="Price" id="price" name="price" maxlength="255"/>
-              </div>
+                        <div class="form-entry">
+                            <p>Price *</p>
+                            <input type="text" placeholder="Price" id="price" name="price" maxlength="255"
+                                class="mandatory" />
+                        </div>
 
-              <div class="form-entry">
-                <p>EAN</p>
-                <input type="text" placeholder="Ean" id="ean" name="ean" maxlength="255"/>
-              </div>
+                        <div class="form-entry">
+                            <p>EAN</p>
+                            <input type="text" placeholder="Ean" id="ean" name="ean" maxlength="255" />
+                        </div>
 
-              <div class="form-entry">
-                <p>Description</p>
-                <textarea type="text" id="description" name="description" maxlength="255" style="height: 200px;width:500px;font-size: 20px"></textarea>
-              </div>
-              <button class="register-button"> Register </button>
+                        <div class="form-entry">
+                            <p>Description</p>
+                            <textarea type="text" id="description" name="description" maxlength="255"
+                                style="min-height:100px;max-height:100px;max-width:500px; min-width:500px;font-size: 20px"></textarea>
+                        </div>
+                        <button class="register-button" id="register-button"> Register </button>
+                    </div>
+                  </form> 
             </div>
-      </div>
-  </div>
+        </div>
 </body>
 
 <footer class="footer-messages">
-  <hr>
-  Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
+    <hr>
+    Made by Gonçalo Bárias (103134), Raquel Braunschweig (102624) and Vasco Paisana (102533) @ IST
 </footer>
 
 </html>

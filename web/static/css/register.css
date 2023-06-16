@@ -41,3 +41,16 @@
   text-decoration: underline;
   color: #596296;
 }
+
+#register-button {
+  cursor: auto;
+  transition: none;
+  box-shadow: none;
+}
+
+#register-button.enabled {
+  color: white !important;
+  background-color: #596296 !important;
+  cursor: pointer;
+}
+
