@@ -29,7 +29,7 @@
               <div class="form">
                 <div class="form-entry">
                   <p>SKU *</p>
-                  <input type="text" placeholder="SKU" id="sku" name="sku" maxlength="255"
+                  <input type="text" placeholder="SKU" id="sku" name="sku" maxlength="25"
                             class="mandatory" />
                 </div>
 
@@ -47,7 +47,7 @@
 
                     <div class="form-entry">
                         <p>EAN</p>
-                        <input type="text" placeholder="Ean" id="ean" name="ean" maxlength="255" />
+                        <input type="number" placeholder="Ean" id="ean" name="ean" maxlength="13"  oninput="validateInput(this)"/>
                     </div>
 
                     <div class="form-entry">
