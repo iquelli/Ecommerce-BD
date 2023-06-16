@@ -153,7 +153,10 @@ Finalmente podemos remover tanto clientes, como fornecedores e produtos.
 \subsection*{Explicação do código}
 
 Na pasta \texttt{app} apresentamos um ficheiro \textbf{docker-compose.yml} que juntamente
-com o \textbf{Dockerfile} permitem correr a aplicação no endereço \textit{web} \textbf{http://127.0.0.1:5001}.
+com o \textbf{Dockerfile} permitem correr a aplicação no endereço \textit{web} \textbf{http://127.0.0.1:5001}
+(para poder usar estes ficheiros será necessário alterar a variável \texttt{DATABASE\_URL} no ficheiro \textbf{app.py}
+para \textbf{postgres://postgres:postgres@db/postgres}, sendo que o default é a nossa aplicação funcionar com
+o \href{https://github.com/bdist/db-workspace/}{db-workspace}).
 Deste modo, basta na \textit{root} do diretório executar o comando \textbf{sudo docker-compose up -d}
 que vai executar não só a aplicação no endereço mencionado anteriormente, como também uma base de dados
 que é possível popular executando o ficheiro \textbf{run.sh} no terminal. Para parar os contentadores de \texttt{Docker}
