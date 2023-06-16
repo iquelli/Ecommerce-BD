@@ -102,7 +102,7 @@ def customer_login_post():
         cust_no = request.form["user"]
         if cust_no == "":
             return redirect(url_for("customer_login_get"))
-        
+
         query = "SELECT * FROM customer WHERE cust_no = %s;"
         cursor.execute(query, (cust_no,))
         customer = cursor.fetchone()
