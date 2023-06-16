@@ -155,7 +155,7 @@
         </div>
         <div>
           <label for="popup-price">Price:</label><br>
-          <input type="number" id="popup-price" name="popup-price" oninput="validateInput(this)"><br><br>
+          <input type="number" id="popup-price" name="popup-price" min="0.01" step="0.01"><br><br>
         </div>
         <div>
           <button type="submit">Save</button>
@@ -171,13 +171,6 @@
   </footer>
 
   <script>
-    function validateInput(input) {
-      if (input.value <= 0) {
-        input.value = 0;
-        return true;
-      }
-    }
-
     function updateQty(id, input) {
       const urlParams = new URLSearchParams(window.location.search);
       if (validateInput(input)) {
