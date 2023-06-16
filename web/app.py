@@ -68,89 +68,64 @@ def customer_login_get():
 
 @_app.route("/customer/login", methods=["POST"])
 def customer_login_post():
-    dbConn = None
-    cursor = None
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         cust_no = request.form["user"]
         if cust_no == "":
             return redirect(url_for("customer_login_get"))
 
         query = "SELECT * FROM customer WHERE cust_no = %s;"
-        cursor.execute(query, (cust_no,))
-        customer = cursor.fetchone()
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                customer = cur.execute(query, (cust_no,)).fetchone()
         if customer is None:
             return redirect(url_for("customer_login_get"))
         return redirect(url_for("orders_list", user=cust_no))
     except Exception as e:
         return render_template("error.html", error=e, params=request.args)
-    finally:
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/customer/remove")
 def customer_remove():
-    dbConn = None
-    cursor = None
     cust_no = request.args.get("user")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query = "DELETE FROM customer WHERE cust_no = %s;"
-        cursor.execute(query, (cust_no,))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (cust_no,))
+            conn.commit()
         return redirect(url_for("customers_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/customers")
 def customers_list():
-    dbConn = None
-    cursor = None
     offset = int(request.args.get("offset", 0))
-
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
-        query = "SELECT COUNT(*) FROM customer;"
-        cursor.execute(query)
-        [max] = cursor.fetchone()
-        query = "SELECT * FROM customer ORDER BY name OFFSET %s LIMIT %s;"
-        cursor.execute(query, (offset, 10))
-        return render_template(
-            "customers.html",
-            cursor=cursor,
-            offset=offset,
-            max=math.ceil(max / 10 - 1) * 10,
-        )
+        query_1 = "SELECT COUNT(*) FROM customer;"
+        query_2 = "SELECT * FROM customer ORDER BY name OFFSET %s LIMIT %s;"
+        with pool.connection() as conn:
+            cur = psycopg.ClientCursor(conn)
+            [max] = cur.execute(query_1 + query_2, (offset, 10)).fetchone()
+            cur.nextset()
+            return render_template(
+                "customers.html",
+                cursor=cur,
+                offset=offset,
+                max=math.ceil(max / 10 - 1) * 10,
+            )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/order/register")
 def order_register():
-    dbConn = None
-    cursor = None
     cust_no = request.args.get("user")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query_next_order_no = "SELECT MAX(order_no) + 1 FROM orders;"
-        cursor.execute(query_next_order_no)
-        [order_no] = cursor.fetchone()
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                [order_no] = cur.execute(query_next_order_no).fetchone()
         if order_no is None:
             order_no = "0"
 
@@ -165,32 +140,27 @@ def order_register():
         INSERT INTO orders(order_no, cust_no, date) VALUES (%s, %s, %s);
         INSERT INTO contains(order_no, SKU, qty) VALUES
         {",".join("(%s, %s, %s)" for _ in range(num_products))}; END TRANSACTION;"""
-        cursor.execute(query, data)
+        with pool.connection() as conn:
+            cur = psycopg.ClientCursor(conn)
+            cur.execute(query, data)
+            conn.commit()
         return redirect(url_for("order_details_get", user=cust_no, order=order_no))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/orders")
 def orders_list():
-    dbConn = None
-    cursor = None
     offset = int(request.args.get("offset", 0))
     cust_no = request.args.get("user")
     payed = request.args.get("payed")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         if payed:
             query = """SELECT COUNT(*) FROM orders
             NATURAL JOIN pay WHERE cust_no = %s;"""
-            cursor.execute(query, (cust_no,))
-            [max] = cursor.fetchone()
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=namedtuple_row) as cur:
+                    [max] = cur.execute(query, (cust_no,)).fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
             WHERE cust_no = %s GROUP BY order_no
@@ -198,81 +168,64 @@ def orders_list():
         else:
             query = """SELECT COUNT(*) FROM orders
             LEFT JOIN pay USING (order_no) WHERE orders.cust_no = %s AND pay.order_no IS NULL;"""
-            cursor.execute(query, (cust_no,))
-            [max] = cursor.fetchone()
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=namedtuple_row) as cur:
+                    [max] = cur.execute(query, (cust_no,)).fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
             WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no
             OFFSET %s LIMIT %s;"""
-        cursor.execute(query, (cust_no, offset, 10))
-        return render_template(
-            "orders.html",
-            cursor=cursor,
-            offset=offset,
-            max=math.ceil(max / 10 - 1) * 10,
-            user=cust_no,
-            payed=payed,
-        )
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (cust_no, offset, 10))
+                return render_template(
+                    "orders.html",
+                    cursor=cur,
+                    offset=offset,
+                    max=math.ceil(max / 10 - 1) * 10,
+                    user=cust_no,
+                    payed=payed,
+                )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/order/details", methods=["GET"])
 def order_details_get():
-    dbConn = None
-    cursor1 = None
-    cursor2 = None
     order_no = request.args.get("order")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor1 = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-        cursor2 = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
-        query1 = "SELECT SKU, name, qty, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
-        cursor1.execute(query1, (order_no,))
-        query2 = "SELECT SUM(price*qty) FROM product NATURAL JOIN contains WHERE order_no = %s;"
-        cursor2.execute(query2, (order_no,))
-        [t_price] = cursor2.fetchone()
-
-        return render_template(
-            "order_details.html",
-            cursor=cursor1,
-            t_price=t_price,
-            user=request.args.get("user"),
-            payed=request.args.get("payed"),
-        )
+        query1 = "SELECT SUM(price*qty) FROM product NATURAL JOIN contains WHERE order_no = %s;"
+        query2 = "SELECT SKU, name, qty, price*qty FROM product NATURAL JOIN contains WHERE order_no = %s;"
+        with pool.connection() as conn:
+            cur = psycopg.ClientCursor(conn)
+            [t_price] = cur.execute(query1 + query2, (order_no, order_no)).fetchone()
+            cur.nextset()
+            return render_template(
+                "order_details.html",
+                cursor=cur,
+                t_price=t_price,
+                user=request.args.get("user"),
+                payed=request.args.get("payed"),
+            )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        cursor1.close()
-        cursor2.close()
-        dbConn.close()
 
 
 @_app.route("/order/details", methods=["POST"])
 def order_details_post():
-    dbConn = None
-    cursor = None
     cust_no = request.args.get("user")
     order_no = request.args.get("order")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query = "INSERT INTO pay(order_no, cust_no) VALUES (%s, %s)"
-        cursor.execute(query, (order_no, cust_no))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (order_no, cust_no))
+            conn.commit()
         return redirect(
             url_for("orders_list", user=request.args.get("user"), payed=True)
         )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/product/register", methods=["GET"])
@@ -285,12 +238,7 @@ def product_register_get():
 
 @_app.route("/product/register", methods=["POST"])
 def product_register_post():
-    dbConn = None
-    cursor = None
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         sku = request.form["sku"]
         name = request.form["name"]
         description = request.form["description"]
@@ -302,44 +250,32 @@ def product_register_post():
             return redirect(url_for("product_register_get", user="manager"))
 
         query = "INSERT INTO product(SKU, name, description, price, ean) VALUES (%s, %s, %s, %s, %s);"
-        cursor.execute(query, (sku, name, description, price, ean))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (sku, name, description, price, ean))
+            conn.commit()
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, params="product")
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/product/remove")
 def product_remove():
-    dbConn = None
-    cursor = None
     sku = request.args.get("product")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query = "DELETE FROM product WHERE SKU = %s;"
-        cursor.execute(query, (sku,))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (sku,))
+            conn.commit()
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/product/edit", methods=["POST"])
 def product_edit():
-    dbConn = None
-    cursor = None
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         sku = request.form["popup-sku"]
         description = request.form["popup-description"]
         price = request.form["popup-price"]
@@ -347,43 +283,36 @@ def product_edit():
             return redirect(url_for("products_list", user="manager"))
 
         query = "UPDATE product SET description = %s, price = %s WHERE SKU = %s"
-        cursor.execute(query, (description, price, sku))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (description, price, sku))
+            conn.commit()
         return redirect(url_for("products_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/products")
 def products_list():
-    dbConn = None
-    cursor = None
     offset = int(request.args.get("offset", 0))
-
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query = "SELECT COUNT(*) FROM product;"
-        cursor.execute(query)
-        [max] = cursor.fetchone()
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                [max] = cur.execute(query).fetchone()
         query = "SELECT * FROM product ORDER BY name OFFSET %s LIMIT %s;"
-        cursor.execute(query, (offset, 10))
-        return render_template(
-            "products.html",
-            cursor=cursor,
-            offset=offset,
-            max=math.ceil(max / 10 - 1) * 10,
-            user=request.args.get("user"),
-        )
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (offset, 10))
+                return render_template(
+                    "products.html",
+                    cursor=cur,
+                    offset=offset,
+                    max=math.ceil(max / 10 - 1) * 10,
+                    user=request.args.get("user"),
+                )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/supplier/register", methods=["GET"])
@@ -396,12 +325,7 @@ def supplier_register_get():
 
 @_app.route("/supplier/register", methods=["POST"])
 def supplier_register_post():
-    dbConn = None
-    cursor = None
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         tin = request.form["tin"]
         name = request.form["name"]
         address = request.form["address"]
@@ -411,59 +335,47 @@ def supplier_register_post():
             return redirect(url_for("supplier_register_get", user="manager"))
 
         query = "INSERT INTO supplier(TIN, name, address, SKU, date) VALUES (%s, %s, %s, %s, %s);"
-        cursor.execute(query, (tin, name, address, sku, date))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (tin, name, address, sku, date))
+            conn.commit()
         return redirect(url_for("suppliers_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, params="supplier")
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/supplier/remove")
 def supplier_remove():
-    dbConn = None
-    cursor = None
     tin = request.args.get("supplier")
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query = "DELETE FROM supplier WHERE TIN = %s;"
-        cursor.execute(query, (tin,))
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (tin,))
+            conn.commit()
         return redirect(url_for("suppliers_list", user="manager"))
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        dbConn.commit()
-        cursor.close()
-        dbConn.close()
 
 
 @_app.route("/suppliers")
 def suppliers_list():
-    dbConn = None
-    cursor = None
     offset = int(request.args.get("offset", 0))
     try:
-        dbConn = psycopg.connect(DB_CONNECTION_STRING)
-        cursor = dbConn.cursor(cursor_factory=psycopg.extras.DictCursor)
-
         query = "SELECT COUNT(*) FROM supplier;"
-        cursor.execute(query)
-        [max] = cursor.fetchone()
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                [max] = cur.execute(query).fetchone()
         query = "SELECT * FROM supplier OFFSET %s LIMIT %s;"
-        cursor.execute(query, (offset, 10))
-        return render_template(
-            "suppliers.html",
-            cursor=cursor,
-            offset=offset,
-            max=math.ceil(max / 10 - 1) * 10,
-            params=request.args,
-        )
+        with pool.connection() as conn:
+            with conn.cursor(row_factory=namedtuple_row) as cur:
+                cur.execute(query, (offset, 10))
+                return render_template(
+                    "suppliers.html",
+                    cursor=cur,
+                    offset=offset,
+                    max=math.ceil(max / 10 - 1) * 10,
+                    params=request.args,
+                )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
-    finally:
-        cursor.close()
-        dbConn.close()
