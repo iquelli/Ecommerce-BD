@@ -20,46 +20,46 @@
         <a href="{{url_for('products_list', user='manager')}}" class="nav-text">Go back</a>
     </div>
     <div>
-        <div class="forms">
-            <div class="register-form">
-                <div class="title-wrapper">
-                    <h2 class="page-title">Register</h2>
+      <div class="forms">
+        <div class="register-form">
+          <div class="title-wrapper">
+            <h2 class="page-title">Register</h2>
+          </div>
+            <form action="" method="post" id="registration-form">
+              <div class="form">
+                <div class="form-entry">
+                  <p>SKU *</p>
+                  <input type="text" placeholder="SKU" id="sku" name="sku" maxlength="255"
+                            class="mandatory" />
                 </div>
-                <form action="" method="post" id="registration-form">
-                    <div class="form">
-                        <div class="form-entry">
-                            <p>SKU *</p>
-                            <input type="text" placeholder="SKU" id="sku" name="sku" maxlength="255"
-                                class="mandatory" />
-                        </div>
 
-                        <div class="form-entry">
-                            <p>Name *</p>
-                            <input type="text" placeholder="Name" id="nane" name="name" maxlength="255"
-                                class="mandatory" />
-                        </div>
-
-                        <div class="form-entry">
-                            <p>Price *</p>
-                            <input type="text" placeholder="Price" id="price" name="price" maxlength="255"
-                                class="mandatory" />
-                        </div>
-
-                        <div class="form-entry">
-                            <p>EAN</p>
-                            <input type="text" placeholder="Ean" id="ean" name="ean" maxlength="255" />
-                        </div>
-
-                        <div class="form-entry">
-                            <p>Description</p>
-                            <textarea type="text" id="description" name="description" maxlength="255"
-                                style="min-height:100px;max-height:100px;max-width:500px; min-width:500px;font-size: 20px"></textarea>
-                        </div>
-                        <button class="register-button" id="register-button"> Register </button>
+                    <div class="form-entry">
+                        <p>Name *</p>
+                        <input type="text" placeholder="Name" id="nane" name="name" maxlength="255"
+                            class="mandatory" />
                     </div>
-                  </form> 
-            </div>
-        </div>
+
+                    <div class="form-entry">
+                        <p>Price *</p>
+                        <input type="text" placeholder="Price" id="price" name="price" maxlength="255"
+                            class="mandatory" />
+                    </div>
+
+                    <div class="form-entry">
+                        <p>EAN</p>
+                        <input type="text" placeholder="Ean" id="ean" name="ean" maxlength="255" />
+                    </div>
+
+                    <div class="form-entry">
+                        <p>Description</p>
+                        <textarea type="text" id="description" name="description" maxlength="255"
+                            style="min-height:100px;max-height:100px;max-width:500px; min-width:500px;font-size: 20px"></textarea>
+                    </div>
+                    <button class="register-button" id="register-button"> Register </button>
+              </div>
+            </form> 
+         </div>
+      </div>
 </body>
 
 <footer class="footer-messages">

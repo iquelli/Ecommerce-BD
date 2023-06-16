@@ -220,7 +220,7 @@ def orders_list():
             query = """SELECT COUNT(*) FROM orders
             NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
             WHERE cust_no = %s;"""
-            cursor.execute(query, (cust_no))
+            cursor.execute(query, (cust_no,))
             [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             NATURAL JOIN pay NATURAL JOIN contains NATURAL JOIN product
@@ -230,13 +230,13 @@ def orders_list():
             query = """SELECT COUNT(*) FROM orders
             LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
             WHERE orders.cust_no = %s AND pay.order_no IS NULL;"""
-            cursor.execute(query, (cust_no))
+            cursor.execute(query, (cust_no,))
             [max] = cursor.fetchone()
             query = """SELECT order_no, date, SUM(qty * price) FROM orders
             LEFT JOIN pay USING (order_no) NATURAL JOIN contains NATURAL JOIN product
             WHERE orders.cust_no = %s AND pay.order_no IS NULL GROUP BY order_no
             OFFSET %s LIMIT %s;"""
-        cursor.execute(query, (cust_no, offset, 10))
+        cursor.execute(query, (cust_no, offset, 10,))
         return render_template(
             "orders.html",
             cursor=cursor,
