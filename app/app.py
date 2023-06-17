@@ -392,3 +392,7 @@ def suppliers_list():
                 )
     except Exception as e:
         return render_template("error.html", error=e, url=url_for("homepage"))
+
+
+if __name__ == "__main__":
+    _app.run()
