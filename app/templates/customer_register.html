@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="../static/css/general.css" />
   <link rel="stylesheet" href="../static/css/register.css" />
   <link rel="icon" href="../static/images/favicon.png" type="image/x-icon" />
-  <script src="../static/js/registercheck.js"></script>
+  <script src="../static/js/registerCheck.js"></script>
   <title>Customer Register | Técnico Shop</title>
 </head>
 
@@ -25,34 +25,35 @@
         <div class="title-wrapper">
           <h2 class="page-title">Register</h2>
         </div>
-          <form action="" method="post" id="registration-form">
-            <div class="form">
-              <div class="form-entry">
-                <p>Name *</p>
-                <input type="text" placeholder="Name" id="name" name="name" maxlength="80"  class="mandatory"/>
-              </div>
-
-              <div class="form-entry">
-                <p>Email *</p>
-                <input type="text" placeholder="Email" id="email" name="email" maxlength="254"  class="mandatory"/>
-              </div>
-
-              <div class="form-entry">
-                <p>Address</p>
-                <input type="text" placeholder="Address" id="address" name="address" maxlength="255"/>
-              </div>
-
-              <div class="form-entry">
-                <p>Phone</p>
-                <div style="display:flex; gap: 10px; align-items: center;">
-                  <p style="color:grey">+351</p>
-                  <input type="number" class="phone" placeholder="Phone" id="phone" name="phone" maxlength="15"/>
-                </div>
-              </div>
-              <button class="register-button" id="register-button"> Register </button>
+        <form action="" method="post" id="registration-form">
+          <div class="form">
+            <div class="form-entry">
+              <p>Name *</p>
+              <input type="text" placeholder="Name" id="name" name="name" maxlength="80" class="mandatory" />
             </div>
-            <p>Already have an account? <a class="redirect-to-other" href="{{url_for('customer_login_get')}}">Login here</a></p>
-          </form>
+
+            <div class="form-entry">
+              <p>Email *</p>
+              <input type="text" placeholder="Email" id="email" name="email" maxlength="254" class="mandatory" />
+            </div>
+
+            <div class="form-entry">
+              <p>Address</p>
+              <input type="text" placeholder="Address" id="address" name="address" maxlength="255" />
+            </div>
+
+            <div class="form-entry">
+              <p>Phone</p>
+              <div style="display:flex; gap: 10px; align-items: center;">
+                <p style="color:grey">+351</p>
+                <input type="number" class="phone" placeholder="Phone" id="phone" name="phone" maxlength="15" />
+              </div>
+            </div>
+            <button class="register-button" id="register-button"> Register </button>
+          </div>
+          <p>Already have an account? <a class="redirect-to-other" href="{{url_for('customer_login_get')}}">Login
+              here</a></p>
+        </form>
       </div>
     </div>
 </body>

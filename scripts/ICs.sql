@@ -77,7 +77,7 @@ CREATE OR REPLACE FUNCTION remove_office_deps() RETURNS TRIGGER AS $$
 BEGIN
     IF EXISTS (SELECT address FROM workplace WHERE address = OLD.address)
     THEN
-        RAISE EXCEPTION 'To remove a warehouse, you need to remove the workplace first.';
+        RAISE EXCEPTION 'To remove an office, you need to remove the workplace first.';
     END IF;
     RETURN OLD;
 END;
@@ -97,7 +97,6 @@ BEGIN
     THEN
         RAISE EXCEPTION 'To remove a warehouse, you need to remove the workplace first.';
     END IF;
-    DELETE FROM delivery WHERE address = OLD.address;
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
@@ -211,6 +210,7 @@ CREATE OR REPLACE FUNCTION remove_workplace_deps() RETURNS TRIGGER AS $$
 BEGIN
     DELETE FROM works WHERE address = OLD.address;
     DELETE FROM office WHERE address = OLD.address;
+    DELETE FROM delivery WHERE address = OLD.address;
     DELETE FROM warehouse WHERE address = OLD.address;
     RETURN OLD;
 END;

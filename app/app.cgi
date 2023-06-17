@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 #
-# 		File: proj.cgi
+# 		File: app.cgi
 # 		Authors:
 # 		        - Gonçalo Bárias (ist1103124)
 # 		        - Raquel Braunschweig (ist1102624)
